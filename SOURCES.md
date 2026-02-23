@@ -260,30 +260,21 @@ Same structure but for annual log returns from MeasuringWorth data. No tail_even
 | currency | ISO 3-letter code |
 | log_return | ln(rate_t / rate_{t-1}) |
 
-### `derived/analysis/decade_gold_inflation.csv`
-
-| Column | Description |
-|--------|-------------|
-| decade | Decade start year (e.g. 1970) |
-| country | Country name |
-| start_year / end_year | Actual year range in decade |
-| gold_price_local_start / end | Gold price in local currency |
-| grams_per_100_start / end | Grams of gold per 100 local currency units |
-| purchasing_power_retained_pct | % of gold purchasing power kept within the decade |
-| gold_inflation_annualized_pct | Annualized gold price rise in local currency |
-| cpi_inflation_annualized_pct | Annualized CPI inflation (from Clio Infra, where available) |
-| gold_vs_cpi_gap_pct | Gold inflation minus CPI inflation (pp) |
-
-### `derived/analysis/cumulative_gold_debasement.csv`
+### `derived/analysis/yearly_gold_inflation.csv` (26,114 rows)
 
 | Column | Description |
 |--------|-------------|
 | year | Year |
+| decade | Decade (for easy grouping) |
 | country | Country name |
-| base_year | First available year for this country |
-| gold_price_local | Gold price in local currency |
+| gold_local | Gold price in local currency (per troy ounce) |
 | grams_per_100 | Grams of gold per 100 local currency units |
+| gold_inflation_pct | Year-over-year gold price change in local currency (%) |
+| gold_log_return | ln(gold_t / gold_{t-1}) |
+| cpi_inflation_pct | CPI inflation (from Clio Infra, where available) |
+| gold_vs_cpi_gap_pct | Gold inflation minus CPI inflation (pp) |
 | cumulative_retained_pct | % of gold purchasing power retained since base_year |
+| base_year | First available year for this country |
 
 ### `derived/analysis/yearly_log_returns.csv` (234 rows)
 
