@@ -3,6 +3,26 @@
 Historical foreign exchange rate data spanning nine centuries (1106–2026), assembled for volatility research. 12 sources, 65 files, ~240 countries.
 
 ```
+                     1100   1200   1300   1400   1500   1600   1700   1800   1900   2000
+MEMDB Spufford       ███████████████████████████████
+MEMDB Metz                              ███████████████████████████████████
+Clio Infra (GBP)                                   ████████████████████████████████████████
+Clio Infra (USD)                                                         ██████████████████
+BoE Millennium                                                            █████████████████
+MeasuringWorth                                                            █████████████████
+JST Macrohistory                                                                ███████████
+Riksbank                                                                          █████████
+IRR Regimes                                                                        ████████
+IMF IFS                                                                               █████
+BIS                                                                                   █████
+World Bank                                                                            █████
+GMD                                                                                   █████
+FRED Daily                                                                             ████
+```
+
+See [SOURCES.md](SOURCES.md) for column schemas and quoting conventions.
+
+```
 data/
 ├── sources/           # Raw data organized by provider
 │   ├── memdb/         # Medieval exchange rates (1106–1800)
