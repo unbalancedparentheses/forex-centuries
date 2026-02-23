@@ -44,19 +44,21 @@ The data strongly supports modeling FX returns with fat-tailed distributions (st
 ## Quickstart
 
 ```bash
-python quickstart.py
+python quickstart.py          # pure stdlib, no dependencies
+python quickstart_pandas.py   # pandas version (pip install pandas openpyxl)
 ```
 
 ```
-Yearly panel: 12,475 observations, 184 countries, 1500-2025
+Yearly panel: 25,404 obs, 243 countries, 1500-2029
+Sources: MW=3,444 | CI=9,031 | GMD=12,929
 
 Longest series:
-  United States              514 years (1500-2013)
-  United Kingdom             236 years (1789-2025)
-  Netherlands                211 years (1792-2013)
+  United States              530 years (1500-2029)
+  United Kingdom             240 years (1789-2029)
+  Denmark                    239 years (1791-2029)
 
-Daily data: 271,228 observations, 23 currencies
-Medieval data: 13,197 Spufford + 50,559 Metz records
+Daily: 13,802 dates x 23 currencies (1971-2025)
+Medieval: 13,197 Spufford + 50,559 Metz records (521 cities)
 ```
 
 See [SOURCES.md](SOURCES.md) for column schemas and quoting conventions.
@@ -219,7 +221,7 @@ UK-focused: $/£ from 1791, monthly bilateral rates from 1963, effective exchang
 
 | File | Description |
 |------|-------------|
-| `yearly_unified_panel.csv` | Merged yearly panel: 184 countries, 1500–2025 (MeasuringWorth + Clio Infra, with source tag) |
+| `yearly_unified_panel.csv` | Merged yearly panel: 243 countries, 1500–2029 (MeasuringWorth + Clio Infra + GMD, with source tag) |
 | `yearly_unified_wide.csv` | Same in wide format (year x country matrix) |
 | `fred_daily_normalized.csv` | All 23 FRED pairs, foreign-per-USD convention (long format) |
 | `fred_daily_normalized_wide.csv` | Same in wide format (date x currency matrix) |
@@ -250,7 +252,7 @@ UK-focused: $/£ from 1791, monthly bilateral rates from 1963, effective exchang
 | `sources/jst/` | Jorda-Schularick-Taylor | 1 | 2,718 | 1870–2017 |
 | `sources/boe/` | Bank of England | 1 | — | 1791–2016 |
 | `sources/gmd/` | Global Macro Database | 1 | 56,850 | 1960–2024 |
-| `derived/normalized/` | Derived | 4 | 283,703 | 1500–2025 |
+| `derived/normalized/` | Derived | 4 | 296,632 | 1500–2029 |
 | `derived/analysis/` | Derived | 4 | 271,205 | 1791–2025 |
 | **Total** | **12 sources** | **65** | | **1106–2026** |
 
