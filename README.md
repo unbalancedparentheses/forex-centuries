@@ -71,7 +71,7 @@ Official exchange rate (LCU per US$, period average) for all member countries.
 - [Source](https://data.bis.org/topics/EER)
 
 #### Sveriges Riksbank (1900–2026)
-28 SEK bilateral exchange rate series (daily) plus the trade-weighted SEK index from 1900. 162,314 total observations.
+45 SEK bilateral exchange rate series (daily) plus the trade-weighted SEK index from 1900. 261,737 total observations.
 
 - `riksbank_exchange_rates.csv`
 - [Source](https://www.riksbank.se/en-gb/statistics/)
@@ -128,12 +128,37 @@ Cross-validation between overlapping datasets:
 - **FRED daily vs MeasuringWorth**: JPY/USD perfect match (0.00–0.12% diff). GBP/USD exact inverses (different quoting convention — USD per GBP vs GBP per USD).
 - **All datasets coherent.** Differences explained by quoting conventions and redenomination tracking.
 
+## Analysis
+
+### Normalized Data
+- `fred_daily_normalized.csv` — all 23 FRED daily series in long format, normalized to foreign-currency-per-USD convention
+- `fred_daily_normalized_wide.csv` — same in wide format (date x currency matrix)
+
+### Volatility Statistics
+- `yearly_volatility_stats.csv` — mean, vol, excess kurtosis, skewness, max/min annual log returns for 41 currencies
+- `daily_volatility_stats.csv` — same for 23 currencies at daily frequency, plus 3-sigma tail event counts
+
+### Log Returns
+- `yearly_log_returns.csv` — annual log returns for 41 currencies (1791–2025)
+- `daily_log_returns.csv` — daily log returns for 23 currencies (1971–2025), 271K observations
+
+### Key Finding: Universal Fat Tails
+
+Every single currency pair exhibits excess kurtosis. Daily 3-sigma events occur **3–6x more often** than a Gaussian distribution predicts:
+
+| Currency | Daily Vol | Ann Vol | Excess Kurt | Tail Ratio |
+|----------|-----------|---------|-------------|------------|
+| GBP      | 0.0059    | 9.4%    | 6.9         | 4.8x       |
+| JPY      | 0.0064    | 10.1%   | 9.0         | 5.4x       |
+| CHF      | 0.0069    | 11.0%   | 14.5        | 4.5x       |
+| EUR      | 0.0058    | 9.2%    | 2.5         | 4.0x       |
+| BRL      | 0.0098    | 15.6%   | 13.1        | 5.5x       |
+| KRW      | 0.0068    | 10.8%   | 139.7       | 4.4x       |
+
 ## TODO
 
 - [ ] Reinhart-Rogoff official and parallel exchange rates from [carmenreinhart.com](https://carmenreinhart.com/exchange-rates-official-and-parallel/) (requires manual browser download — JavaScript-rendered link)
-- [ ] Remaining Riksbank series (~17 still rate-limited)
-- [ ] Normalize all series to common quoting convention (foreign currency per USD)
-- [ ] Compute log returns and basic volatility measures
+- [ ] Remaining 8 Riksbank series (rate-limited by API)
 
 ## Purpose
 
