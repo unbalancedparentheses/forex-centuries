@@ -66,6 +66,19 @@ Annual gold prices from MeasuringWorth, 1257–2025. Six series:
 
 The London Market Price switches currency mid-stream (GBP before 1950, USD from 1950), so it's split into two columns. Citation: Lawrence H. Officer and Samuel H. Williamson, "The Price of Gold, 1257-2014," MeasuringWorth, 2026.
 
+## `sources/gold/`
+
+### `gold_monthly_usd.csv` (2,311 rows)
+
+Monthly gold price in USD per troy ounce, 1833–2025. From DataHub/datasets/gold-prices (Timothy Green's historical series + World Bank commodity data).
+
+| Column | Description |
+|--------|-------------|
+| Date | YYYY-MM |
+| Price | USD per troy ounce |
+
+- [Source](https://github.com/datasets/gold-prices)
+
 ## `sources/imf/`
 
 ### `imf_exchange_rates.csv` (158,518 rows)
@@ -259,6 +272,24 @@ Same structure but for annual log returns from MeasuringWorth data. No tail_even
 | date | YYYY-MM-DD |
 | currency | ISO 3-letter code |
 | log_return | ln(rate_t / rate_{t-1}) |
+
+### `derived/analysis/monthly_gold_inflation.csv` (119,346 rows)
+
+| Column | Description |
+|--------|-------------|
+| year_month | YYYY-MM |
+| currency | ISO currency code |
+| source | FRED or IMF |
+| rate_per_usd | Monthly avg exchange rate |
+| gold_usd | Gold price in USD (per troy oz) |
+| gold_local | Gold price in local currency |
+| grams_per_100 | Grams of gold per 100 local currency units |
+| gold_inflation_mom_pct | Month-over-month gold price change (%) |
+| gold_log_return | Monthly log return |
+| gold_inflation_yoy_pct | Year-over-year gold price change (%) |
+| cumulative_retained_pct | % of gold purchasing power retained since first month |
+
+174 currencies (23 FRED + 168 IMF), 1940–2025.
 
 ### `derived/analysis/yearly_gold_inflation.csv` (26,114 rows)
 

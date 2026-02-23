@@ -59,11 +59,12 @@ def load_medieval_metz() -> pd.DataFrame:
     return pd.read_csv(DATA / "sources/memdb/memdb_metz_currency_exchanges.csv")
 
 
-def load_gold_inflation() -> pd.DataFrame:
-    """Yearly gold inflation for 243 countries, 1257-2025.
-    Includes purchasing power (grams per 100 local), CPI comparison,
-    cumulative debasement. Use 'decade' column to aggregate."""
-    return pd.read_csv(DATA / "derived/analysis/yearly_gold_inflation.csv")
+def load_gold_inflation(freq: str = "yearly") -> pd.DataFrame:
+    """Gold inflation with purchasing power and cumulative debasement.
+    freq: 'yearly' (243 countries, 1257-2025, with CPI comparison)
+          'monthly' (174 currencies, 1940-2025, with MoM and YoY changes)
+    """
+    return pd.read_csv(DATA / f"derived/analysis/{freq}_gold_inflation.csv")
 
 
 def load_gold_prices() -> pd.DataFrame:

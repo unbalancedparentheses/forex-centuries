@@ -250,7 +250,8 @@ UK-focused: $/£ from 1791, monthly bilateral rates from 1963, effective exchang
 | `daily_log_returns.csv` | Daily log returns for 23 currencies (1971–2025), 271K obs |
 | `yearly_volatility_stats.csv` | Mean, vol, excess kurtosis, skew, max/min for 41 currencies |
 | `daily_volatility_stats.csv` | Same at daily frequency + 3-sigma tail event counts |
-| `yearly_gold_inflation.csv` | Gold inflation, purchasing power, CPI comparison, cumulative debasement (243 countries, 1257-2025) |
+| `monthly_gold_inflation.csv` | Monthly gold inflation, purchasing power, cumulative debasement (174 currencies, 1940-2025) |
+| `yearly_gold_inflation.csv` | Yearly gold inflation, purchasing power, CPI comparison, cumulative debasement (243 countries, 1257-2025) |
 | `daily_correlation_matrix.csv` | Pairwise Pearson correlations of daily log returns (23x23) |
 | `yearly_correlation_matrix.csv` | Pairwise Pearson correlations of yearly log returns (>30 shared years) |
 
@@ -271,9 +272,10 @@ UK-focused: $/£ from 1791, monthly bilateral rates from 1963, effective exchang
 | `sources/jst/` | Jorda-Schularick-Taylor | 1 | 2,718 | 1870–2017 |
 | `sources/boe/` | Bank of England | 1 | — | 1791–2016 |
 | `sources/gmd/` | Global Macro Database | 1 | 56,850 | 1960–2024 |
+| `sources/gold/` | DataHub gold prices | 1 | 2,311 | 1833–2025 |
 | `derived/normalized/` | Derived | 4 | 295,884 | 1500–2025 |
 | `derived/analysis/` | Derived | 4 | 271,205 | 1791–2025 |
-| **Total** | **12 sources** | **66** | | **1106–2026** |
+| **Total** | **13 sources** | **67** | | **1106–2026** |
 
 ## TODO
 
