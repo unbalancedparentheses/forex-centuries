@@ -1,116 +1,76 @@
 # forex-centuries
 
-Historical foreign exchange rate data spanning nine centuries (1106–2026), assembled for volatility research. 57 files, 850 MB.
+Historical foreign exchange rate data spanning nine centuries (1106–2026), assembled for volatility research.
+
+## Directory Structure
+
+```
+data/
+├── medieval/          # Pre-modern exchange rates
+├── yearly/            # Annual frequency data
+├── monthly/           # Monthly + sub-monthly data
+├── daily/             # Daily frequency data
+├── regimes/           # Exchange rate regime classifications
+├── macro/             # Supporting macroeconomic variables
+└── analysis/          # Computed log returns and volatility stats
+```
 
 ## Datasets
 
-### Medieval Exchange Rates (1106–1800)
+### `data/medieval/` — Medieval Exchange Rates (1106–1800)
 
-#### MEMDB Spufford — Medieval Currency Exchanges (1106–1500)
-13,197 exchange rate quotations from Peter Spufford's *Handbook of Medieval Exchange*. Covers all of Europe, Byzantium, the Levant, and North Africa. Silver penny coinages and early gold coinages.
+| File | Source | Records | Period |
+|------|--------|---------|--------|
+| `memdb_spufford_medieval_exchange_rates.csv` | [Spufford, *Handbook of Medieval Exchange*](https://memdb.libraries.rutgers.edu/spufford-currency) | 13,197 | 1106–1500 |
+| `memdb_metz_currency_exchanges.csv` | [Metz, *Geld, Währung und Preisentwicklung*](https://memdb.libraries.rutgers.edu/metz-currency) | 50,559 | 1350–1800 |
 
-- `memdb_spufford_medieval_exchange_rates.csv` — columns: Place, Date_start, Date_end, Type_of_Exchange, Currency_From, Amount_From, Currency_To, Amount_To, Notes, Source
-- Scraped from [MEMDB at Rutgers](https://memdb.libraries.rutgers.edu/spufford-currency)
+### `data/yearly/` — Annual Exchange Rates (1500–2025)
 
-#### MEMDB Metz — Currency Exchanges (1350–1800)
-50,559 records from Rainer Metz, *Geld, Währung und Preisentwicklung*. Covers the Lower Rhine region and broader European comparison. Bridges medieval and modern eras.
+| File | Source | Coverage | Period |
+|------|--------|----------|--------|
+| `clio_infra_exchange_rates.csv` | [Clio Infra](https://clio-infra.eu/Indicators/ExchangeRatestoUSDollar.html) | 181 countries vs USD | 1500–2013 |
+| `clio_infra_exchange_rates_gbp.csv` | [Clio Infra](https://clio-infra.eu/Indicators/ExchangeRatestoUKPound.html) | 181 countries vs GBP | 1500–2013 |
+| `measuringworth_exchange_rates.csv` | [MeasuringWorth](https://www.measuringworth.com/datasets/exchangeglobal/) | 41 currencies vs USD | 1791–2025 |
+| `gmd_exchange_rates.csv` | [Global Macro Database](https://www.globalmacrodata.com/data.html) | 243 countries (USDfx + REER) | 1960–2024 |
+| `worldbank_exchange_rates.xls` | [World Bank](https://data.worldbank.org/indicator/PA.NUS.FCRF) | All member countries | 1960–present |
+| `jst_macrohistory.xlsx` | [Jorda-Schularick-Taylor](https://www.macrohistory.net/database/) | 18 countries, 59 variables | 1870–2017 |
+| `boe_millennium.xlsx` | [Bank of England](https://www.bankofengland.co.uk/statistics/research-datasets) | UK macro + $/£ | 1791–2016 |
 
-- `memdb_metz_currency_exchanges.csv` — columns: Place, Year, Coin_Ratio, Relationship, Value, Length_of_Series, Note
-- Scraped from [MEMDB at Rutgers](https://memdb.libraries.rutgers.edu/metz-currency)
+Also includes original `.xlsx` variants of Clio Infra datasets.
 
-### Yearly Exchange Rates (1500–2025)
+### `data/monthly/` — Monthly Exchange Rates (1955–2026)
 
-#### Clio Infra — Exchange Rates to USD (1500–2013)
-181 countries, yearly averages. Longest: UK (1789), France/Netherlands (1792), Germany (1794). Based on Denzel's *Handbook* and IMF IFS.
+| File | Source | Coverage | Period |
+|------|--------|----------|--------|
+| `imf_exchange_rates.csv` | [IMF IFS](https://github.com/codeforIATI/imf-exchangerates) | 168 currencies vs USD | 1955–2025 |
+| `bis_xru/WS_XRU_csv_flat.csv.gz` | [BIS](https://data.bis.org/topics/XRU) | ~190 economies vs USD (1.47M rows) | 1957–2026 |
+| `bis_eer/WS_EER_csv_flat.csv.gz` | [BIS](https://data.bis.org/topics/EER) | NEER/REER for 64 economies (1.19M rows) | 1964–2026 |
+| `riksbank_exchange_rates.csv` | [Sveriges Riksbank](https://www.riksbank.se/en-gb/statistics/) | 53 SEK bilateral series (295K obs) | 1900–2026 |
 
-- `clio_infra_exchange_rates.csv` + `.xlsx` variants
-- [Source](https://clio-infra.eu/Indicators/ExchangeRatestoUSDollar.html)
+BIS files stored as `.gz` (700 MB uncompressed, 16 MB compressed). Decompress with `gunzip`.
 
-#### Clio Infra — Exchange Rates to GBP (1500–2013)
-Same structure, vs the British Pound — the pre-20th-century global reserve currency.
+### `data/daily/` — Daily Exchange Rates (1971–2026)
 
-- `clio_infra_exchange_rates_gbp.csv` + `.xlsx`
-- [Source](https://clio-infra.eu/Indicators/ExchangeRatestoUKPound.html)
+| File | Source | Coverage | Period |
+|------|--------|----------|--------|
+| `fred/*.csv` (25 files) | [FRED H.10](https://fred.stlouisfed.org/) | 23 currency pairs + 2 USD indices | 1971–2025 |
+| `fred_daily_normalized.csv` | Derived | All 23 pairs, foreign-per-USD convention (long format) | 1971–2025 |
+| `fred_daily_normalized_wide.csv` | Derived | Same in wide format (date x currency matrix) | 1971–2025 |
 
-#### MeasuringWorth — Exchange Rates vs USD (1791–2025)
-41 currencies. UK from 1791, Spain from 1850, many European currencies from 1913.
+Pairs: GBP, JPY, CHF, CAD, AUD, EUR, DKK, MYR, NOK, NZD, SEK, MXN, BRL, CNY, INR, KRW, HKD, ZAR, SGD, LKR, TWD, THB, VEF.
 
-- `measuringworth_exchange_rates.csv`
-- [Source](https://www.measuringworth.com/datasets/exchangeglobal/)
+### `data/regimes/` — Exchange Rate Regime Classifications (1940–2021)
 
-#### Global Macro Database (1960–2024)
-243 countries, harmonized from 111 data sources. Includes USD exchange rates and Real Effective Exchange Rates.
+| File | Source | Coverage | Period |
+|------|--------|----------|--------|
+| `irr_regime_coarse.csv` | [Ilzetzki-Reinhart-Rogoff](https://www.ilzetzki.com/irr-data) | ~190 countries, coarse classification | 1940–2019 |
+| `irr_regime_fine.csv` | Same | Fine classification | 1940–2019 |
+| `irr_anchor_master.csv` | Same | Anchor currency | 1946–2019 |
+| `irr_unified_market_indicator.csv` | Same | Unified vs dual/parallel market | 1946–2021 |
 
-- `gmd_exchange_rates.csv` — columns: ISO3, countryname, year, USDfx, REER
-- [Source](https://www.globalmacrodata.com/data.html)
+Original `.xlsx` files also included.
 
-#### World Bank — Official Exchange Rates (1960–present)
-Official exchange rate (LCU per US$, period average) for all member countries.
-
-- `worldbank_exchange_rates.xls`
-- [Source](https://data.worldbank.org/indicator/PA.NUS.FCRF)
-
-### Monthly Exchange Rates (1940–2026)
-
-#### IMF IFS — Exchange Rates (1955–2025)
-168 currencies vs USD, monthly. 158,518 observations.
-
-- `imf_exchange_rates.csv`
-- [Source](https://github.com/codeforIATI/imf-exchangerates)
-
-#### BIS — Bilateral Exchange Rates vs USD (1957–2026)
-**1.47 million rows.** ~190 economies, daily/monthly/quarterly/annual. 14 currencies back to 1950.
-
-- `bis_xru/WS_XRU_csv_flat.csv` (423 MB)
-- [Source](https://data.bis.org/topics/XRU)
-
-#### BIS — Effective Exchange Rates (1964–2026)
-**1.19 million rows.** Nominal and real effective exchange rates (NEER/REER) for 64 economies.
-
-- `bis_eer/WS_EER_csv_flat.csv` (277 MB)
-- [Source](https://data.bis.org/topics/EER)
-
-#### Sveriges Riksbank (1900–2026)
-45 SEK bilateral exchange rate series (daily) plus the trade-weighted SEK index from 1900. 261,737 total observations.
-
-- `riksbank_exchange_rates.csv`
-- [Source](https://www.riksbank.se/en-gb/statistics/)
-
-### Daily Exchange Rates (1971–2026)
-
-#### FRED — 23 Currency Pairs + 2 Dollar Indices
-Daily from the Federal Reserve H.10 release. See `fred_daily/` for all files.
-
-Major pairs: GBP, JPY, CHF, CAD, AUD, EUR, DKK, MYR, NOK, NZD, SEK, MXN, BRL, CNY, INR, KRW, HKD, ZAR, SGD, LKR, TWD, THB, VEF vs USD. Plus Broad and Major dollar indices.
-
-- [Source](https://fred.stlouisfed.org/)
-
-### Macro-Historical Databases
-
-#### Jorda-Schularick-Taylor (1870–2017)
-18 advanced economies, 59 variables including exchange rates (`xrusd`), interest rates, GDP, credit, housing prices, crisis indicators.
-
-- `jst_macrohistory.xlsx`
-- [Source](https://www.macrohistory.net/database/)
-
-#### Bank of England — A Millennium of Macroeconomic Data
-$/£ from 1791, monthly bilateral rates from 1963, effective exchange rates. Plus interest rates, prices, wages, GDP back to the 13th century.
-
-- `boe_millennium.xlsx` (26 MB)
-- [Source](https://www.bankofengland.co.uk/statistics/research-datasets)
-
-### Exchange Rate Regime Classifications (1940–2021)
-
-#### Ilzetzki-Reinhart-Rogoff
-De facto exchange rate arrangements for ~190 countries.
-
-- `irr_regime_coarse.csv` / `irr_regime_fine.csv` — regime classifications (monthly, 1940–2019)
-- `irr_anchor_master.csv` — anchor currency (monthly, 1946–2019)
-- `irr_unified_market_indicator.csv` — unified vs dual/parallel market (1946–2021)
-- Original `.xlsx` files also included
-- [Source: Ilzetzki](https://www.ilzetzki.com/irr-data) | [Source: Reinhart](https://carmenreinhart.com/exchange-rate/)
-
-### Supporting Macro Variables
+### `data/macro/` — Supporting Macroeconomic Variables
 
 | File | Variable | Period | Countries |
 |------|----------|--------|-----------|
@@ -120,29 +80,24 @@ De facto exchange rate arrangements for ~190 countries.
 | `clio_infra_govt_debt.csv` | Govt debt (% GDP) | 1692–2010 | 86 |
 | `clio_infra_gdp_per_capita_compact.xlsx` | GDP per capita (Maddison) | 1500–2016 | 181 |
 
+### `data/analysis/` — Computed Statistics
+
+| File | Description |
+|------|-------------|
+| `yearly_log_returns.csv` | Annual log returns for 41 currencies (1791–2025) |
+| `daily_log_returns.csv` | Daily log returns for 23 currencies (1971–2025), 271K obs |
+| `yearly_volatility_stats.csv` | Mean, vol, excess kurtosis, skew, max/min for 41 currencies |
+| `daily_volatility_stats.csv` | Same at daily frequency + 3-sigma tail event counts |
+
 ## Data Coherence
 
-Cross-validation between overlapping datasets:
+Cross-validated across overlapping datasets:
 
-- **MeasuringWorth vs Clio Infra**: Excellent agreement for stable currencies. Divergences only from currency redenominations (Brazil, Mexico, Argentina), Euro-era switchover (France, Germany, Netherlands post-1999), and quoting conventions (Australia, South Africa).
-- **FRED daily vs MeasuringWorth**: JPY/USD perfect match (0.00–0.12% diff). GBP/USD exact inverses (different quoting convention — USD per GBP vs GBP per USD).
+- **MeasuringWorth vs Clio Infra**: Excellent agreement for stable currencies. Divergences from currency redenominations (Brazil, Mexico, Argentina), Euro switchover (France, Germany, Netherlands post-1999), and quoting conventions (Australia, South Africa).
+- **FRED vs MeasuringWorth**: JPY/USD perfect match. GBP/USD exact inverses (different quoting convention).
 - **All datasets coherent.** Differences explained by quoting conventions and redenomination tracking.
 
-## Analysis
-
-### Normalized Data
-- `fred_daily_normalized.csv` — all 23 FRED daily series in long format, normalized to foreign-currency-per-USD convention
-- `fred_daily_normalized_wide.csv` — same in wide format (date x currency matrix)
-
-### Volatility Statistics
-- `yearly_volatility_stats.csv` — mean, vol, excess kurtosis, skewness, max/min annual log returns for 41 currencies
-- `daily_volatility_stats.csv` — same for 23 currencies at daily frequency, plus 3-sigma tail event counts
-
-### Log Returns
-- `yearly_log_returns.csv` — annual log returns for 41 currencies (1791–2025)
-- `daily_log_returns.csv` — daily log returns for 23 currencies (1971–2025), 271K observations
-
-### Key Finding: Universal Fat Tails
+## Key Finding: Universal Fat Tails
 
 Every single currency pair exhibits excess kurtosis. Daily 3-sigma events occur **3–6x more often** than a Gaussian distribution predicts:
 
@@ -157,8 +112,7 @@ Every single currency pair exhibits excess kurtosis. Daily 3-sigma events occur 
 
 ## TODO
 
-- [ ] Reinhart-Rogoff official and parallel exchange rates from [carmenreinhart.com](https://carmenreinhart.com/exchange-rates-official-and-parallel/) (requires manual browser download — JavaScript-rendered link)
-- [ ] Remaining 8 Riksbank series (rate-limited by API)
+- [ ] Reinhart-Rogoff official and parallel exchange rates from [carmenreinhart.com](https://carmenreinhart.com/exchange-rates-official-and-parallel/) (requires manual browser download — JavaScript-rendered link). Unique dataset with parallel/black-market rates.
 
 ## Purpose
 
