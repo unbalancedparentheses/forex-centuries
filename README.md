@@ -31,7 +31,7 @@ The data shows three regimes with different volatility profiles:
 - **Bretton Woods** (1944–1971): artificially suppressed vol, then explosive devaluations
 - **Free float** (1971–present): higher day-to-day vol but fewer catastrophic jumps
 
-The IRR regime data confirms this — countries classified as "freely falling" or "dual market" align with the biggest tail events.
+The regime-conditional statistics (from `regime_conditional_stats.csv`) quantify this: freely falling currencies have annual volatility of 225% vs 10.8% for free-floating. Pegged currencies show excess kurtosis of 133 vs 0.8 for free float — confirming that pegs suppress daily volatility but produce catastrophic jumps. See `charts/regime_timeline.png`.
 
 ### The peg paradox
 
@@ -59,7 +59,10 @@ python quickstart_pandas.py   # pandas version
 # Reproduce derived data from sources
 python build.py               # regenerate data/derived/ from data/sources/
 python validate.py            # run data quality checks
-python visualize.py           # generate charts/ directory (5 PNGs)
+python visualize.py           # generate charts/ directory (7 PNGs)
+
+# Or use make
+make all                      # build + validate + visualize
 ```
 
 ```
@@ -250,6 +253,9 @@ UK-focused: $/£ from 1791, monthly bilateral rates from 1963, effective exchang
 | `daily_log_returns.csv` | Daily log returns for 23 currencies (1971–2025), 271K obs |
 | `yearly_volatility_stats.csv` | Mean, vol, excess kurtosis, skew, max/min for 40 currencies |
 | `daily_volatility_stats.csv` | Same at daily frequency + 3-sigma tail event counts |
+| `daily_rolling_volatility.csv` | 252-day rolling annualized volatility for 23 currencies (1971-2025) |
+| `yearly_regime_classification.csv` | IRR exchange rate regime per country-year (194 countries, 1940-2016) |
+| `regime_conditional_stats.csv` | Volatility and kurtosis statistics broken down by regime type |
 | `monthly_gold_inflation.csv` | Monthly gold inflation, purchasing power, cumulative debasement (174 currencies, 1940-2025) |
 | `yearly_gold_inflation.csv` | Yearly gold inflation, purchasing power, CPI comparison, cumulative debasement (243 countries, 1257-2025) |
 | `daily_correlation_matrix.csv` | Pairwise Pearson correlations of daily log returns (23x23) |
@@ -274,7 +280,7 @@ UK-focused: $/£ from 1791, monthly bilateral rates from 1963, effective exchang
 | `sources/gmd/` | Global Macro Database | 1 | 56,850 | 1960–2024 |
 | `sources/gold/` | DataHub gold prices | 1 | 2,311 | 1833–2025 |
 | `derived/normalized/` | Derived | 4 | 310,212 | 1500–2025 |
-| `derived/analysis/` | Derived | 8 | 417,034 | 1257–2025 |
+| `derived/analysis/` | Derived | 11 | 663,139 | 1257–2025 |
 | **Total** | **13 sources** | **73** | | **1106–2026** |
 
 ## TODO

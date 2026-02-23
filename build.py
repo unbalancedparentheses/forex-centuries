@@ -120,6 +120,11 @@ def build_log_returns(daily_long):
     daily_ret.to_csv(ANALYSIS / "daily_log_returns.csv", index=False)
     print(f"    daily_log_returns.csv: {len(daily_ret):,} rows")
 
+    # Yearly log returns use MeasuringWorth only (not the full unified panel) because
+    # MW is carefully curated for continuity — Clio Infra and GMD may have rate jumps
+    # at redenomination boundaries that produce spurious log returns.
+    # "Europe, Eurozone" is excluded: only 26 years of data (1999-2025) and overlaps
+    # with constituent countries (Germany, France, etc.) in the correlation analysis.
     print("  Computing yearly log returns...")
     mw = pd.read_csv(SOURCES / "measuringworth" / "measuringworth_exchange_rates.csv")
     mw = mw.set_index("year")
@@ -215,7 +220,147 @@ def build_correlations(daily_ret, yearly_ret):
 TROY_OZ_GRAMS = 31.1035
 
 
-def build_gold_inflation(daily_long):
+def build_rolling_volatility(daily_long):
+    """Compute rolling annualized volatility for all daily currencies."""
+    print("  Computing rolling volatility...")
+    wide = daily_long.pivot(index="date", columns="currency", values="rate_per_usd")
+    wide.index = pd.to_datetime(wide.index)
+    log_ret = np.log(wide / wide.shift(1))
+
+    rolling = log_ret.rolling(252).std() * np.sqrt(252)
+    rolling = rolling.dropna(how="all")
+
+    # Long format
+    long = rolling.reset_index().melt(
+        id_vars=["date"], var_name="currency", value_name="rolling_volatility_252d")
+    long = long.dropna(subset=["rolling_volatility_252d"])
+    long["date"] = long["date"].dt.strftime("%Y-%m-%d")
+    long = long.sort_values(["date", "currency"]).reset_index(drop=True)
+    long["rolling_volatility_252d"] = long["rolling_volatility_252d"].round(6)
+
+    long.to_csv(ANALYSIS / "daily_rolling_volatility.csv", index=False)
+    print(f"    daily_rolling_volatility.csv: {len(long):,} rows")
+
+
+FINE_TO_COARSE = {}
+for f in range(1, 5):
+    FINE_TO_COARSE[f] = 1   # peg
+for f in range(5, 9):
+    FINE_TO_COARSE[f] = 2   # crawling peg
+for f in range(9, 13):
+    FINE_TO_COARSE[f] = 3   # managed float
+FINE_TO_COARSE[13] = 4      # free float
+FINE_TO_COARSE[14] = 5      # freely falling
+FINE_TO_COARSE[15] = 6      # dual market
+
+COARSE_LABELS = {
+    1: "peg", 2: "crawling_peg", 3: "managed_float",
+    4: "free_float", 5: "freely_falling", 6: "dual_market",
+}
+
+
+def build_regime_analysis():
+    """Parse IRR fine regime data and compute regime-conditional statistics."""
+    print("  Parsing IRR fine regime data...")
+    # The fine CSV has actual numeric values (unlike coarse which has Excel formulas).
+    # Header: rows 0-4 are metadata, row 5 has partial country names (first word),
+    # row 6 has the rest of country names, row 7 is blank, data starts at row 8.
+    # Column 0 is empty, column 1 is month label (e.g. "1940M1"), columns 2+ are values.
+    raw = pd.read_csv(SOURCES / "irr" / "irr_regime_fine.csv", header=None)
+
+    # Extract country names from rows 5 and 6 (0-indexed: 4 and 5)
+    row_a = raw.iloc[4, 2:].fillna("").astype(str).str.strip()
+    row_b = raw.iloc[5, 2:].fillna("").astype(str).str.strip()
+    countries = []
+    for a, b in zip(row_a, row_b):
+        name = f"{a} {b}".strip() if b else a
+        countries.append(name)
+
+    # Extract data rows (skip metadata rows 0-7)
+    data = raw.iloc[7:].copy()
+    data = data.dropna(subset=[1])  # keep rows with month labels
+    data[1] = data[1].astype(str).str.strip()
+    data = data[data[1].str.match(r"^\d{4}M\d+$", na=False)]
+
+    # Parse month labels
+    months = data[1].values
+    values = data.iloc[:, 2:2+len(countries)].values
+
+    # Build long-format DataFrame
+    records = []
+    for i, month in enumerate(months):
+        year = int(month.split("M")[0])
+        for j, country in enumerate(countries):
+            if not country:
+                continue
+            val = values[i, j] if j < values.shape[1] else np.nan
+            try:
+                fine = int(float(val))
+            except (ValueError, TypeError):
+                continue
+            coarse = FINE_TO_COARSE.get(fine)
+            if coarse is None:
+                continue
+            records.append({
+                "year": year,
+                "month": month,
+                "country": country,
+                "fine_regime": fine,
+                "coarse_regime": coarse,
+                "regime_label": COARSE_LABELS[coarse],
+            })
+
+    regime_df = pd.DataFrame(records)
+
+    # Aggregate to yearly (modal regime per country-year)
+    yearly_regime = (regime_df.groupby(["year", "country"])["coarse_regime"]
+                     .agg(lambda x: x.mode().iloc[0])
+                     .reset_index())
+    yearly_regime["regime_label"] = yearly_regime["coarse_regime"].map(COARSE_LABELS)
+
+    yearly_regime.to_csv(ANALYSIS / "yearly_regime_classification.csv", index=False)
+    print(f"    yearly_regime_classification.csv: {len(yearly_regime):,} rows, "
+          f"{yearly_regime['country'].nunique()} countries")
+
+    # Compute regime-conditional volatility stats using yearly log returns
+    print("  Computing regime-conditional statistics...")
+    try:
+        yearly_ret = pd.read_csv(ANALYSIS / "yearly_log_returns.csv", index_col="year")
+    except FileNotFoundError:
+        print("    Skipping: yearly_log_returns.csv not found")
+        return
+
+    ret_long = yearly_ret.reset_index().melt(
+        id_vars=["year"], var_name="country", value_name="log_return")
+    ret_long = ret_long.dropna(subset=["log_return"])
+
+    merged = ret_long.merge(yearly_regime, on=["year", "country"], how="inner")
+
+    stats = []
+    for label, grp in merged.groupby("regime_label"):
+        r = grp["log_return"].values
+        if len(r) < 10:
+            continue
+        stats.append({
+            "regime": label,
+            "n_observations": len(r),
+            "n_countries": grp["country"].nunique(),
+            "mean_log_return": round(r.mean(), 6),
+            "volatility": round(r.std(ddof=1), 6),
+            "excess_kurtosis": round(kurtosis(r, fisher=True), 4),
+            "skewness": round(skew(r), 4),
+            "max_return": round(r.max(), 6),
+            "min_return": round(r.min(), 6),
+        })
+
+    stats_df = pd.DataFrame(stats).sort_values("volatility", ascending=False)
+    stats_df.to_csv(ANALYSIS / "regime_conditional_stats.csv", index=False)
+    print(f"    regime_conditional_stats.csv: {len(stats_df)} regimes")
+
+    return yearly_regime
+
+
+def build_gold_inflation(daily_long, panel):
     """Compute gold inflation in local currency at yearly and monthly granularity."""
     # --- Yearly gold inflation ---
     print("  Computing yearly gold inflation...")
@@ -228,8 +373,6 @@ def build_gold_inflation(daily_long):
 
     gold_gbp = gold_raw[["year", "british_official_gbp"]].dropna()
     gold_gbp = gold_gbp.rename(columns={"british_official_gbp": "gold_gbp"})
-
-    panel = pd.read_csv(NORM / "yearly_unified_panel.csv")
 
     ci_gbp = pd.read_csv(SOURCES / "clio_infra" / "clio_infra_exchange_rates_gbp.csv")
     ci_gbp_long = ci_gbp.melt(id_vars=["year"], var_name="country", value_name="rate_per_gbp")
@@ -354,23 +497,29 @@ def main():
     NORM.mkdir(parents=True, exist_ok=True)
     ANALYSIS.mkdir(parents=True, exist_ok=True)
 
-    print("[1/6] FRED daily normalization")
+    print("[1/8] FRED daily normalization")
     daily_long = build_fred_daily()
 
-    print("\n[2/6] Yearly unified panel")
-    build_yearly_panel()
+    print("\n[2/8] Yearly unified panel")
+    panel = build_yearly_panel()
 
-    print("\n[3/6] Log returns")
+    print("\n[3/8] Log returns")
     daily_ret, yearly_ret = build_log_returns(daily_long)
 
-    print("\n[4/6] Volatility statistics")
+    print("\n[4/8] Volatility statistics")
     build_volatility_stats(daily_ret, yearly_ret)
 
-    print("\n[5/6] Correlation matrices")
+    print("\n[5/8] Correlation matrices")
     build_correlations(daily_ret, yearly_ret)
 
-    print("\n[6/6] Gold inflation")
-    build_gold_inflation(daily_long)
+    print("\n[6/8] Rolling volatility")
+    build_rolling_volatility(daily_long)
+
+    print("\n[7/8] Regime analysis")
+    build_regime_analysis()
+
+    print("\n[8/8] Gold inflation")
+    build_gold_inflation(daily_long, panel)
 
     print("\nDone. All derived files regenerated.")
 

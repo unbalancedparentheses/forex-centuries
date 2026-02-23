@@ -273,6 +273,38 @@ Same structure but for annual log returns from MeasuringWorth data. No tail_even
 | currency | ISO 3-letter code |
 | log_return | ln(rate_t / rate_{t-1}) |
 
+### `derived/analysis/daily_rolling_volatility.csv` (230,618 rows)
+
+| Column | Description |
+|--------|-------------|
+| date | YYYY-MM-DD |
+| currency | ISO 3-letter code |
+| rolling_volatility_252d | 252-day rolling annualized volatility |
+
+### `derived/analysis/yearly_regime_classification.csv` (15,486 rows)
+
+| Column | Description |
+|--------|-------------|
+| year | Year |
+| country | Country name |
+| coarse_regime | 1=peg, 2=crawling peg, 3=managed float, 4=free float, 5=freely falling, 6=dual market |
+| regime_label | Human-readable regime name |
+
+Derived from IRR fine regime data (monthly → yearly via modal regime).
+
+### `derived/analysis/regime_conditional_stats.csv` (6 rows)
+
+| Column | Description |
+|--------|-------------|
+| regime | Regime label |
+| n_observations | Number of country-year observations |
+| n_countries | Number of distinct countries |
+| mean_log_return | Mean annual log return |
+| volatility | Standard deviation of annual log returns |
+| excess_kurtosis | Excess kurtosis (0 = Gaussian) |
+| skewness | Skewness |
+| max_return / min_return | Extreme annual moves |
+
 ### `derived/analysis/monthly_gold_inflation.csv` (119,346 rows)
 
 | Column | Description |

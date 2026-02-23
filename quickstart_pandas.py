@@ -59,6 +59,18 @@ def load_medieval_metz() -> pd.DataFrame:
     return pd.read_csv(DATA / "sources/memdb/memdb_metz_currency_exchanges.csv")
 
 
+def load_rolling_volatility() -> pd.DataFrame:
+    """252-day rolling annualized volatility for 23 FRED currencies."""
+    df = pd.read_csv(DATA / "derived/analysis/daily_rolling_volatility.csv")
+    df["date"] = pd.to_datetime(df["date"])
+    return df
+
+
+def load_regime_classification() -> pd.DataFrame:
+    """Yearly exchange rate regime (IRR coarse) for ~190 countries, 1940-2016."""
+    return pd.read_csv(DATA / "derived/analysis/yearly_regime_classification.csv")
+
+
 def load_gold_inflation(freq: str = "yearly") -> pd.DataFrame:
     """Gold inflation with purchasing power and cumulative debasement.
     freq: 'yearly' (243 countries, 1257-2025, with CPI comparison)

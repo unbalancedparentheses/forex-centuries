@@ -170,6 +170,95 @@ def correlation_heatmap():
     plt.close(fig)
 
 
+def gold_erosion():
+    """Cumulative gold purchasing power retained for major currencies."""
+    print("  gold_erosion.png")
+
+    df = pd.read_csv(DERIVED / "analysis/yearly_gold_inflation.csv")
+
+    currencies = {
+        "United States": ("#4C72B0", "USD"),
+        "United Kingdom": ("#DD8452", "GBP"),
+        "Japan": ("#55A868", "JPY"),
+        "Switzerland": ("#C44E52", "CHF"),
+        "France": ("#8172B3", "FRF"),
+        "Germany": ("#937860", "DEM"),
+        "India": ("#DA8BC3", "INR"),
+        "China": ("#8C8C8C", "CNY"),
+    }
+
+    fig, ax = plt.subplots(figsize=(14, 7))
+    for country, (color, label) in currencies.items():
+        sub = df[df["country"] == country].sort_values("year")
+        if len(sub) > 0:
+            ax.plot(sub["year"], sub["cumulative_retained_pct"],
+                    label=f"{label} (since {int(sub['base_year'].iloc[0])})",
+                    color=color, linewidth=1.2)
+
+    ax.set_yscale("log")
+    ax.set_xlabel("Year")
+    ax.set_ylabel("% of gold purchasing power retained (log scale)")
+    ax.set_title("Currency debasement against gold")
+    ax.legend(loc="lower left", fontsize=8)
+    ax.set_ylim(bottom=0.001)
+    ax.grid(True, alpha=0.3)
+
+    fig.tight_layout()
+    fig.savefig(CHARTS / "gold_erosion.png", dpi=150)
+    plt.close(fig)
+
+
+def regime_timeline():
+    """Timeline of exchange rate regimes for major countries."""
+    print("  regime_timeline.png")
+
+    path = DERIVED / "analysis/yearly_regime_classification.csv"
+    if not path.exists():
+        print("    Skipped: yearly_regime_classification.csv not found")
+        return
+
+    df = pd.read_csv(path)
+
+    # Select countries with long histories
+    counts = df.groupby("country").size().sort_values(ascending=False)
+    top_countries = counts.head(25).index.tolist()
+    df = df[df["country"].isin(top_countries)]
+
+    regime_colors = {
+        1: "#2166AC",  # peg - blue
+        2: "#67A9CF",  # crawling peg - light blue
+        3: "#FDDBC7",  # managed float - light orange
+        4: "#EF8A62",  # free float - orange
+        5: "#B2182B",  # freely falling - red
+        6: "#762A83",  # dual market - purple
+    }
+
+    countries_sorted = sorted(top_countries)
+    fig, ax = plt.subplots(figsize=(16, 10))
+
+    for i, country in enumerate(countries_sorted):
+        sub = df[df["country"] == country].sort_values("year")
+        for _, row in sub.iterrows():
+            color = regime_colors.get(row["coarse_regime"], "#CCCCCC")
+            ax.barh(i, 1, left=row["year"], height=0.8, color=color, edgecolor="none")
+
+    ax.set_yticks(range(len(countries_sorted)))
+    ax.set_yticklabels(countries_sorted, fontsize=8)
+    ax.set_xlabel("Year")
+    ax.set_title("Exchange rate regimes (IRR classification)")
+
+    # Legend
+    from matplotlib.patches import Patch
+    labels = {1: "Peg", 2: "Crawling peg", 3: "Managed float",
+              4: "Free float", 5: "Freely falling", 6: "Dual market"}
+    patches = [Patch(color=regime_colors[k], label=labels[k]) for k in sorted(labels)]
+    ax.legend(handles=patches, loc="lower right", fontsize=8)
+
+    fig.tight_layout()
+    fig.savefig(CHARTS / "regime_timeline.png", dpi=150)
+    plt.close(fig)
+
+
 def main():
     print("forex-centuries chart generation\n")
     CHARTS.mkdir(exist_ok=True)
@@ -179,6 +268,8 @@ def main():
     tail_ratio_bar()
     rolling_volatility()
     correlation_heatmap()
+    gold_erosion()
+    regime_timeline()
 
     print(f"\nDone. Charts saved to {CHARTS}/")
 

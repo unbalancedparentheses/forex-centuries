@@ -94,7 +94,10 @@ def check_schema():
                     "normalized/yearly_unified_wide.csv",
                     "analysis/yearly_log_returns.csv",
                     "analysis/daily_correlation_matrix.csv",
-                    "analysis/yearly_correlation_matrix.csv"]:
+                    "analysis/yearly_correlation_matrix.csv",
+                    "analysis/daily_rolling_volatility.csv",
+                    "analysis/yearly_regime_classification.csv",
+                    "analysis/regime_conditional_stats.csv"]:
         path = DERIVED / relpath
         if check_file_exists(path):
             ok(f"{relpath}: exists")
