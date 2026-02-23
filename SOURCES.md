@@ -211,7 +211,7 @@ Same data pivoted: `date` column + one column per currency. Empty cells = no dat
 | rate_per_usd | Foreign currency units per 1 USD |
 | source | MW (MeasuringWorth) or CI (Clio Infra) |
 
-Merged yearly panel: MeasuringWorth preferred, then Clio Infra, then Global Macro Database. 243 countries, 1500–2029.
+Merged yearly panel: MeasuringWorth preferred, then Clio Infra, then Global Macro Database. 243 countries, 1500–2025. GMD projections (2026–2029) excluded.
 
 ### `derived/normalized/yearly_unified_wide.csv`
 
