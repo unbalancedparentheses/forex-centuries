@@ -59,6 +59,15 @@ def load_medieval_metz() -> pd.DataFrame:
     return pd.read_csv(DATA / "sources/memdb/memdb_metz_currency_exchanges.csv")
 
 
+def load_gold_prices() -> pd.DataFrame:
+    """Annual gold prices, 1257-2025. Six series: british_official_gbp,
+    london_market_gbp, london_market_usd, us_official_usd,
+    new_york_market_usd, gold_silver_ratio."""
+    df = pd.read_csv(DATA / "sources/measuringworth/measuringworth_gold_prices.csv")
+    df["year"] = df["year"].astype(int)
+    return df.set_index("year")
+
+
 def load_volatility_stats(freq: str = "daily") -> pd.DataFrame:
     """Precomputed volatility statistics. freq: 'daily' or 'yearly'."""
     return pd.read_csv(DATA / f"derived/analysis/{freq}_volatility_stats.csv")

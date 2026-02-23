@@ -1,3 +1,9 @@
 # Large uncompressed BIS files (use .gz versions)
 data/sources/bis/eer/WS_EER_csv_flat.csv
 data/sources/bis/xru/WS_XRU_csv_flat.csv
+
+# Nix
+result
+
+# direnv
+.direnv/

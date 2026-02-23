@@ -37,6 +37,10 @@ The IRR regime data confirms this — countries classified as "freely falling" o
 
 Currencies with the lowest daily volatility (HKD at 3.2%, CNY at 8.2%) have some of the **highest** excess kurtosis (261 and 3846). Pegs compress the distribution most of the time but produce massive outliers when they break. This is the classic problem with using volatility as a risk measure — it underestimates the probability of extreme moves in managed currencies.
 
+### Cross-currency correlations
+
+Daily log-return correlations reveal geographic clustering: Scandinavian currencies (DKK, SEK, NOK) move together, as do Asian managed currencies (SGD, TWD, THB). European currencies are tightly correlated with each other but less with emerging market pairs. See `charts/correlation_heatmap.png` after running `python visualize.py`.
+
 ### Implications
 
 The data strongly supports modeling FX returns with fat-tailed distributions (stable, Student-t, or power-law) rather than Gaussian. Standard VaR and options pricing models systematically underestimate tail risk in currency markets.
@@ -44,8 +48,18 @@ The data strongly supports modeling FX returns with fat-tailed distributions (st
 ## Quickstart
 
 ```bash
+# Dependencies (choose one)
+nix develop                      # Nix flake (recommended)
+pip install -r requirements.txt  # pip fallback
+
+# Explore the data
 python quickstart.py          # pure stdlib, no dependencies
-python quickstart_pandas.py   # pandas version (pip install pandas openpyxl)
+python quickstart_pandas.py   # pandas version
+
+# Reproduce derived data from sources
+python build.py               # regenerate data/derived/ from data/sources/
+python validate.py            # run data quality checks
+python visualize.py           # generate charts/ directory (5 PNGs)
 ```
 
 ```
@@ -135,10 +149,12 @@ Project led by Jan Luiten van Zanden (Utrecht / IISH Amsterdam). Based on Denzel
 
 ### `sources/measuringworth/`
 
-41 currencies vs USD, yearly. UK from 1791, Spain from 1850, many European currencies from 1913. Compiled by Lawrence H. Officer and Samuel H. Williamson.
+41 currencies vs USD, yearly. UK from 1791, Spain from 1850, many European currencies from 1913. Plus annual gold prices (1257–2025) with British official, London market, New York market, US official, and gold/silver ratio series. Compiled by Lawrence H. Officer and Samuel H. Williamson.
 
 - `measuringworth_exchange_rates.csv`
-- [Source](https://www.measuringworth.com/datasets/exchangeglobal/)
+- `measuringworth_gold_prices.csv` — 6 gold price series spanning 769 years
+- [Exchange rates source](https://www.measuringworth.com/datasets/exchangeglobal/)
+- [Gold price source](https://www.measuringworth.com/datasets/gold/)
 
 ### `sources/imf/`
 
@@ -234,6 +250,8 @@ UK-focused: $/£ from 1791, monthly bilateral rates from 1963, effective exchang
 | `daily_log_returns.csv` | Daily log returns for 23 currencies (1971–2025), 271K obs |
 | `yearly_volatility_stats.csv` | Mean, vol, excess kurtosis, skew, max/min for 41 currencies |
 | `daily_volatility_stats.csv` | Same at daily frequency + 3-sigma tail event counts |
+| `daily_correlation_matrix.csv` | Pairwise Pearson correlations of daily log returns (23x23) |
+| `yearly_correlation_matrix.csv` | Pairwise Pearson correlations of yearly log returns (>30 shared years) |
 
 ## Data Inventory
 
@@ -242,7 +260,7 @@ UK-focused: $/£ from 1791, monthly bilateral rates from 1963, effective exchang
 | `sources/memdb/` | MEMDB Spufford | 1 | 13,197 | 1106–1500 |
 | `sources/memdb/` | MEMDB Metz | 1 | 50,559 | 1350–1800 |
 | `sources/clio_infra/` | Clio Infra | 15 | ~3K rows/file | 1500–2016 |
-| `sources/measuringworth/` | MeasuringWorth | 1 | 235 | 1791–2025 |
+| `sources/measuringworth/` | MeasuringWorth | 2 | 1,004 | 1257–2025 |
 | `sources/imf/` | IMF IFS | 1 | 158,518 | 1955–2025 |
 | `sources/bis/` | BIS | 2 | 2,664,238 | 1957–2026 |
 | `sources/fred/` | FRED | 25 | ~14K/file | 1971–2025 |
@@ -254,7 +272,7 @@ UK-focused: $/£ from 1791, monthly bilateral rates from 1963, effective exchang
 | `sources/gmd/` | Global Macro Database | 1 | 56,850 | 1960–2024 |
 | `derived/normalized/` | Derived | 4 | 295,884 | 1500–2025 |
 | `derived/analysis/` | Derived | 4 | 271,205 | 1791–2025 |
-| **Total** | **12 sources** | **65** | | **1106–2026** |
+| **Total** | **12 sources** | **66** | | **1106–2026** |
 
 ## TODO
 

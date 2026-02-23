@@ -51,6 +51,21 @@ Wide format: `year` + 41 country columns. Values are **foreign currency units pe
 
 **Quoting convention note**: UK, Australia, and New Zealand are quoted as foreign-per-USD here (unlike FRED which quotes USD-per-foreign for these currencies).
 
+### `measuringworth_gold_prices.csv` (769 rows)
+
+Annual gold prices from MeasuringWorth, 1257–2025. Six series:
+
+| Column | Unit | Period |
+|--------|------|--------|
+| `british_official_gbp` | British pounds per fine ounce (end of year) | 1257–1945 |
+| `london_market_gbp` | British pounds per fine ounce (London fix) | 1718–1949 |
+| `london_market_usd` | US dollars per fine ounce (London fix) | 1950–2025 |
+| `us_official_usd` | US dollars per fine ounce (end of year) | 1791–2025 |
+| `new_york_market_usd` | US dollars per fine ounce (NY market) | 1791–2025 |
+| `gold_silver_ratio` | Ounces of silver per ounce of gold | 1687–2025 |
+
+The London Market Price switches currency mid-stream (GBP before 1950, USD from 1950), so it's split into two columns. Citation: Lawrence H. Officer and Samuel H. Williamson, "The Price of Gold, 1257-2014," MeasuringWorth, 2026.
+
 ## `sources/imf/`
 
 ### `imf_exchange_rates.csv` (158,518 rows)
