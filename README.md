@@ -1,6 +1,6 @@
 # forex-centuries
 
-Historical foreign exchange rate data spanning nine centuries (1106–2026), assembled for volatility research. 13 sources, 73 files, ~240 countries.
+Historical foreign exchange rate data spanning nine centuries (1106–2026), assembled for volatility research. 13 sources, 76 files, ~240 countries.
 
 Related project: [fatcrash](https://github.com/unbalancedparentheses/fatcrash) — crash detection via fat-tail statistics (LPPLS, EVT, Hill estimator, Kappa).
 
@@ -71,11 +71,11 @@ Sources: MW=3,444 | CI=9,031 | GMD=12,181
 
 Longest series:
   United States              526 years (1500-2025)
-  United Kingdom             237 years (1789-2025)
+  United Kingdom             236 years (1789-2025)
   Denmark                    235 years (1791-2025)
 
 Daily: 13,802 dates x 23 currencies (1971-2025)
-Medieval: 13,197 Spufford + 50,559 Metz records (521 cities)
+Medieval: 13,197 Spufford (521 places) + 50,559 Metz records (29 places)
 ```
 
 See [SOURCES.md](SOURCES.md) for column schemas and quoting conventions.
@@ -111,6 +111,7 @@ data/
 │   ├── imf/           # 168 currencies, monthly (1955–2025)
 │   ├── bis/           # Bilateral + effective rates, ~190 economies (1957–2026)
 │   ├── fred/          # 23 daily pairs + 2 USD indices (1971–2025)
+│   ├── gold/          # Monthly gold prices USD (1833–2025)
 │   ├── riksbank/      # 53 SEK bilateral series (1900–2026)
 │   ├── worldbank/     # Official rates, all members (1960–present)
 │   ├── irr/           # Exchange rate regime classifications (1940–2021)
@@ -143,7 +144,7 @@ Project led by Jan Luiten van Zanden (Utrecht / IISH Amsterdam). Based on Denzel
 | `clio_infra_exchange_rates.csv` | Exchange rates vs USD | 1500–2013 | 181 |
 | `clio_infra_exchange_rates_gbp.csv` | Exchange rates vs GBP | 1500–2013 | 181 |
 | `clio_infra_inflation.csv` | Inflation (annual %) | 1500–2010 | 181 |
-| `clio_infra_gold_standard.csv` | Gold standard (binary) | 1800–2010 | 71 |
+| `clio_infra_gold_standard.csv` | Gold standard (binary) | 1800–2010 | 69 |
 | `clio_infra_bond_yield.csv` | Long-term govt bond yield | 1727–2011 | 42 |
 | `clio_infra_govt_debt.csv` | Govt debt (% GDP) | 1692–2010 | 86 |
 | `clio_infra_gdp_per_capita_compact.xlsx` | GDP per capita (Maddison) | 1500–2016 | 181 |
@@ -161,7 +162,7 @@ Project led by Jan Luiten van Zanden (Utrecht / IISH Amsterdam). Based on Denzel
 
 ### `sources/imf/`
 
-168 currencies vs USD, monthly. 158,518 observations.
+173 currencies vs USD, monthly. 158,517 observations.
 
 - `imf_exchange_rates.csv` — columns: Date, Rate, Currency, Frequency, Source, Country code, Country
 - [Source](https://github.com/codeforIATI/imf-exchangerates)
@@ -254,7 +255,7 @@ UK-focused: $/£ from 1791, monthly bilateral rates from 1963, effective exchang
 | `yearly_volatility_stats.csv` | Mean, vol, excess kurtosis, skew, max/min for 40 currencies |
 | `daily_volatility_stats.csv` | Same at daily frequency + 3-sigma tail event counts |
 | `daily_rolling_volatility.csv` | 252-day rolling annualized volatility for 23 currencies (1971-2025) |
-| `yearly_regime_classification.csv` | IRR exchange rate regime per country-year (194 countries, 1940-2016) |
+| `yearly_regime_classification.csv` | IRR exchange rate regime per country-year (194 countries, 1940-2019) |
 | `regime_conditional_stats.csv` | Volatility and kurtosis statistics broken down by regime type |
 | `monthly_gold_inflation.csv` | Monthly gold inflation, purchasing power, cumulative debasement (174 currencies, 1940-2025) |
 | `yearly_gold_inflation.csv` | Yearly gold inflation, purchasing power, CPI comparison, cumulative debasement (243 countries, 1257-2025) |
@@ -269,7 +270,7 @@ UK-focused: $/£ from 1791, monthly bilateral rates from 1963, effective exchang
 | `sources/memdb/` | MEMDB Metz | 1 | 50,559 | 1350–1800 |
 | `sources/clio_infra/` | Clio Infra | 14 | ~3K rows/file | 1500–2016 |
 | `sources/measuringworth/` | MeasuringWorth | 2 | 1,004 | 1257–2025 |
-| `sources/imf/` | IMF IFS | 1 | 158,518 | 1955–2025 |
+| `sources/imf/` | IMF IFS | 1 | 158,517 | 1955–2025 |
 | `sources/bis/` | BIS | 2 | 2,664,238 | 1957–2026 |
 | `sources/fred/` | FRED | 25 | ~14K/file | 1971–2025 |
 | `sources/riksbank/` | Sveriges Riksbank | 1 | 295,018 | 1900–2026 |
@@ -280,8 +281,8 @@ UK-focused: $/£ from 1791, monthly bilateral rates from 1963, effective exchang
 | `sources/gmd/` | Global Macro Database | 1 | 56,850 | 1960–2024 |
 | `sources/gold/` | DataHub gold prices | 1 | 2,311 | 1833–2025 |
 | `derived/normalized/` | Derived | 4 | 310,212 | 1500–2025 |
-| `derived/analysis/` | Derived | 11 | 663,139 | 1257–2025 |
-| **Total** | **13 sources** | **73** | | **1106–2026** |
+| `derived/analysis/` | Derived | 11 | 663,136 | 1257–2025 |
+| **Total** | **13 sources** | **76** | | **1106–2026** |
 
 ## TODO
 

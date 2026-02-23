@@ -81,7 +81,7 @@ Monthly gold price in USD per troy ounce, 1833–2025. From DataHub/datasets/gol
 
 ## `sources/imf/`
 
-### `imf_exchange_rates.csv` (158,518 rows)
+### `imf_exchange_rates.csv` (158,517 rows)
 
 | Column | Description |
 |--------|-------------|
@@ -339,6 +339,6 @@ Derived from IRR fine regime data (monthly → yearly via modal regime).
 | cumulative_retained_pct | % of gold purchasing power retained since base_year |
 | base_year | First available year for this country |
 
-### `derived/analysis/yearly_log_returns.csv` (234 rows)
+### `derived/analysis/yearly_log_returns.csv` (235 rows)
 
 Wide format: `year` + one column per country. Values are annual log returns.

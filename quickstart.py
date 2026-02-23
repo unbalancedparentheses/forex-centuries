@@ -1,6 +1,6 @@
 """
 forex-centuries quickstart
-Load and explore historical exchange rate data spanning 1106-2026.
+Load and explore historical exchange rate data spanning 1106-2025.
 """
 
 import csv

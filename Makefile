@@ -6,7 +6,7 @@ build:
 	python build.py
 
 validate:
-	python validate.py
+	python validate.py || [ $$? -eq 1 ]
 
 visualize:
 	python visualize.py

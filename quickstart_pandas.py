@@ -1,6 +1,6 @@
 """
 forex-centuries quickstart (pandas version)
-Load and explore historical exchange rate data spanning 1106-2026.
+Load and explore historical exchange rate data spanning 1106-2025.
 
 pip install pandas openpyxl
 """
@@ -42,7 +42,7 @@ def load_daily_wide() -> pd.DataFrame:
 
 
 def load_imf() -> pd.DataFrame:
-    """IMF IFS monthly rates: 168 currencies, 1955-2025."""
+    """IMF IFS monthly rates: 173 currencies, 1955-2025."""
     df = pd.read_csv(DATA / "sources/imf/imf_exchange_rates.csv")
     df["Date"] = pd.to_datetime(df["Date"])
     df["Rate"] = pd.to_numeric(df["Rate"], errors="coerce")
@@ -102,7 +102,8 @@ def load_log_returns(freq: str = "daily") -> pd.DataFrame:
 
 
 def load_regimes() -> pd.DataFrame:
-    """IRR coarse regime classification."""
+    """IRR coarse regime classification (raw matrix format).
+    Prefer load_regime_classification() for a clean derived version."""
     return pd.read_csv(DATA / "sources/irr/irr_regime_coarse.csv")
 
 
