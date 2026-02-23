@@ -1,3 +1,3 @@
 # Large uncompressed BIS files (use .gz versions)
-data/monthly/bis_eer/WS_EER_csv_flat.csv
-data/monthly/bis_xru/WS_XRU_csv_flat.csv
+data/sources/bis/eer/WS_EER_csv_flat.csv
+data/sources/bis/xru/WS_XRU_csv_flat.csv
