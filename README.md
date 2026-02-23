@@ -2,6 +2,8 @@
 
 Historical foreign exchange rate data spanning nine centuries (1106–2026), assembled for volatility research. 12 sources, 65 files, ~240 countries.
 
+Related project: [fatcrash](https://github.com/unbalancedparentheses/fatcrash) — crash detection via fat-tail statistics (LPPLS, EVT, Hill estimator, Kappa).
+
 ## What the data shows
 
 ### Fat tails are universal and persistent
@@ -12,11 +14,14 @@ Every single currency pair — across all time scales and all centuries — show
 
 **Yearly (1791–2025, 41 currencies):** Germany's Weimar hyperinflation produces kurtosis of 36.8 (a single year, 1923, saw a 16x log move). Latin American currencies (Mexico 82, Argentina 19, Brazil 13) show the fattest tails from repeated devaluations and redenominations. Even the UK, with 234 years of data, has excess kurtosis of 5.1.
 
-| | Median Ann Vol | Median Excess Kurtosis |
-|---|---|---|
-| G10 daily | 10% | 9 |
-| EM daily | 11% | 84 |
-| Yearly (all) | 12% | 8 |
+| Currency | Ann Vol | Excess Kurtosis | Tail Ratio |
+|----------|---------|-----------------|------------|
+| GBP      | 9.4%    | 6.9             | 4.8x       |
+| JPY      | 10.1%   | 9.0             | 5.4x       |
+| CHF      | 11.0%   | 14.5            | 4.5x       |
+| EUR      | 9.2%    | 2.5             | 4.0x       |
+| BRL      | 15.6%   | 13.1            | 5.5x       |
+| KRW      | 10.8%   | 139.7           | 4.4x       |
 
 ### Volatility clusters by regime
 
@@ -36,6 +41,28 @@ Currencies with the lowest daily volatility (HKD at 3.2%, CNY at 8.2%) have some
 
 The data strongly supports modeling FX returns with fat-tailed distributions (stable, Student-t, or power-law) rather than Gaussian. Standard VaR and options pricing models systematically underestimate tail risk in currency markets.
 
+## Quickstart
+
+```bash
+python quickstart.py
+```
+
+```
+Yearly panel: 12,475 observations, 184 countries, 1500-2025
+
+Longest series:
+  United States              514 years (1500-2013)
+  United Kingdom             236 years (1789-2025)
+  Netherlands                211 years (1792-2013)
+
+Daily data: 271,228 observations, 23 currencies
+Medieval data: 13,197 Spufford + 50,559 Metz records
+```
+
+See [SOURCES.md](SOURCES.md) for column schemas and quoting conventions.
+
+## Coverage
+
 ```
                      1100   1200   1300   1400   1500   1600   1700   1800   1900   2000
 MEMDB Spufford       ███████████████████████████████
@@ -54,7 +81,7 @@ GMD                                                                             
 FRED Daily                                                                             ████
 ```
 
-See [SOURCES.md](SOURCES.md) for column schemas and quoting conventions.
+## Directory Structure
 
 ```
 data/
@@ -72,7 +99,7 @@ data/
 │   ├── boe/           # UK millennium dataset (1791–2016)
 │   └── gmd/           # 243 countries, USDfx + REER (1960–2024)
 └── derived/           # Computed from sources
-    ├── normalized/    # All FRED pairs in foreign-per-USD convention
+    ├── normalized/    # Unified panels and normalized FRED data
     └── analysis/      # Log returns and volatility statistics
 ```
 
@@ -190,12 +217,12 @@ UK-focused: $/£ from 1791, monthly bilateral rates from 1963, effective exchang
 
 ### `derived/normalized/`
 
-All 23 FRED daily series converted to a common convention: **foreign currency units per 1 USD** (higher = weaker foreign currency).
-
-| File | Format |
-|------|--------|
-| `fred_daily_normalized.csv` | Long format (date, currency, rate_per_usd) |
-| `fred_daily_normalized_wide.csv` | Wide format (date x currency matrix) |
+| File | Description |
+|------|-------------|
+| `yearly_unified_panel.csv` | Merged yearly panel: 184 countries, 1500–2025 (MeasuringWorth + Clio Infra, with source tag) |
+| `yearly_unified_wide.csv` | Same in wide format (year x country matrix) |
+| `fred_daily_normalized.csv` | All 23 FRED pairs, foreign-per-USD convention (long format) |
+| `fred_daily_normalized_wide.csv` | Same in wide format (date x currency matrix) |
 
 ### `derived/analysis/`
 
@@ -223,22 +250,9 @@ All 23 FRED daily series converted to a common convention: **foreign currency un
 | `sources/jst/` | Jorda-Schularick-Taylor | 1 | 2,718 | 1870–2017 |
 | `sources/boe/` | Bank of England | 1 | — | 1791–2016 |
 | `sources/gmd/` | Global Macro Database | 1 | 56,850 | 1960–2024 |
-| `derived/normalized/` | Derived | 2 | 271,228 | 1971–2025 |
+| `derived/normalized/` | Derived | 4 | 283,703 | 1500–2025 |
 | `derived/analysis/` | Derived | 4 | 271,205 | 1791–2025 |
 | **Total** | **12 sources** | **65** | | **1106–2026** |
-
-## Key Finding: Fat Tails
-
-Every currency pair exhibits excess kurtosis. Daily 3-sigma events occur **3–6x more often** than Gaussian predictions:
-
-| Currency | Ann Vol | Excess Kurtosis | Tail Ratio |
-|----------|---------|-----------------|------------|
-| GBP      | 9.4%    | 6.9             | 4.8x       |
-| JPY      | 10.1%   | 9.0             | 5.4x       |
-| CHF      | 11.0%   | 14.5            | 4.5x       |
-| EUR      | 9.2%    | 2.5             | 4.0x       |
-| BRL      | 15.6%   | 13.1            | 5.5x       |
-| KRW      | 10.8%   | 139.7           | 4.4x       |
 
 ## TODO
 
