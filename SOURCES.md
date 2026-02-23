@@ -260,6 +260,31 @@ Same structure but for annual log returns from MeasuringWorth data. No tail_even
 | currency | ISO 3-letter code |
 | log_return | ln(rate_t / rate_{t-1}) |
 
+### `derived/analysis/decade_gold_inflation.csv`
+
+| Column | Description |
+|--------|-------------|
+| decade | Decade start year (e.g. 1970) |
+| country | Country name |
+| start_year / end_year | Actual year range in decade |
+| gold_price_local_start / end | Gold price in local currency |
+| grams_per_100_start / end | Grams of gold per 100 local currency units |
+| purchasing_power_retained_pct | % of gold purchasing power kept within the decade |
+| gold_inflation_annualized_pct | Annualized gold price rise in local currency |
+| cpi_inflation_annualized_pct | Annualized CPI inflation (from Clio Infra, where available) |
+| gold_vs_cpi_gap_pct | Gold inflation minus CPI inflation (pp) |
+
+### `derived/analysis/cumulative_gold_debasement.csv`
+
+| Column | Description |
+|--------|-------------|
+| year | Year |
+| country | Country name |
+| base_year | First available year for this country |
+| gold_price_local | Gold price in local currency |
+| grams_per_100 | Grams of gold per 100 local currency units |
+| cumulative_retained_pct | % of gold purchasing power retained since base_year |
+
 ### `derived/analysis/yearly_log_returns.csv` (234 rows)
 
 Wide format: `year` + one column per country. Values are annual log returns.

@@ -250,6 +250,8 @@ UK-focused: $/£ from 1791, monthly bilateral rates from 1963, effective exchang
 | `daily_log_returns.csv` | Daily log returns for 23 currencies (1971–2025), 271K obs |
 | `yearly_volatility_stats.csv` | Mean, vol, excess kurtosis, skew, max/min for 41 currencies |
 | `daily_volatility_stats.csv` | Same at daily frequency + 3-sigma tail event counts |
+| `decade_gold_inflation.csv` | Decade gold inflation, purchasing power, gold vs CPI gap (243 countries, 1250s-2020s) |
+| `cumulative_gold_debasement.csv` | Yearly cumulative currency debasement vs gold (243 countries) |
 | `daily_correlation_matrix.csv` | Pairwise Pearson correlations of daily log returns (23x23) |
 | `yearly_correlation_matrix.csv` | Pairwise Pearson correlations of yearly log returns (>30 shared years) |
 
