@@ -2,6 +2,40 @@
 
 Historical foreign exchange rate data spanning nine centuries (1106–2026), assembled for volatility research. 12 sources, 65 files, ~240 countries.
 
+## What the data shows
+
+### Fat tails are universal and persistent
+
+Every single currency pair — across all time scales and all centuries — shows heavier tails than a Gaussian distribution.
+
+**Daily (1971–2025, 23 currencies):** 3-sigma events happen **3–6x more often** than a normal distribution predicts. Even the most "stable" pair (EUR/USD, excess kurtosis 2.5) has 4x too many tail events. Pegged and managed currencies (HKD, CNY, LKR) show the **highest** kurtosis — the peg suppresses daily moves but creates catastrophic jumps when it breaks.
+
+**Yearly (1791–2025, 41 currencies):** Germany's Weimar hyperinflation produces kurtosis of 36.8 (a single year, 1923, saw a 16x log move). Latin American currencies (Mexico 82, Argentina 19, Brazil 13) show the fattest tails from repeated devaluations and redenominations. Even the UK, with 234 years of data, has excess kurtosis of 5.1.
+
+| | Median Ann Vol | Median Excess Kurtosis |
+|---|---|---|
+| G10 daily | 10% | 9 |
+| EM daily | 11% | 84 |
+| Yearly (all) | 12% | 8 |
+
+### Volatility clusters by regime
+
+The data shows three regimes with different volatility profiles:
+
+- **Gold standard era** (~1870–1914): low nominal volatility, sudden large breaks
+- **Bretton Woods** (1944–1971): artificially suppressed vol, then explosive devaluations
+- **Free float** (1971–present): higher day-to-day vol but fewer catastrophic jumps
+
+The IRR regime data confirms this — countries classified as "freely falling" or "dual market" align with the biggest tail events.
+
+### The peg paradox
+
+Currencies with the lowest daily volatility (HKD at 3.2%, CNY at 8.2%) have some of the **highest** excess kurtosis (261 and 3846). Pegs compress the distribution most of the time but produce massive outliers when they break. This is the classic problem with using volatility as a risk measure — it underestimates the probability of extreme moves in managed currencies.
+
+### Implications
+
+The data strongly supports modeling FX returns with fat-tailed distributions (stable, Student-t, or power-law) rather than Gaussian. Standard VaR and options pricing models systematically underestimate tail risk in currency markets.
+
 ```
                      1100   1200   1300   1400   1500   1600   1700   1800   1900   2000
 MEMDB Spufford       ███████████████████████████████
