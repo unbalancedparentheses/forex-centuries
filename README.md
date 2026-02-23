@@ -152,6 +152,27 @@ All 23 FRED daily series converted to a common convention: **foreign currency un
 | `yearly_volatility_stats.csv` | Mean, vol, excess kurtosis, skew, max/min for 41 currencies |
 | `daily_volatility_stats.csv` | Same at daily frequency + 3-sigma tail event counts |
 
+## Data Inventory
+
+| Directory | Source | Files | Rows | Period |
+|-----------|--------|------:|-----:|--------|
+| `sources/memdb/` | MEMDB Spufford | 1 | 13,197 | 1106–1500 |
+| `sources/memdb/` | MEMDB Metz | 1 | 50,559 | 1350–1800 |
+| `sources/clio_infra/` | Clio Infra | 15 | ~3K rows/file | 1500–2016 |
+| `sources/measuringworth/` | MeasuringWorth | 1 | 235 | 1791–2025 |
+| `sources/imf/` | IMF IFS | 1 | 158,518 | 1955–2025 |
+| `sources/bis/` | BIS | 2 | 2,664,238 | 1957–2026 |
+| `sources/fred/` | FRED | 25 | ~14K/file | 1971–2025 |
+| `sources/riksbank/` | Sveriges Riksbank | 1 | 295,018 | 1900–2026 |
+| `sources/worldbank/` | World Bank | 1 | — | 1960–present |
+| `sources/irr/` | Ilzetzki-Reinhart-Rogoff | 7 | — | 1940–2021 |
+| `sources/jst/` | Jorda-Schularick-Taylor | 1 | 2,718 | 1870–2017 |
+| `sources/boe/` | Bank of England | 1 | — | 1791–2016 |
+| `sources/gmd/` | Global Macro Database | 1 | 56,850 | 1960–2024 |
+| `derived/normalized/` | Derived | 2 | 271,228 | 1971–2025 |
+| `derived/analysis/` | Derived | 4 | 271,205 | 1791–2025 |
+| **Total** | **12 sources** | **65** | | **1106–2026** |
+
 ## Key Finding: Fat Tails
 
 Every currency pair exhibits excess kurtosis. Daily 3-sigma events occur **3–6x more often** than Gaussian predictions:
