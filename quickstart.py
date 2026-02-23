@@ -4,7 +4,6 @@ Load and explore historical exchange rate data spanning 1106-2026.
 """
 
 import csv
-import os
 from pathlib import Path
 
 DATA = Path(__file__).parent / "data"

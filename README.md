@@ -1,6 +1,6 @@
 # forex-centuries
 
-Historical foreign exchange rate data spanning nine centuries (1106–2026), assembled for volatility research. 12 sources, 65 files, ~240 countries.
+Historical foreign exchange rate data spanning nine centuries (1106–2026), assembled for volatility research. 13 sources, 73 files, ~240 countries.
 
 Related project: [fatcrash](https://github.com/unbalancedparentheses/fatcrash) — crash detection via fat-tail statistics (LPPLS, EVT, Hill estimator, Kappa).
 
@@ -12,7 +12,7 @@ Every single currency pair — across all time scales and all centuries — show
 
 **Daily (1971–2025, 23 currencies):** 3-sigma events happen **3–6x more often** than a normal distribution predicts. Even the most "stable" pair (EUR/USD, excess kurtosis 2.5) has 4x too many tail events. Pegged and managed currencies (HKD, CNY, LKR) show the **highest** kurtosis — the peg suppresses daily moves but creates catastrophic jumps when it breaks.
 
-**Yearly (1791–2025, 41 currencies):** Germany's Weimar hyperinflation produces kurtosis of 36.8 (a single year, 1923, saw a 16x log move). Latin American currencies (Mexico 82, Argentina 19, Brazil 13) show the fattest tails from repeated devaluations and redenominations. Even the UK, with 234 years of data, has excess kurtosis of 5.1.
+**Yearly (1791–2025, 40 currencies):** Germany's Weimar hyperinflation produces kurtosis of 36.8 (a single year, 1923, saw a 16x log move). Latin American currencies (Mexico 82, Argentina 19, Brazil 13) show the fattest tails from repeated devaluations and redenominations. Even the UK, with 234 years of data, has excess kurtosis of 5.1.
 
 | Currency | Ann Vol | Excess Kurtosis | Tail Ratio |
 |----------|---------|-----------------|------------|
@@ -104,7 +104,7 @@ data/
 ├── sources/           # Raw data organized by provider
 │   ├── memdb/         # Medieval exchange rates (1106–1800)
 │   ├── clio_infra/    # Exchange rates, inflation, bonds, debt, GDP (1500–2016)
-│   ├── measuringworth/# 41 currencies vs USD (1791–2025)
+│   ├── measuringworth/# 40 currencies vs USD (1791–2025)
 │   ├── imf/           # 168 currencies, monthly (1955–2025)
 │   ├── bis/           # Bilateral + effective rates, ~190 economies (1957–2026)
 │   ├── fred/          # 23 daily pairs + 2 USD indices (1971–2025)
@@ -149,7 +149,7 @@ Project led by Jan Luiten van Zanden (Utrecht / IISH Amsterdam). Based on Denzel
 
 ### `sources/measuringworth/`
 
-41 currencies vs USD, yearly. UK from 1791, Spain from 1850, many European currencies from 1913. Plus annual gold prices (1257–2025) with British official, London market, New York market, US official, and gold/silver ratio series. Compiled by Lawrence H. Officer and Samuel H. Williamson.
+40 currencies vs USD, yearly. UK from 1791, Spain from 1850, many European currencies from 1913. Plus annual gold prices (1257–2025) with British official, London market, New York market, US official, and gold/silver ratio series. Compiled by Lawrence H. Officer and Samuel H. Williamson.
 
 - `measuringworth_exchange_rates.csv`
 - `measuringworth_gold_prices.csv` — 6 gold price series spanning 769 years
@@ -246,9 +246,9 @@ UK-focused: $/£ from 1791, monthly bilateral rates from 1963, effective exchang
 
 | File | Description |
 |------|-------------|
-| `yearly_log_returns.csv` | Annual log returns for 41 currencies (1791–2025) |
+| `yearly_log_returns.csv` | Annual log returns for 40 currencies (1791–2025) |
 | `daily_log_returns.csv` | Daily log returns for 23 currencies (1971–2025), 271K obs |
-| `yearly_volatility_stats.csv` | Mean, vol, excess kurtosis, skew, max/min for 41 currencies |
+| `yearly_volatility_stats.csv` | Mean, vol, excess kurtosis, skew, max/min for 40 currencies |
 | `daily_volatility_stats.csv` | Same at daily frequency + 3-sigma tail event counts |
 | `monthly_gold_inflation.csv` | Monthly gold inflation, purchasing power, cumulative debasement (174 currencies, 1940-2025) |
 | `yearly_gold_inflation.csv` | Yearly gold inflation, purchasing power, CPI comparison, cumulative debasement (243 countries, 1257-2025) |
@@ -261,7 +261,7 @@ UK-focused: $/£ from 1791, monthly bilateral rates from 1963, effective exchang
 |-----------|--------|------:|-----:|--------|
 | `sources/memdb/` | MEMDB Spufford | 1 | 13,197 | 1106–1500 |
 | `sources/memdb/` | MEMDB Metz | 1 | 50,559 | 1350–1800 |
-| `sources/clio_infra/` | Clio Infra | 15 | ~3K rows/file | 1500–2016 |
+| `sources/clio_infra/` | Clio Infra | 14 | ~3K rows/file | 1500–2016 |
 | `sources/measuringworth/` | MeasuringWorth | 2 | 1,004 | 1257–2025 |
 | `sources/imf/` | IMF IFS | 1 | 158,518 | 1955–2025 |
 | `sources/bis/` | BIS | 2 | 2,664,238 | 1957–2026 |
@@ -273,9 +273,9 @@ UK-focused: $/£ from 1791, monthly bilateral rates from 1963, effective exchang
 | `sources/boe/` | Bank of England | 1 | — | 1791–2016 |
 | `sources/gmd/` | Global Macro Database | 1 | 56,850 | 1960–2024 |
 | `sources/gold/` | DataHub gold prices | 1 | 2,311 | 1833–2025 |
-| `derived/normalized/` | Derived | 4 | 295,884 | 1500–2025 |
-| `derived/analysis/` | Derived | 4 | 271,205 | 1791–2025 |
-| **Total** | **13 sources** | **67** | | **1106–2026** |
+| `derived/normalized/` | Derived | 4 | 310,212 | 1500–2025 |
+| `derived/analysis/` | Derived | 8 | 417,034 | 1257–2025 |
+| **Total** | **13 sources** | **73** | | **1106–2026** |
 
 ## TODO
 

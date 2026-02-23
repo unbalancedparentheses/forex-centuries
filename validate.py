@@ -220,6 +220,41 @@ def check_cross_source_consistency():
         ok(f"MW vs CI: all {len(merged)} overlapping values within 10%")
 
 
+def check_gold_files():
+    """Validate gold inflation files."""
+    print("\n[Gold inflation validation]")
+
+    path = DERIVED / "analysis/yearly_gold_inflation.csv"
+    if check_file_exists(path):
+        df = pd.read_csv(path)
+        expected = ["year", "decade", "country", "gold_local", "grams_per_100",
+                    "gold_inflation_pct", "gold_log_return",
+                    "cpi_inflation_pct", "gold_vs_cpi_gap_pct",
+                    "cumulative_retained_pct", "base_year"]
+        if list(df.columns) != expected:
+            error(f"yearly_gold_inflation.csv: wrong columns")
+        else:
+            ok(f"yearly_gold_inflation.csv: columns match ({len(df):,} rows, "
+               f"{df['country'].nunique()} countries)")
+        neg = df[df["gold_local"] <= 0]
+        if len(neg) > 0:
+            warn(f"yearly_gold_inflation.csv: {len(neg)} zero/negative gold prices "
+                 f"(redenominated currencies with zero exchange rates in source data)")
+
+    path = DERIVED / "analysis/monthly_gold_inflation.csv"
+    if check_file_exists(path):
+        df = pd.read_csv(path)
+        expected = ["year_month", "currency", "source", "rate_per_usd", "gold_usd",
+                    "gold_local", "grams_per_100", "gold_inflation_mom_pct",
+                    "gold_log_return", "gold_inflation_yoy_pct",
+                    "cumulative_retained_pct"]
+        if list(df.columns) != expected:
+            error(f"monthly_gold_inflation.csv: wrong columns")
+        else:
+            ok(f"monthly_gold_inflation.csv: columns match ({len(df):,} rows, "
+               f"{df['currency'].nunique()} currencies)")
+
+
 def check_completeness():
     """Check that expected currencies/countries appear."""
     print("\n[Completeness check]")
@@ -251,6 +286,7 @@ def main():
     check_missing_values()
     check_outliers()
     check_cross_source_consistency()
+    check_gold_files()
     check_completeness()
 
     print(f"\n{'=' * 50}")

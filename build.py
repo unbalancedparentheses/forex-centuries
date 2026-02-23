@@ -71,7 +71,7 @@ def build_yearly_panel():
     ci["source"] = "CI"
 
     print("  Loading GMD...")
-    gmd = pd.read_csv(SOURCES / "gmd" / "gmd_exchange_rates.csv")
+    gmd = pd.read_csv(SOURCES / "gmd" / "gmd_exchange_rates.csv", index_col=0)
     gmd = gmd.rename(columns={"countryname": "country", "USDfx": "rate_per_usd"})
     gmd = gmd.dropna(subset=["year", "rate_per_usd"])
     gmd["year"] = gmd["year"].astype(int)
@@ -212,26 +212,165 @@ def build_correlations(daily_ret, yearly_ret):
           f"({n_valid} valid pairs)")
 
 
+TROY_OZ_GRAMS = 31.1035
+
+
+def build_gold_inflation(daily_long):
+    """Compute gold inflation in local currency at yearly and monthly granularity."""
+    # --- Yearly gold inflation ---
+    print("  Computing yearly gold inflation...")
+    gold_raw = pd.read_csv(SOURCES / "measuringworth" / "measuringworth_gold_prices.csv")
+    gold_raw["year"] = gold_raw["year"].astype(int)
+
+    gold_usd = gold_raw[["year", "new_york_market_usd", "us_official_usd"]].copy()
+    gold_usd["gold_usd"] = gold_usd["new_york_market_usd"].fillna(gold_usd["us_official_usd"])
+    gold_usd = gold_usd[["year", "gold_usd"]].dropna()
+
+    gold_gbp = gold_raw[["year", "british_official_gbp"]].dropna()
+    gold_gbp = gold_gbp.rename(columns={"british_official_gbp": "gold_gbp"})
+
+    panel = pd.read_csv(NORM / "yearly_unified_panel.csv")
+
+    ci_gbp = pd.read_csv(SOURCES / "clio_infra" / "clio_infra_exchange_rates_gbp.csv")
+    ci_gbp_long = ci_gbp.melt(id_vars=["year"], var_name="country", value_name="rate_per_gbp")
+    ci_gbp_long = ci_gbp_long.dropna(subset=["rate_per_gbp"])
+    ci_gbp_long["year"] = ci_gbp_long["year"].astype(int)
+
+    cpi = pd.read_csv(SOURCES / "clio_infra" / "clio_infra_inflation.csv")
+    cpi_long = cpi.melt(id_vars=["year"], var_name="country", value_name="cpi_inflation_pct")
+    cpi_long = cpi_long.dropna(subset=["cpi_inflation_pct"])
+    cpi_long["year"] = cpi_long["year"].astype(int)
+
+    # Gold in local currency via USD rates
+    usd_based = panel.merge(gold_usd, on="year", how="inner")
+    usd_based["gold_local"] = usd_based["gold_usd"] * usd_based["rate_per_usd"]
+
+    # UK direct from GBP gold
+    uk_gbp = gold_gbp.copy()
+    uk_gbp["country"] = "United Kingdom"
+    uk_gbp["gold_local"] = uk_gbp["gold_gbp"]
+
+    # Pre-1791 via GBP exchange rates
+    pre_1791 = ci_gbp_long[ci_gbp_long["year"] < 1791].merge(gold_gbp, on="year", how="inner")
+    pre_1791["gold_local"] = pre_1791["gold_gbp"] * pre_1791["rate_per_gbp"]
+
+    all_gold = pd.concat([
+        usd_based[["year", "country", "gold_local"]],
+        uk_gbp[["year", "country", "gold_local"]],
+        pre_1791[["year", "country", "gold_local"]],
+    ], ignore_index=True)
+    all_gold = all_gold.sort_values(["country", "year"]).drop_duplicates(
+        subset=["year", "country"], keep="first")
+
+    all_gold["gold_local_prev"] = all_gold.groupby("country")["gold_local"].shift(1)
+    all_gold["gold_inflation_pct"] = ((all_gold["gold_local"] / all_gold["gold_local_prev"]) - 1) * 100
+    all_gold["gold_log_return"] = np.log(all_gold["gold_local"] / all_gold["gold_local_prev"])
+    all_gold["grams_per_100"] = (100.0 / all_gold["gold_local"]) * TROY_OZ_GRAMS
+    all_gold["base_gold"] = all_gold.groupby("country")["gold_local"].transform("first")
+    all_gold["base_year"] = all_gold.groupby("country")["year"].transform("first")
+    all_gold["cumulative_retained_pct"] = (all_gold["base_gold"] / all_gold["gold_local"]) * 100
+    all_gold["decade"] = (all_gold["year"] // 10) * 10
+
+    yearly = all_gold.merge(cpi_long, on=["year", "country"], how="left")
+    yearly["gold_vs_cpi_gap_pct"] = yearly["gold_inflation_pct"] - yearly["cpi_inflation_pct"]
+
+    yearly_out = yearly[["year", "decade", "country", "gold_local", "grams_per_100",
+                          "gold_inflation_pct", "gold_log_return",
+                          "cpi_inflation_pct", "gold_vs_cpi_gap_pct",
+                          "cumulative_retained_pct", "base_year"]].copy()
+    yearly_out = yearly_out.sort_values(["year", "country"]).reset_index(drop=True)
+    for c in ["gold_local", "grams_per_100"]:
+        yearly_out[c] = yearly_out[c].round(4)
+    for c in ["gold_inflation_pct", "gold_log_return", "cpi_inflation_pct",
+              "gold_vs_cpi_gap_pct", "cumulative_retained_pct"]:
+        yearly_out[c] = yearly_out[c].round(4)
+    yearly_out["base_year"] = yearly_out["base_year"].astype(int)
+
+    yearly_out.to_csv(ANALYSIS / "yearly_gold_inflation.csv", index=False)
+    print(f"    yearly_gold_inflation.csv: {len(yearly_out):,} rows, "
+          f"{yearly_out['country'].nunique()} countries")
+
+    # --- Monthly gold inflation ---
+    print("  Computing monthly gold inflation...")
+    gold_monthly = pd.read_csv(SOURCES / "gold" / "gold_monthly_usd.csv")
+    gold_monthly["date"] = pd.to_datetime(gold_monthly["Date"])
+    gold_monthly["year_month"] = gold_monthly["date"].dt.to_period("M")
+    gold_monthly = gold_monthly.rename(columns={"Price": "gold_usd"})[["year_month", "gold_usd"]]
+
+    # FRED daily -> monthly averages
+    daily = daily_long.copy()
+    daily["date"] = pd.to_datetime(daily["date"])
+    daily["year_month"] = daily["date"].dt.to_period("M")
+    monthly_fx = daily.groupby(["year_month", "currency"])["rate_per_usd"].mean().reset_index()
+    monthly_fx["source"] = "FRED"
+
+    # IMF monthly
+    imf = pd.read_csv(SOURCES / "imf" / "imf_exchange_rates.csv")
+    imf["date"] = pd.to_datetime(imf["Date"])
+    imf["year_month"] = imf["date"].dt.to_period("M")
+    imf["Rate"] = pd.to_numeric(imf["Rate"], errors="coerce")
+    imf = imf.dropna(subset=["Rate"])
+    imf_monthly = imf.groupby(["year_month", imf["Currency"]])["Rate"].mean().reset_index()
+    imf_monthly.columns = ["year_month", "currency", "rate_per_usd"]
+    imf_monthly["source"] = "IMF"
+
+    all_fx = pd.concat([monthly_fx, imf_monthly], ignore_index=True)
+    all_fx = all_fx.sort_values(["source"]).drop_duplicates(
+        subset=["year_month", "currency"], keep="first")
+
+    merged = all_fx.merge(gold_monthly, on="year_month", how="inner")
+    merged["gold_local"] = merged["gold_usd"] * merged["rate_per_usd"]
+    merged["grams_per_100"] = (100.0 / merged["gold_local"]) * TROY_OZ_GRAMS
+
+    merged = merged.sort_values(["currency", "year_month"])
+    merged["gold_local_prev"] = merged.groupby("currency")["gold_local"].shift(1)
+    merged["gold_inflation_mom_pct"] = ((merged["gold_local"] / merged["gold_local_prev"]) - 1) * 100
+    merged["gold_log_return"] = np.log(merged["gold_local"] / merged["gold_local_prev"])
+    merged["gold_local_12m"] = merged.groupby("currency")["gold_local"].shift(12)
+    merged["gold_inflation_yoy_pct"] = ((merged["gold_local"] / merged["gold_local_12m"]) - 1) * 100
+    merged["base_gold"] = merged.groupby("currency")["gold_local"].transform("first")
+    merged["cumulative_retained_pct"] = (merged["base_gold"] / merged["gold_local"]) * 100
+
+    monthly_out = merged[["year_month", "currency", "source", "rate_per_usd", "gold_usd",
+                           "gold_local", "grams_per_100", "gold_inflation_mom_pct",
+                           "gold_log_return", "gold_inflation_yoy_pct",
+                           "cumulative_retained_pct"]].copy()
+    monthly_out["year_month"] = monthly_out["year_month"].astype(str)
+    monthly_out = monthly_out.sort_values(["year_month", "currency"]).reset_index(drop=True)
+    for c in ["rate_per_usd", "gold_usd", "gold_local", "grams_per_100"]:
+        monthly_out[c] = monthly_out[c].round(4)
+    for c in ["gold_inflation_mom_pct", "gold_log_return", "gold_inflation_yoy_pct",
+              "cumulative_retained_pct"]:
+        monthly_out[c] = monthly_out[c].round(4)
+
+    monthly_out.to_csv(ANALYSIS / "monthly_gold_inflation.csv", index=False)
+    print(f"    monthly_gold_inflation.csv: {len(monthly_out):,} rows, "
+          f"{monthly_out['currency'].nunique()} currencies")
+
+
 def main():
     print("forex-centuries build pipeline\n")
 
     NORM.mkdir(parents=True, exist_ok=True)
     ANALYSIS.mkdir(parents=True, exist_ok=True)
 
-    print("[1/5] FRED daily normalization")
+    print("[1/6] FRED daily normalization")
     daily_long = build_fred_daily()
 
-    print("\n[2/5] Yearly unified panel")
+    print("\n[2/6] Yearly unified panel")
     build_yearly_panel()
 
-    print("\n[3/5] Log returns")
+    print("\n[3/6] Log returns")
     daily_ret, yearly_ret = build_log_returns(daily_long)
 
-    print("\n[4/5] Volatility statistics")
+    print("\n[4/6] Volatility statistics")
     build_volatility_stats(daily_ret, yearly_ret)
 
-    print("\n[5/5] Correlation matrices")
+    print("\n[5/6] Correlation matrices")
     build_correlations(daily_ret, yearly_ret)
+
+    print("\n[6/6] Gold inflation")
+    build_gold_inflation(daily_long)
 
     print("\nDone. All derived files regenerated.")
 

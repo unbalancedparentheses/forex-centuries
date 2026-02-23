@@ -230,14 +230,14 @@ All FRED pairs normalized to the same convention. GBP, EUR, AUD, NZD inverted fr
 
 Same data pivoted: `date` column + one column per currency. Empty cells = no data for that date.
 
-### `derived/normalized/yearly_unified_panel.csv` (12,475 rows)
+### `derived/normalized/yearly_unified_panel.csv` (24,656 rows)
 
 | Column | Description |
 |--------|-------------|
 | year | Year |
 | country | Country name |
 | rate_per_usd | Foreign currency units per 1 USD |
-| source | MW (MeasuringWorth) or CI (Clio Infra) |
+| source | MW (MeasuringWorth), CI (Clio Infra), or GMD (Global Macro Database) |
 
 Merged yearly panel: MeasuringWorth preferred, then Clio Infra, then Global Macro Database. 243 countries, 1500–2025. GMD projections (2026–2029) excluded.
 

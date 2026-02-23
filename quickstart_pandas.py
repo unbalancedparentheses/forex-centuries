@@ -123,7 +123,6 @@ if __name__ == "__main__":
           f"({daily.index.min().date()} to {daily.index.max().date()})")
 
     # Log returns and vol
-    log_ret = daily.pct_change().apply(lambda x: x.dropna())
     print(f"\nAnnualized vol (last 5 years):")
     recent = daily.loc["2020":].pct_change().std() * (252 ** 0.5)
     print(recent.sort_values(ascending=False).head(10).to_string())
