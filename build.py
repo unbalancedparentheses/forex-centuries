@@ -7,6 +7,7 @@ Usage: python build.py
 
 import numpy as np
 import pandas as pd
+from datetime import date
 from pathlib import Path
 from scipy.stats import kurtosis, skew, norm
 
@@ -23,14 +24,30 @@ INVERT = {"GBP", "EUR", "AUD", "NZD"}
 SKIP_FILES = {"fred_usd_broad_index.csv", "fred_usd_major_index.csv"}
 
 
+def _round_and_write(df, path, precision_4=(), precision_6=()):
+    """Round specified columns and write CSV."""
+    for c in precision_4:
+        df[c] = df[c].round(4)
+    for c in precision_6:
+        df[c] = df[c].round(6)
+    df.to_csv(path, index=False)
+
+
 def build_fred_daily():
     """Normalize all FRED daily CSVs to foreign-per-USD convention."""
     print("  Loading FRED daily files...")
+    fred_dir = SOURCES / "fred" / "daily"
+    if not fred_dir.exists():
+        raise FileNotFoundError(f"FRED source directory missing: {fred_dir}")
     frames = []
-    for f in sorted((SOURCES / "fred" / "daily").glob("fred_*.csv")):
+    for f in sorted(fred_dir.glob("fred_*.csv")):
         if f.name in SKIP_FILES:
             continue
-        currency = f.stem.split("_")[1].upper()
+        parts = f.stem.split("_")
+        if len(parts) < 2:
+            print(f"    Skipping malformed filename: {f.name}")
+            continue
+        currency = parts[1].upper()
         df = pd.read_csv(f, na_values=["."])
         df.columns = ["date", "rate"]
         df["rate"] = pd.to_numeric(df["rate"], errors="coerce")
@@ -75,7 +92,7 @@ def build_yearly_panel():
     gmd = gmd.rename(columns={"countryname": "country", "USDfx": "rate_per_usd"})
     gmd = gmd.dropna(subset=["year", "rate_per_usd"])
     gmd["year"] = gmd["year"].astype(int)
-    gmd = gmd[gmd["year"] <= 2025]
+    gmd = gmd[gmd["year"] <= date.today().year]
     gmd = gmd[["year", "country", "rate_per_usd"]]
     gmd["source"] = "GMD"
 
@@ -147,10 +164,10 @@ def build_volatility_stats(daily_ret, yearly_ret):
         r = group["log_return"].values
         n = len(r)
         daily_vol = r.std(ddof=1)
-        ann_vol = daily_vol * np.sqrt(252)
-        threshold = 3 * daily_vol
+        ann_vol = daily_vol * np.sqrt(TRADING_DAYS_PER_YEAR)
+        threshold = TAIL_SIGMA_THRESHOLD * daily_vol
         tail_events = int(np.sum(np.abs(r) > threshold))
-        expected = n * 2 * norm.sf(3)
+        expected = n * 2 * norm.sf(TAIL_SIGMA_THRESHOLD)
 
         daily_stats.append({
             "currency": currency,
@@ -177,10 +194,11 @@ def build_volatility_stats(daily_ret, yearly_ret):
     print("  Computing yearly volatility stats...")
     yearly_stats = []
     for country in yearly_ret.columns:
-        r = yearly_ret[country].dropna().values
+        clean = yearly_ret[country].dropna()
+        r = clean.values
         if len(r) < 3:
             continue
-        years = yearly_ret[country].dropna().index.values
+        years = clean.index.values
 
         yearly_stats.append({
             "country": country,
@@ -210,7 +228,7 @@ def build_correlations(daily_ret, yearly_ret):
     print(f"    daily_correlation_matrix.csv: {daily_corr.shape[0]}x{daily_corr.shape[1]}")
 
     print("  Computing yearly correlation matrix...")
-    yearly_corr = yearly_ret.corr(min_periods=30)
+    yearly_corr = yearly_ret.corr(min_periods=MIN_OVERLAP_YEARS)
     yearly_corr.to_csv(ANALYSIS / "yearly_correlation_matrix.csv")
     n_valid = yearly_corr.notna().sum().sum() - len(yearly_corr)
     print(f"    yearly_correlation_matrix.csv: {yearly_corr.shape[0]}x{yearly_corr.shape[1]} "
@@ -218,6 +236,26 @@ def build_correlations(daily_ret, yearly_ret):
 
 
 TROY_OZ_GRAMS = 31.1035
+TRADING_DAYS_PER_YEAR = 252
+TAIL_SIGMA_THRESHOLD = 3
+MIN_OVERLAP_YEARS = 30
+MIN_REGIME_OBSERVATIONS = 10
+
+
+def _safe_pct_change(current, previous):
+    """Percentage change that returns NaN instead of inf for zero/NaN rates."""
+    mask = (previous > 0) & (current > 0) & previous.notna()
+    result = pd.Series(np.nan, index=current.index)
+    result[mask] = ((current[mask] / previous[mask]) - 1) * 100
+    return result
+
+
+def _safe_log_return(current, previous):
+    """Log return that returns NaN instead of -inf for zero/NaN rates."""
+    mask = (previous > 0) & (current > 0) & previous.notna()
+    result = pd.Series(np.nan, index=current.index)
+    result[mask] = np.log(current[mask] / previous[mask])
+    return result
 
 
 def build_rolling_volatility(daily_long):
@@ -227,7 +265,7 @@ def build_rolling_volatility(daily_long):
     wide.index = pd.to_datetime(wide.index)
     log_ret = np.log(wide / wide.shift(1))
 
-    rolling = log_ret.rolling(252).std() * np.sqrt(252)
+    rolling = log_ret.rolling(TRADING_DAYS_PER_YEAR).std() * np.sqrt(TRADING_DAYS_PER_YEAR)
     rolling = rolling.dropna(how="all")
 
     # Long format
@@ -259,7 +297,7 @@ COARSE_LABELS = {
 }
 
 
-def build_regime_analysis():
+def build_regime_analysis(yearly_ret=None):
     """Parse IRR fine regime data and compute regime-conditional statistics."""
     print("  Parsing IRR fine regime data...")
     # The fine CSV has actual numeric values (unlike coarse which has Excel formulas).
@@ -300,6 +338,8 @@ def build_regime_analysis():
                 continue
             coarse = FINE_TO_COARSE.get(fine)
             if coarse is None:
+                print(f"    Warning: unmapped fine regime code {fine} "
+                      f"for {country} in {month}")
                 continue
             records.append({
                 "year": year,
@@ -314,8 +354,10 @@ def build_regime_analysis():
 
     # Aggregate to yearly (modal regime per country-year)
     yearly_regime = (regime_df.groupby(["year", "country"])["coarse_regime"]
-                     .agg(lambda x: x.mode().iloc[0])
+                     .agg(lambda x: x.mode().iloc[0] if not x.mode().empty else np.nan)
                      .reset_index())
+    yearly_regime = yearly_regime.dropna(subset=["coarse_regime"])
+    yearly_regime["coarse_regime"] = yearly_regime["coarse_regime"].astype(int)
     yearly_regime["regime_label"] = yearly_regime["coarse_regime"].map(COARSE_LABELS)
 
     yearly_regime.to_csv(ANALYSIS / "yearly_regime_classification.csv", index=False)
@@ -324,11 +366,12 @@ def build_regime_analysis():
 
     # Compute regime-conditional volatility stats using yearly log returns
     print("  Computing regime-conditional statistics...")
-    try:
-        yearly_ret = pd.read_csv(ANALYSIS / "yearly_log_returns.csv", index_col="year")
-    except FileNotFoundError:
-        print("    Skipping: yearly_log_returns.csv not found")
-        return
+    if yearly_ret is None:
+        try:
+            yearly_ret = pd.read_csv(ANALYSIS / "yearly_log_returns.csv", index_col="year")
+        except FileNotFoundError:
+            print("    Skipping: yearly_log_returns.csv not found")
+            return
 
     ret_long = yearly_ret.reset_index().melt(
         id_vars=["year"], var_name="country", value_name="log_return")
@@ -339,7 +382,7 @@ def build_regime_analysis():
     stats = []
     for label, grp in merged.groupby("regime_label"):
         r = grp["log_return"].values
-        if len(r) < 10:
+        if len(r) < MIN_REGIME_OBSERVATIONS:
             continue
         stats.append({
             "regime": label,
@@ -360,9 +403,8 @@ def build_regime_analysis():
     return yearly_regime
 
 
-def build_gold_inflation(daily_long, panel):
-    """Compute gold inflation in local currency at yearly and monthly granularity."""
-    # --- Yearly gold inflation ---
+def _build_yearly_gold(panel):
+    """Compute yearly gold inflation in local currency."""
     print("  Computing yearly gold inflation...")
     gold_raw = pd.read_csv(SOURCES / "measuringworth" / "measuringworth_gold_prices.csv")
     gold_raw["year"] = gold_raw["year"].astype(int)
@@ -397,21 +439,31 @@ def build_gold_inflation(daily_long, panel):
     pre_1791 = ci_gbp_long[ci_gbp_long["year"] < 1791].merge(gold_gbp, on="year", how="inner")
     pre_1791["gold_local"] = pre_1791["gold_gbp"] * pre_1791["rate_per_gbp"]
 
+    # Priority: direct GBP measurements > GBP cross-rates > USD-based.
+    # Concat order matters: keep="first" retains the earliest entry per (year, country).
     all_gold = pd.concat([
-        usd_based[["year", "country", "gold_local"]],
         uk_gbp[["year", "country", "gold_local"]],
         pre_1791[["year", "country", "gold_local"]],
+        usd_based[["year", "country", "gold_local"]],
     ], ignore_index=True)
     all_gold = all_gold.sort_values(["country", "year"]).drop_duplicates(
         subset=["year", "country"], keep="first")
 
     all_gold["gold_local_prev"] = all_gold.groupby("country")["gold_local"].shift(1)
-    all_gold["gold_inflation_pct"] = ((all_gold["gold_local"] / all_gold["gold_local_prev"]) - 1) * 100
-    all_gold["gold_log_return"] = np.log(all_gold["gold_local"] / all_gold["gold_local_prev"])
-    all_gold["grams_per_100"] = (100.0 / all_gold["gold_local"]) * TROY_OZ_GRAMS
+    all_gold["gold_inflation_pct"] = _safe_pct_change(all_gold["gold_local"], all_gold["gold_local_prev"])
+    all_gold["gold_log_return"] = _safe_log_return(all_gold["gold_local"], all_gold["gold_local_prev"])
+    all_gold["grams_per_100"] = np.where(
+        all_gold["gold_local"] > 0,
+        (100.0 / all_gold["gold_local"]) * TROY_OZ_GRAMS,
+        np.nan,
+    )
     all_gold["base_gold"] = all_gold.groupby("country")["gold_local"].transform("first")
     all_gold["base_year"] = all_gold.groupby("country")["year"].transform("first")
-    all_gold["cumulative_retained_pct"] = (all_gold["base_gold"] / all_gold["gold_local"]) * 100
+    all_gold["cumulative_retained_pct"] = np.where(
+        all_gold["gold_local"] > 0,
+        (all_gold["base_gold"] / all_gold["gold_local"]) * 100,
+        np.nan,
+    )
     all_gold["decade"] = (all_gold["year"] // 10) * 10
 
     yearly = all_gold.merge(cpi_long, on=["year", "country"], how="left")
@@ -422,18 +474,17 @@ def build_gold_inflation(daily_long, panel):
                           "cpi_inflation_pct", "gold_vs_cpi_gap_pct",
                           "cumulative_retained_pct", "base_year"]].copy()
     yearly_out = yearly_out.sort_values(["year", "country"]).reset_index(drop=True)
-    for c in ["gold_local", "grams_per_100"]:
-        yearly_out[c] = yearly_out[c].round(4)
-    for c in ["gold_inflation_pct", "gold_log_return", "cpi_inflation_pct",
-              "gold_vs_cpi_gap_pct", "cumulative_retained_pct"]:
-        yearly_out[c] = yearly_out[c].round(4)
     yearly_out["base_year"] = yearly_out["base_year"].astype(int)
-
-    yearly_out.to_csv(ANALYSIS / "yearly_gold_inflation.csv", index=False)
+    _round_and_write(yearly_out, ANALYSIS / "yearly_gold_inflation.csv",
+                     precision_4=["gold_local", "grams_per_100", "gold_inflation_pct",
+                                  "gold_log_return", "cpi_inflation_pct",
+                                  "gold_vs_cpi_gap_pct", "cumulative_retained_pct"])
     print(f"    yearly_gold_inflation.csv: {len(yearly_out):,} rows, "
           f"{yearly_out['country'].nunique()} countries")
 
-    # --- Monthly gold inflation ---
+
+def _build_monthly_gold(daily_long):
+    """Compute monthly gold inflation in local currency."""
     print("  Computing monthly gold inflation...")
     gold_monthly = pd.read_csv(SOURCES / "gold" / "gold_monthly_usd.csv")
     gold_monthly["date"] = pd.to_datetime(gold_monthly["Date"])
@@ -453,26 +504,42 @@ def build_gold_inflation(daily_long, panel):
     imf["year_month"] = imf["date"].dt.to_period("M")
     imf["Rate"] = pd.to_numeric(imf["Rate"], errors="coerce")
     imf = imf.dropna(subset=["Rate"])
-    imf_monthly = imf.groupby(["year_month", imf["Currency"]])["Rate"].mean().reset_index()
-    imf_monthly.columns = ["year_month", "currency", "rate_per_usd"]
+    imf_monthly = imf.groupby(["year_month", "Currency"])["Rate"].mean().reset_index()
+    imf_monthly = imf_monthly.rename(columns={"Currency": "currency", "Rate": "rate_per_usd"})
     imf_monthly["source"] = "IMF"
 
+    # Priority: FRED > IMF (explicit sort, not relying on alphabetical order)
+    fx_priority = {"FRED": 0, "IMF": 1}
     all_fx = pd.concat([monthly_fx, imf_monthly], ignore_index=True)
-    all_fx = all_fx.sort_values(["source"]).drop_duplicates(
-        subset=["year_month", "currency"], keep="first")
+    all_fx["_priority"] = all_fx["source"].map(fx_priority)
+    all_fx = all_fx.sort_values("_priority").drop_duplicates(
+        subset=["year_month", "currency"], keep="first").drop(columns=["_priority"])
 
     merged = all_fx.merge(gold_monthly, on="year_month", how="inner")
     merged["gold_local"] = merged["gold_usd"] * merged["rate_per_usd"]
-    merged["grams_per_100"] = (100.0 / merged["gold_local"]) * TROY_OZ_GRAMS
+    merged["grams_per_100"] = np.where(
+        merged["gold_local"] > 0,
+        (100.0 / merged["gold_local"]) * TROY_OZ_GRAMS,
+        np.nan,
+    )
 
     merged = merged.sort_values(["currency", "year_month"])
     merged["gold_local_prev"] = merged.groupby("currency")["gold_local"].shift(1)
-    merged["gold_inflation_mom_pct"] = ((merged["gold_local"] / merged["gold_local_prev"]) - 1) * 100
-    merged["gold_log_return"] = np.log(merged["gold_local"] / merged["gold_local_prev"])
-    merged["gold_local_12m"] = merged.groupby("currency")["gold_local"].shift(12)
-    merged["gold_inflation_yoy_pct"] = ((merged["gold_local"] / merged["gold_local_12m"]) - 1) * 100
+    merged["gold_inflation_mom_pct"] = _safe_pct_change(merged["gold_local"], merged["gold_local_prev"])
+    merged["gold_log_return"] = _safe_log_return(merged["gold_local"], merged["gold_local_prev"])
+    # YoY: join on (currency, year_month - 12 months) instead of row-based shift,
+    # so missing months don't corrupt the calculation.
+    merged["ym_12m_ago"] = merged["year_month"] - 12
+    yoy_lookup = merged[["currency", "year_month", "gold_local"]].rename(
+        columns={"year_month": "ym_12m_ago", "gold_local": "gold_local_12m"})
+    merged = merged.merge(yoy_lookup, on=["currency", "ym_12m_ago"], how="left")
+    merged["gold_inflation_yoy_pct"] = _safe_pct_change(merged["gold_local"], merged["gold_local_12m"])
     merged["base_gold"] = merged.groupby("currency")["gold_local"].transform("first")
-    merged["cumulative_retained_pct"] = (merged["base_gold"] / merged["gold_local"]) * 100
+    merged["cumulative_retained_pct"] = np.where(
+        merged["gold_local"] > 0,
+        (merged["base_gold"] / merged["gold_local"]) * 100,
+        np.nan,
+    )
 
     monthly_out = merged[["year_month", "currency", "source", "rate_per_usd", "gold_usd",
                            "gold_local", "grams_per_100", "gold_inflation_mom_pct",
@@ -480,15 +547,18 @@ def build_gold_inflation(daily_long, panel):
                            "cumulative_retained_pct"]].copy()
     monthly_out["year_month"] = monthly_out["year_month"].astype(str)
     monthly_out = monthly_out.sort_values(["year_month", "currency"]).reset_index(drop=True)
-    for c in ["rate_per_usd", "gold_usd", "gold_local", "grams_per_100"]:
-        monthly_out[c] = monthly_out[c].round(4)
-    for c in ["gold_inflation_mom_pct", "gold_log_return", "gold_inflation_yoy_pct",
-              "cumulative_retained_pct"]:
-        monthly_out[c] = monthly_out[c].round(4)
-
-    monthly_out.to_csv(ANALYSIS / "monthly_gold_inflation.csv", index=False)
+    _round_and_write(monthly_out, ANALYSIS / "monthly_gold_inflation.csv",
+                     precision_4=["rate_per_usd", "gold_usd", "gold_local", "grams_per_100",
+                                  "gold_inflation_mom_pct", "gold_log_return",
+                                  "gold_inflation_yoy_pct", "cumulative_retained_pct"])
     print(f"    monthly_gold_inflation.csv: {len(monthly_out):,} rows, "
           f"{monthly_out['currency'].nunique()} currencies")
+
+
+def build_gold_inflation(daily_long, panel):
+    """Compute gold inflation in local currency at yearly and monthly granularity."""
+    _build_yearly_gold(panel)
+    _build_monthly_gold(daily_long)
 
 
 def main():
@@ -516,7 +586,7 @@ def main():
     build_rolling_volatility(daily_long)
 
     print("\n[7/8] Regime analysis")
-    build_regime_analysis()
+    build_regime_analysis(yearly_ret)
 
     print("\n[8/8] Gold inflation")
     build_gold_inflation(daily_long, panel)

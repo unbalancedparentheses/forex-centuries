@@ -23,23 +23,23 @@ Every single currency pair — across all time scales and all centuries — show
 | BRL      | 15.6%   | 13.1            | 5.5x       |
 | KRW      | 10.8%   | 139.7           | 4.4x       |
 
+### The peg paradox
+
+Currencies with the lowest daily volatility (HKD at 3.2%, CNY at 8.2%) have some of the **highest** excess kurtosis (261 and 3846). Pegs compress the distribution most of the time but produce massive outliers when they break. This is the classic problem with using volatility as a risk measure — it underestimates the probability of extreme moves in managed currencies.
+
 ### Volatility clusters by regime
 
-The data shows three regimes with different volatility profiles:
+Three distinct regimes emerge from the data:
 
 - **Gold standard era** (~1870–1914): low nominal volatility, sudden large breaks
 - **Bretton Woods** (1944–1971): artificially suppressed vol, then explosive devaluations
 - **Free float** (1971–present): higher day-to-day vol but fewer catastrophic jumps
 
-The regime-conditional statistics (from `regime_conditional_stats.csv`) quantify this: freely falling currencies have annual volatility of 225% vs 10.8% for free-floating. Pegged currencies show excess kurtosis of 133 vs 0.8 for free float — confirming that pegs suppress daily volatility but produce catastrophic jumps. See `charts/regime_timeline.png`.
-
-### The peg paradox
-
-Currencies with the lowest daily volatility (HKD at 3.2%, CNY at 8.2%) have some of the **highest** excess kurtosis (261 and 3846). Pegs compress the distribution most of the time but produce massive outliers when they break. This is the classic problem with using volatility as a risk measure — it underestimates the probability of extreme moves in managed currencies.
+The regime-conditional statistics quantify this: freely falling currencies have annual volatility of 225% vs 10.8% for free-floating. Pegged currencies show excess kurtosis of 133 vs 0.8 for free float — confirming that pegs suppress daily volatility but produce catastrophic jumps.
 
 ### Cross-currency correlations
 
-Daily log-return correlations reveal geographic clustering: Scandinavian currencies (DKK, SEK, NOK) move together, as do Asian managed currencies (SGD, TWD, THB). European currencies are tightly correlated with each other but less with emerging market pairs. See `charts/correlation_heatmap.png` after running `python visualize.py`.
+Daily log-return correlations reveal geographic clustering: Scandinavian currencies (DKK, SEK, NOK) move together, as do Asian managed currencies (SGD, TWD, THB). European currencies are tightly correlated with each other but less with emerging market pairs.
 
 ### Implications
 
@@ -48,21 +48,13 @@ The data strongly supports modeling FX returns with fat-tailed distributions (st
 ## Quickstart
 
 ```bash
-# Dependencies (choose one)
+# 1. Install dependencies
 nix develop                      # Nix flake (recommended)
 pip install -r requirements.txt  # pip fallback
 
-# Explore the data
-python quickstart.py          # pure stdlib, no dependencies
-python quickstart_pandas.py   # pandas version
-
-# Reproduce derived data from sources
-python build.py               # regenerate data/derived/ from data/sources/
-python validate.py            # run data quality checks
-python visualize.py           # generate charts/ directory (7 PNGs)
-
-# Or use make
-make all                      # build + validate + visualize
+# 2. Explore the data
+python quickstart.py             # pure stdlib, no dependencies
+python quickstart_pandas.py      # pandas version
 ```
 
 ```
@@ -78,7 +70,71 @@ Daily: 13,802 dates x 23 currencies (1971-2025)
 Medieval: 13,197 Spufford (521 places) + 50,559 Metz records (29 places)
 ```
 
-See [SOURCES.md](SOURCES.md) for column schemas and quoting conventions.
+## Build pipeline
+
+All derived data and charts are reproducible from source files:
+
+```bash
+python build.py               # regenerate data/derived/ from data/sources/
+python validate.py            # run data quality checks (52 checks)
+python visualize.py           # generate charts/ (9 PNGs)
+
+make all                      # build + validate + visualize in one step
+```
+
+The 8-step build pipeline produces:
+1. FRED daily normalization (23 currencies, foreign-per-USD convention)
+2. Yearly unified panel (243 countries, MW > CI > GMD priority merge)
+3. Log returns (daily and yearly)
+4. Volatility statistics (kurtosis, tail events, 3-sigma counts)
+5. Correlation matrices (daily 23x23, yearly 40x40)
+6. Rolling volatility (252-day window)
+7. Regime analysis (IRR fine→coarse, regime-conditional stats)
+8. Gold inflation (yearly 243 countries since 1257, monthly 174 currencies)
+
+## Testing
+
+```bash
+pytest tests/ -v              # 13 unit tests for build pipeline correctness
+make test                     # same via make
+```
+
+Tests cover FRED inversion logic, source priority merge, log return formulas, tail event counting, regime mapping, gold calculations, and rolling window behavior — all using synthetic data with no network calls.
+
+## Interactive notebook
+
+```bash
+jupyter lab notebooks/exploration.ipynb
+```
+
+Seven sections: yearly panel, daily data, fat tails (histogram + QQ-plot), regime analysis, gold inflation, and medieval data. Each section loads the relevant dataset and produces inline charts.
+
+## Updating source data
+
+```bash
+python scripts/update_sources.py --gold   # refresh gold prices (no auth)
+python scripts/update_sources.py --imf    # refresh IMF rates (no auth)
+python scripts/update_sources.py --fred   # refresh FRED (needs FRED_API_KEY env var)
+python scripts/update_sources.py --all    # all of the above
+```
+
+FRED requires a free API key from [fred.stlouisfed.org](https://fred.stlouisfed.org/docs/api/api_key.html). Set it as `FRED_API_KEY` in your environment.
+
+## Charts
+
+`python visualize.py` generates 9 PNGs in `charts/`:
+
+| Chart | Description |
+|-------|-------------|
+| `fat_tails_histogram.png` | EUR/USD daily log returns vs fitted normal — shows excess density in the tails |
+| `peg_paradox.png` | Annualized volatility vs excess kurtosis — low-vol pegs cluster at extreme kurtosis |
+| `tail_ratio_bar.png` | Observed 3-sigma events / Gaussian expectation — every currency exceeds 1.0 |
+| `rolling_volatility.png` | 1-year rolling vol for GBP, JPY, CHF, EUR with Nixon shock, Lehman, COVID markers |
+| `correlation_heatmap.png` | Hierarchically clustered daily log-return correlations (23x23) |
+| `gold_erosion.png` | Cumulative gold purchasing power retained for USD, GBP, JPY, CHF, FRF, DEM, INR, CNY |
+| `regime_timeline.png` | Exchange rate regime (peg → free float → freely falling) for 25 countries, 1940–2019 |
+| `qq_daily.png` | QQ-plots for 6 daily currencies — tail deviation from the normal reference line |
+| `qq_regimes.png` | QQ-plots comparing peg vs free float vs freely falling return distributions |
 
 ## Coverage
 
@@ -100,169 +156,88 @@ GMD                                                                             
 FRED Daily                                                                             ████
 ```
 
-## Directory Structure
+## Project structure
 
 ```
-data/
-├── sources/           # Raw data organized by provider
-│   ├── memdb/         # Medieval exchange rates (1106–1800)
-│   ├── clio_infra/    # Exchange rates, inflation, bonds, debt, GDP (1500–2016)
-│   ├── measuringworth/# 40 currencies vs USD (1791–2025)
-│   ├── imf/           # 168 currencies, monthly (1955–2025)
-│   ├── bis/           # Bilateral + effective rates, ~190 economies (1957–2026)
-│   ├── fred/          # 23 daily pairs + 2 USD indices (1971–2025)
-│   ├── gold/          # Monthly gold prices USD (1833–2025)
-│   ├── riksbank/      # 53 SEK bilateral series (1900–2026)
-│   ├── worldbank/     # Official rates, all members (1960–present)
-│   ├── irr/           # Exchange rate regime classifications (1940–2021)
-│   ├── jst/           # Macrohistory: 18 countries, 59 variables (1870–2017)
-│   ├── boe/           # UK millennium dataset (1791–2016)
-│   └── gmd/           # 243 countries, USDfx + REER (1960–2024)
-└── derived/           # Computed from sources
-    ├── normalized/    # Unified panels and normalized FRED data
-    └── analysis/      # Log returns and volatility statistics
+forex-centuries/
+├── data/
+│   ├── sources/           # Raw data organized by provider (13 sources)
+│   │   ├── memdb/         # Medieval exchange rates (1106–1800)
+│   │   ├── clio_infra/    # Exchange rates, inflation, bonds, debt, GDP (1500–2016)
+│   │   ├── measuringworth/# 40 currencies vs USD + gold prices (1257–2025)
+│   │   ├── imf/           # 168 currencies, monthly (1955–2025)
+│   │   ├── bis/           # Bilateral + effective rates, ~190 economies (1957–2026)
+│   │   ├── fred/          # 23 daily pairs + 2 USD indices (1971–2025)
+│   │   ├── gold/          # Monthly gold prices USD (1833–2025)
+│   │   ├── riksbank/      # 53 SEK bilateral series (1900–2026)
+│   │   ├── worldbank/     # Official rates, all members (1960–present)
+│   │   ├── irr/           # Exchange rate regime classifications (1940–2021)
+│   │   ├── jst/           # Macrohistory: 18 countries, 59 variables (1870–2017)
+│   │   ├── boe/           # UK millennium dataset (1791–2016)
+│   │   └── gmd/           # 243 countries, USDfx + REER (1960–2024)
+│   └── derived/           # Computed by build.py
+│       ├── normalized/    # Unified panels (yearly 243 countries, daily 23 currencies)
+│       └── analysis/      # Log returns, volatility, correlations, regimes, gold
+├── charts/                # Generated by visualize.py (9 PNGs)
+├── notebooks/             # Jupyter exploration notebook
+├── scripts/               # Data update scripts
+├── tests/                 # Unit tests
+├── build.py               # 8-step ETL pipeline
+├── validate.py            # Data quality checks
+├── visualize.py           # Chart generation (9 PNGs)
+├── quickstart.py          # Explore data with pure stdlib
+└── quickstart_pandas.py   # Explore data with pandas
 ```
 
 ## Sources
 
-### `sources/memdb/` — Medieval Exchange Rates
+| Source | Description | Period | Files |
+|--------|-------------|--------|------:|
+| [MEMDB Spufford](https://memdb.libraries.rutgers.edu/spufford-currency) | Medieval exchange quotations: Europe, Byzantium, Levant, North Africa | 1106–1500 | 1 |
+| [MEMDB Metz](https://memdb.libraries.rutgers.edu/metz-currency) | Lower Rhine region and European comparison | 1350–1800 | 1 |
+| [Clio Infra](https://clio-infra.eu/) | Exchange rates (USD + GBP), inflation, bonds, debt, GDP | 1500–2016 | 14 |
+| [MeasuringWorth](https://www.measuringworth.com/datasets/exchangeglobal/) | 40 currencies vs USD + [gold prices](https://www.measuringworth.com/datasets/gold/) (769 years) | 1257–2025 | 2 |
+| [IMF IFS](https://github.com/codeforIATI/imf-exchangerates) | 173 currencies vs USD, monthly | 1955–2025 | 1 |
+| [BIS](https://data.bis.org/bulkdownload) | Bilateral + effective exchange rates, ~190 economies | 1957–2026 | 2 |
+| [FRED](https://fred.stlouisfed.org/) | 23 daily pairs + 2 USD indices (H.10 release) | 1971–2025 | 25 |
+| [Sveriges Riksbank](https://www.riksbank.se/en-gb/statistics/) | 53 SEK bilateral series | 1900–2026 | 1 |
+| [World Bank](https://data.worldbank.org/indicator/PA.NUS.FCRF) | Official rates, all member countries | 1960–present | 1 |
+| [Ilzetzki-Reinhart-Rogoff](https://www.ilzetzki.com/irr-data) | De facto exchange rate regime classifications, ~190 countries | 1940–2021 | 7 |
+| [Jorda-Schularick-Taylor](https://www.macrohistory.net/database/) | 18 advanced economies, 59 macrofinancial variables | 1870–2017 | 1 |
+| [Bank of England](https://www.bankofengland.co.uk/statistics/research-datasets) | UK millennium dataset ($/£, rates, prices, GDP) | 1791–2016 | 1 |
+| [Global Macro Database](https://www.globalmacrodata.com/data.html) | 243 countries, USDfx + REER, harmonized from 111 sources | 1960–2024 | 1 |
+| [DataHub Gold](https://github.com/datasets/gold-prices) | Monthly gold prices USD | 1833–2025 | 1 |
 
-| File | Description | Records | Period |
-|------|-------------|---------|--------|
-| `memdb_spufford_medieval_exchange_rates.csv` | Exchange quotations across Europe, Byzantium, the Levant, and North Africa | 13,197 | 1106–1500 |
-| `memdb_metz_currency_exchanges.csv` | Lower Rhine region and European comparison | 50,559 | 1350–1800 |
+See [SOURCES.md](SOURCES.md) for column schemas, quoting conventions, and file-level details.
 
-- Spufford: [MEMDB at Rutgers](https://memdb.libraries.rutgers.edu/spufford-currency)
-- Metz: [MEMDB at Rutgers](https://memdb.libraries.rutgers.edu/metz-currency)
+## Derived data
 
-### `sources/clio_infra/` — Clio Infra
-
-Project led by Jan Luiten van Zanden (Utrecht / IISH Amsterdam). Based on Denzel's *Handbook of World Exchange Rates, 1590–1914* and IMF IFS. Each dataset has a `.csv` (year-per-row) and original `.xlsx`.
-
-| File | Description | Period | Countries |
-|------|-------------|--------|-----------|
-| `clio_infra_exchange_rates.csv` | Exchange rates vs USD | 1500–2013 | 181 |
-| `clio_infra_exchange_rates_gbp.csv` | Exchange rates vs GBP | 1500–2013 | 181 |
-| `clio_infra_inflation.csv` | Inflation (annual %) | 1500–2010 | 181 |
-| `clio_infra_gold_standard.csv` | Gold standard (binary) | 1800–2010 | 69 |
-| `clio_infra_bond_yield.csv` | Long-term govt bond yield | 1727–2011 | 42 |
-| `clio_infra_govt_debt.csv` | Govt debt (% GDP) | 1692–2010 | 86 |
-| `clio_infra_gdp_per_capita_compact.xlsx` | GDP per capita (Maddison) | 1500–2016 | 181 |
-
-- [Source](https://clio-infra.eu/)
-
-### `sources/measuringworth/`
-
-40 currencies vs USD, yearly. UK from 1791, Spain from 1850, many European currencies from 1913. Plus annual gold prices (1257–2025) with British official, London market, New York market, US official, and gold/silver ratio series. Compiled by Lawrence H. Officer and Samuel H. Williamson.
-
-- `measuringworth_exchange_rates.csv`
-- `measuringworth_gold_prices.csv` — 6 gold price series spanning 769 years
-- [Exchange rates source](https://www.measuringworth.com/datasets/exchangeglobal/)
-- [Gold price source](https://www.measuringworth.com/datasets/gold/)
-
-### `sources/imf/`
-
-173 currencies vs USD, monthly. 158,517 observations.
-
-- `imf_exchange_rates.csv` — columns: Date, Rate, Currency, Frequency, Source, Country code, Country
-- [Source](https://github.com/codeforIATI/imf-exchangerates)
-
-### `sources/bis/`
-
-From the Bank for International Settlements. Stored as `.gz` (700 MB uncompressed, 16 MB compressed).
-
-| File | Description | Rows | Period |
-|------|-------------|------|--------|
-| `xru/WS_XRU_csv_flat.csv.gz` | Bilateral exchange rates vs USD, ~190 economies | 1.47M | 1957–2026 |
-| `eer/WS_EER_csv_flat.csv.gz` | Nominal and real effective exchange rates (NEER/REER), 64 economies | 1.19M | 1964–2026 |
-
-- [Source](https://data.bis.org/bulkdownload)
-
-### `sources/fred/`
-
-23 daily currency pairs + 2 USD trade-weighted indices from the Federal Reserve H.10 release.
-
-Pairs: GBP, JPY, CHF, CAD, AUD, EUR, DKK, MYR, NOK, NZD, SEK, MXN, BRL, CNY, INR, KRW, HKD, ZAR, SGD, LKR, TWD, THB, VEF.
-
-- `daily/fred_*.csv` (25 files, 1971–2025)
-- [Source](https://fred.stlouisfed.org/)
-
-### `sources/riksbank/`
-
-53 SEK bilateral exchange rate series (daily), including the trade-weighted SEK index from 1900. 295,018 total observations.
-
-- `riksbank_exchange_rates.csv` — columns: date, series_id, value
-- [Source](https://www.riksbank.se/en-gb/statistics/)
-
-### `sources/worldbank/`
-
-Official exchange rate (LCU per US$, period average) for all World Bank member countries.
-
-- `worldbank_exchange_rates.xls`
-- [Source](https://data.worldbank.org/indicator/PA.NUS.FCRF)
-
-### `sources/irr/` — Ilzetzki-Reinhart-Rogoff
-
-De facto exchange rate regime classifications for ~190 countries. Each dataset has a `.csv` and original `.xlsx`.
-
-| File | Description | Period |
-|------|-------------|--------|
-| `irr_regime_coarse.csv` | Coarse regime classification | 1940–2019 |
-| `irr_regime_fine.csv` | Fine regime classification | 1940–2019 |
-| `irr_anchor_master.csv` | Anchor currency | 1946–2019 |
-| `irr_unified_market_indicator.csv` | Unified vs dual/parallel market | 1946–2021 |
-
-- [Source](https://www.ilzetzki.com/irr-data)
-
-### `sources/jst/` — Jorda-Schularick-Taylor
-
-18 advanced economies, 59 variables including exchange rates (`xrusd`), interest rates, GDP, credit, housing prices, and crisis indicators.
-
-- `jst_macrohistory.xlsx`
-- [Source](https://www.macrohistory.net/database/)
-
-### `sources/boe/` — Bank of England
-
-UK-focused: $/£ from 1791, monthly bilateral rates from 1963, effective exchange rates. Plus interest rates, prices, wages, GDP back to the 13th century.
-
-- `boe_millennium.xlsx` (26 MB)
-- [Source](https://www.bankofengland.co.uk/statistics/research-datasets)
-
-### `sources/gmd/` — Global Macro Database
-
-243 countries, harmonized from 111 data sources. Includes USD exchange rates and Real Effective Exchange Rates.
-
-- `gmd_exchange_rates.csv` — columns: ISO3, countryname, year, USDfx, REER
-- [Source](https://www.globalmacrodata.com/data.html)
-
-## Derived Data
-
-### `derived/normalized/`
+### Normalized (`data/derived/normalized/`)
 
 | File | Description |
 |------|-------------|
-| `yearly_unified_panel.csv` | Merged yearly panel: 243 countries, 1500–2025 (MeasuringWorth + Clio Infra + GMD, with source tag) |
-| `yearly_unified_wide.csv` | Same in wide format (year x country matrix) |
-| `fred_daily_normalized.csv` | All 23 FRED pairs, foreign-per-USD convention (long format) |
-| `fred_daily_normalized_wide.csv` | Same in wide format (date x currency matrix) |
+| `yearly_unified_panel.csv` | 243 countries, 1500–2025 (MW + CI + GMD with source priority tag) |
+| `yearly_unified_wide.csv` | Same, year x country matrix |
+| `fred_daily_normalized.csv` | 23 FRED pairs, foreign-per-USD convention |
+| `fred_daily_normalized_wide.csv` | Same, date x currency matrix |
 
-### `derived/analysis/`
+### Analysis (`data/derived/analysis/`)
 
 | File | Description |
 |------|-------------|
-| `yearly_log_returns.csv` | Annual log returns for 40 currencies (1791–2025) |
-| `daily_log_returns.csv` | Daily log returns for 23 currencies (1971–2025), 271K obs |
-| `yearly_volatility_stats.csv` | Mean, vol, excess kurtosis, skew, max/min for 40 currencies |
-| `daily_volatility_stats.csv` | Same at daily frequency + 3-sigma tail event counts |
-| `daily_rolling_volatility.csv` | 252-day rolling annualized volatility for 23 currencies (1971-2025) |
-| `yearly_regime_classification.csv` | IRR exchange rate regime per country-year (194 countries, 1940-2019) |
-| `regime_conditional_stats.csv` | Volatility and kurtosis statistics broken down by regime type |
-| `monthly_gold_inflation.csv` | Monthly gold inflation, purchasing power, cumulative debasement (174 currencies, 1940-2025) |
-| `yearly_gold_inflation.csv` | Yearly gold inflation, purchasing power, CPI comparison, cumulative debasement (243 countries, 1257-2025) |
-| `daily_correlation_matrix.csv` | Pairwise Pearson correlations of daily log returns (23x23) |
-| `yearly_correlation_matrix.csv` | Pairwise Pearson correlations of yearly log returns (>30 shared years) |
+| `daily_log_returns.csv` | Daily log returns, 23 currencies, 271K obs |
+| `yearly_log_returns.csv` | Annual log returns, 40 currencies (MeasuringWorth only) |
+| `daily_volatility_stats.csv` | Vol, kurtosis, skew, 3-sigma tail counts per currency |
+| `yearly_volatility_stats.csv` | Same at annual frequency for 40 countries |
+| `daily_rolling_volatility.csv` | 252-day rolling annualized vol, 231K obs |
+| `daily_correlation_matrix.csv` | Pairwise Pearson correlations (23x23) |
+| `yearly_correlation_matrix.csv` | Pairwise Pearson correlations (min 30 shared years) |
+| `yearly_regime_classification.csv` | IRR regime per country-year (194 countries, 1940–2019) |
+| `regime_conditional_stats.csv` | Volatility and kurtosis by regime type |
+| `yearly_gold_inflation.csv` | Gold inflation, purchasing power, CPI gap (243 countries, 1257–2025) |
+| `monthly_gold_inflation.csv` | Monthly gold inflation and debasement (174 currencies, 1940–2025) |
 
-## Data Inventory
+## Data inventory
 
 | Directory | Source | Files | Rows | Period |
 |-----------|--------|------:|-----:|--------|

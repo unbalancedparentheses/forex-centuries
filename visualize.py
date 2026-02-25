@@ -10,7 +10,7 @@ import pandas as pd
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
-from scipy.stats import norm
+from scipy.stats import norm, probplot
 from scipy.spatial.distance import squareform
 from scipy.cluster.hierarchy import linkage, dendrogram
 from pathlib import Path
@@ -19,17 +19,46 @@ ROOT = Path(__file__).parent
 DERIVED = ROOT / "data" / "derived"
 CHARTS = ROOT / "charts"
 
+CHART_DPI = 150
+PRIMARY_BLUE = "#4C72B0"
+
+
+def _require_file(path):
+    """Check that a data file exists; print skip message if not."""
+    if not path.exists():
+        print(f"    Skipped: {path.name} not found")
+        return False
+    return True
+
+
+def _render_qq(ax, data, title, color=None):
+    """Render a QQ-plot on an axes, with normal reference line."""
+    if color is None:
+        color = PRIMARY_BLUE
+    (osm, osr), (slope, intercept, _) = probplot(data, dist="norm")
+    ax.scatter(osm, osr, s=4, alpha=0.5, color=color, edgecolors="none")
+    xlim = ax.get_xlim()
+    x_ref = np.linspace(xlim[0], xlim[1], 100)
+    ax.plot(x_ref, slope * x_ref + intercept, "r-", linewidth=1.5)
+    ax.set_title(title)
+    ax.set_xlabel("Theoretical quantiles")
+    ax.set_ylabel("Observed quantiles")
+
 
 def fat_tails_histogram():
     """EUR/USD daily log returns vs fitted normal distribution."""
     print("  fat_tails_histogram.png")
 
-    df = pd.read_csv(DERIVED / "analysis/daily_log_returns.csv")
+    path = DERIVED / "analysis/daily_log_returns.csv"
+    if not _require_file(path):
+        return
+
+    df = pd.read_csv(path)
     eur = df[df["currency"] == "EUR"]["log_return"].values
 
     fig, ax = plt.subplots(figsize=(10, 6))
     n, bins, _ = ax.hist(eur, bins=200, density=True, alpha=0.7,
-                          color="#4C72B0", label="EUR/USD observed")
+                          color=PRIMARY_BLUE, label="EUR/USD observed")
 
     mu, sigma = eur.mean(), eur.std()
     x = np.linspace(bins[0], bins[-1], 500)
@@ -40,10 +69,10 @@ def fat_tails_histogram():
     ax.set_ylabel("Density")
     ax.set_title("EUR/USD daily log returns vs Gaussian distribution")
     ax.legend()
-    ax.set_xlim(-0.05, 0.05)
+    ax.set_xlim(-0.08, 0.08)
 
     fig.tight_layout()
-    fig.savefig(CHARTS / "fat_tails_histogram.png", dpi=150)
+    fig.savefig(CHARTS / "fat_tails_histogram.png", dpi=CHART_DPI)
     plt.close(fig)
 
 
@@ -51,13 +80,17 @@ def peg_paradox():
     """Scatter: annualized volatility vs excess kurtosis for all currencies."""
     print("  peg_paradox.png")
 
-    stats = pd.read_csv(DERIVED / "analysis/daily_volatility_stats.csv")
+    path = DERIVED / "analysis/daily_volatility_stats.csv"
+    if not _require_file(path):
+        return
+
+    stats = pd.read_csv(path)
     # Exclude VEF (hyperinflation outlier distorts the scale)
     stats = stats[stats["currency"] != "VEF"]
 
     fig, ax = plt.subplots(figsize=(10, 7))
     ax.scatter(stats["annualized_volatility"] * 100, stats["excess_kurtosis"],
-               s=80, alpha=0.8, color="#4C72B0", edgecolors="white", linewidth=0.5)
+               s=80, alpha=0.8, color=PRIMARY_BLUE, edgecolors="white", linewidth=0.5)
 
     labels = {"HKD", "CNY", "LKR", "KRW", "THB", "MXN"}
     for _, row in stats.iterrows():
@@ -73,7 +106,7 @@ def peg_paradox():
     ax.set_yscale("log")
 
     fig.tight_layout()
-    fig.savefig(CHARTS / "peg_paradox.png", dpi=150)
+    fig.savefig(CHARTS / "peg_paradox.png", dpi=CHART_DPI)
     plt.close(fig)
 
 
@@ -81,11 +114,15 @@ def tail_ratio_bar():
     """Horizontal bar chart of tail ratios across currencies."""
     print("  tail_ratio_bar.png")
 
-    stats = pd.read_csv(DERIVED / "analysis/daily_volatility_stats.csv")
+    path = DERIVED / "analysis/daily_volatility_stats.csv"
+    if not _require_file(path):
+        return
+
+    stats = pd.read_csv(path)
     stats = stats.sort_values("tail_ratio")
 
     fig, ax = plt.subplots(figsize=(10, 8))
-    colors = ["#D65F5F" if r > 1 else "#4C72B0" for r in stats["tail_ratio"]]
+    colors = ["#D65F5F" if r > 1 else PRIMARY_BLUE for r in stats["tail_ratio"]]
     ax.barh(stats["currency"], stats["tail_ratio"], color=colors, edgecolor="white")
     ax.axvline(x=1.0, color="black", linestyle="--", linewidth=1,
                label="Gaussian expectation")
@@ -95,7 +132,7 @@ def tail_ratio_bar():
     ax.legend()
 
     fig.tight_layout()
-    fig.savefig(CHARTS / "tail_ratio_bar.png", dpi=150)
+    fig.savefig(CHARTS / "tail_ratio_bar.png", dpi=CHART_DPI)
     plt.close(fig)
 
 
@@ -103,12 +140,15 @@ def rolling_volatility():
     """1-year rolling annualized volatility for major currencies."""
     print("  rolling_volatility.png")
 
-    wide = pd.read_csv(DERIVED / "normalized/fred_daily_normalized_wide.csv",
-                        index_col="date", parse_dates=True)
+    path = DERIVED / "normalized/fred_daily_normalized_wide.csv"
+    if not _require_file(path):
+        return
+
+    wide = pd.read_csv(path, index_col="date", parse_dates=True)
     log_ret = np.log(wide / wide.shift(1))
 
     currencies = ["GBP", "JPY", "CHF", "EUR"]
-    colors = ["#4C72B0", "#DD8452", "#55A868", "#C44E52"]
+    colors = [PRIMARY_BLUE, "#DD8452", "#55A868", "#C44E52"]
 
     fig, ax = plt.subplots(figsize=(14, 6))
     for currency, color in zip(currencies, colors):
@@ -122,10 +162,12 @@ def rolling_volatility():
         "2008-09-15": "Lehman",
         "2020-03-11": "COVID",
     }
-    for date_str, label in events.items():
+    for i, (date_str, label) in enumerate(events.items()):
         ts = pd.Timestamp(date_str)
         ax.axvline(ts, color="gray", linestyle=":", alpha=0.7)
-        ax.text(ts, ax.get_ylim()[1] * 0.95, f" {label}",
+        # Stagger labels vertically to avoid overlap
+        y_frac = 0.95 if i % 2 == 0 else 0.75
+        ax.text(ts, ax.get_ylim()[1] * y_frac, f" {label}",
                 fontsize=8, rotation=90, va="top", color="gray")
 
     ax.set_xlabel("Date")
@@ -135,7 +177,7 @@ def rolling_volatility():
     ax.set_ylim(bottom=0)
 
     fig.tight_layout()
-    fig.savefig(CHARTS / "rolling_volatility.png", dpi=150)
+    fig.savefig(CHARTS / "rolling_volatility.png", dpi=CHART_DPI)
     plt.close(fig)
 
 
@@ -143,10 +185,15 @@ def correlation_heatmap():
     """Heatmap of daily log-return correlations, hierarchically clustered."""
     print("  correlation_heatmap.png")
 
-    corr = pd.read_csv(DERIVED / "analysis/daily_correlation_matrix.csv", index_col=0)
+    path = DERIVED / "analysis/daily_correlation_matrix.csv"
+    if not _require_file(path):
+        return
+
+    corr = pd.read_csv(path, index_col=0)
 
     # Hierarchical clustering for reordering
-    dist = 1 - corr.fillna(0).values
+    # Clip to handle floating-point errors where corr slightly exceeds 1.0
+    dist = np.clip(1 - corr.fillna(0).values, 0, None)
     np.fill_diagonal(dist, 0)
     condensed = squareform(dist)
     link = linkage(condensed, method="average")
@@ -163,10 +210,12 @@ def correlation_heatmap():
     ax.set_yticklabels(corr_ordered.index, fontsize=9)
 
     fig.colorbar(im, ax=ax, shrink=0.8, label="Pearson correlation")
+    ax.set_xlabel("Currency")
+    ax.set_ylabel("Currency")
     ax.set_title("Daily log-return correlations (hierarchically clustered)")
 
     fig.tight_layout()
-    fig.savefig(CHARTS / "correlation_heatmap.png", dpi=150)
+    fig.savefig(CHARTS / "correlation_heatmap.png", dpi=CHART_DPI)
     plt.close(fig)
 
 
@@ -174,10 +223,14 @@ def gold_erosion():
     """Cumulative gold purchasing power retained for major currencies."""
     print("  gold_erosion.png")
 
-    df = pd.read_csv(DERIVED / "analysis/yearly_gold_inflation.csv")
+    path = DERIVED / "analysis/yearly_gold_inflation.csv"
+    if not _require_file(path):
+        return
+
+    df = pd.read_csv(path)
 
     currencies = {
-        "United States": ("#4C72B0", "USD"),
+        "United States": (PRIMARY_BLUE, "USD"),
         "United Kingdom": ("#DD8452", "GBP"),
         "Japan": ("#55A868", "JPY"),
         "Switzerland": ("#C44E52", "CHF"),
@@ -204,7 +257,7 @@ def gold_erosion():
     ax.grid(True, alpha=0.3)
 
     fig.tight_layout()
-    fig.savefig(CHARTS / "gold_erosion.png", dpi=150)
+    fig.savefig(CHARTS / "gold_erosion.png", dpi=CHART_DPI)
     plt.close(fig)
 
 
@@ -213,8 +266,7 @@ def regime_timeline():
     print("  regime_timeline.png")
 
     path = DERIVED / "analysis/yearly_regime_classification.csv"
-    if not path.exists():
-        print("    Skipped: yearly_regime_classification.csv not found")
+    if not _require_file(path):
         return
 
     df = pd.read_csv(path)
@@ -255,7 +307,71 @@ def regime_timeline():
     ax.legend(handles=patches, loc="lower right", fontsize=8)
 
     fig.tight_layout()
-    fig.savefig(CHARTS / "regime_timeline.png", dpi=150)
+    fig.savefig(CHARTS / "regime_timeline.png", dpi=CHART_DPI)
+    plt.close(fig)
+
+
+def qq_daily():
+    """2x3 grid of QQ-plots for 6 key daily currencies."""
+    print("  qq_daily.png")
+
+    path = DERIVED / "analysis/daily_log_returns.csv"
+    if not _require_file(path):
+        return
+
+    df = pd.read_csv(path)
+    currencies = ["EUR", "GBP", "JPY", "CHF", "BRL", "HKD"]
+
+    fig, axes = plt.subplots(2, 3, figsize=(14, 8))
+    axes = axes.flatten()
+
+    for ax, currency in zip(axes, currencies):
+        data = df[df["currency"] == currency]["log_return"].dropna().values
+        if len(data) == 0:
+            ax.set_title(f"{currency} (no data)")
+            continue
+        _render_qq(ax, data, f"{currency}/USD")
+
+    fig.suptitle("QQ-plots: daily log returns vs normal distribution", fontsize=13)
+    fig.tight_layout()
+    fig.savefig(CHARTS / "qq_daily.png", dpi=CHART_DPI)
+    plt.close(fig)
+
+
+def qq_regimes():
+    """1x3 QQ-plots comparing returns under peg, free float, and freely falling regimes."""
+    print("  qq_regimes.png")
+
+    ret_path = DERIVED / "analysis/yearly_log_returns.csv"
+    class_path = DERIVED / "analysis/yearly_regime_classification.csv"
+
+    if not _require_file(class_path) or not _require_file(ret_path):
+        return
+
+    yearly_ret = pd.read_csv(ret_path, index_col="year")
+    classification = pd.read_csv(class_path)
+
+    ret_long = yearly_ret.reset_index().melt(
+        id_vars=["year"], var_name="country", value_name="log_return")
+    ret_long = ret_long.dropna(subset=["log_return"])
+
+    merged = ret_long.merge(classification, on=["year", "country"], how="inner")
+
+    regimes = ["peg", "free_float", "freely_falling"]
+    titles = ["Peg", "Free float", "Freely falling"]
+
+    fig, axes = plt.subplots(1, 3, figsize=(14, 5))
+
+    for ax, regime, title in zip(axes, regimes, titles):
+        data = merged[merged["regime_label"] == regime]["log_return"].values
+        if len(data) < 10:
+            ax.set_title(f"{title} (insufficient data)")
+            continue
+        _render_qq(ax, data, f"{title} (n={len(data):,})")
+
+    fig.suptitle("QQ-plots: yearly log returns by exchange rate regime", fontsize=13)
+    fig.tight_layout()
+    fig.savefig(CHARTS / "qq_regimes.png", dpi=CHART_DPI)
     plt.close(fig)
 
 
@@ -270,6 +386,8 @@ def main():
     correlation_heatmap()
     gold_erosion()
     regime_timeline()
+    qq_daily()
+    qq_regimes()
 
     print(f"\nDone. Charts saved to {CHARTS}/")
 

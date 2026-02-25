@@ -15,6 +15,8 @@
           ps.openpyxl
           ps.matplotlib
           ps.scipy
+          ps.pytest
+          ps.jupyterlab
         ]);
       in
       {

@@ -30,29 +30,49 @@ EXPECTED_MW_COUNTRIES = sorted([
     "Venezuela",
 ])
 
-errors = []
-warnings = []
+class _Results:
+    """Collects validation errors and warnings for a single run."""
+    def __init__(self):
+        self.errors = []
+        self.warnings = []
+
+    def error(self, msg):
+        self.errors.append(msg)
+        print(f"  ERROR: {msg}")
+
+    def warn(self, msg):
+        self.warnings.append(msg)
+        print(f"  WARN:  {msg}")
+
+    def ok(self, msg):
+        print(f"  OK:    {msg}")
+
+    def check_file_exists(self, path):
+        if not path.exists():
+            self.error(f"Missing file: {path.relative_to(ROOT)}")
+            return False
+        return True
+
+
+# Module-level instance used by check functions. Replaced per main() call
+# so repeated invocations start fresh.
+_r = _Results()
 
 
 def error(msg):
-    errors.append(msg)
-    print(f"  ERROR: {msg}")
+    _r.error(msg)
 
 
 def warn(msg):
-    warnings.append(msg)
-    print(f"  WARN:  {msg}")
+    _r.warn(msg)
 
 
 def ok(msg):
-    print(f"  OK:    {msg}")
+    _r.ok(msg)
 
 
 def check_file_exists(path):
-    if not path.exists():
-        error(f"Missing file: {path.relative_to(ROOT)}")
-        return False
-    return True
+    return _r.check_file_exists(path)
 
 
 def check_schema():
@@ -163,6 +183,8 @@ def check_outliers():
     path = DERIVED / "analysis/daily_log_returns.csv"
     if path.exists():
         df = pd.read_csv(path)
+        # 0.5 threshold: a daily log return of |0.5| means a ~65% move in one day,
+        # which is virtually impossible for real exchange rates and indicates data error.
         extreme = df[df["log_return"].abs() > 0.5]
         if len(extreme) > 0:
             warn(f"Daily log returns: {len(extreme)} observations with |return| > 0.5")
@@ -177,6 +199,8 @@ def check_outliers():
         outlier_count = 0
         for country in df.columns:
             vals = df[country].dropna()
+            # 3.0 threshold: a yearly log return of |3.0| means a ~20x move,
+            # which outside hyperinflation contexts indicates data error.
             extreme = vals[vals.abs() > 3.0]
             for year, val in extreme.items():
                 warn(f"Yearly {country} {year}: log return = {val:.4f}")
@@ -208,6 +232,7 @@ def check_cross_source_consistency():
         ok("No overlapping MW/CI data points")
         return
 
+    merged = merged[merged["ci_rate"] != 0]
     merged["pct_diff"] = ((merged["mw_rate"] - merged["ci_rate"])
                            / merged["ci_rate"]).abs()
     divergent = merged[merged["pct_diff"] > 0.10]
@@ -258,6 +283,40 @@ def check_gold_files():
                f"{df['currency'].nunique()} currencies)")
 
 
+def check_rate_positivity():
+    """Verify all exchange rates in normalized files are > 0."""
+    print("\n[Rate positivity check]")
+
+    for relpath in ["normalized/fred_daily_normalized.csv",
+                    "normalized/yearly_unified_panel.csv"]:
+        path = DERIVED / relpath
+        if not path.exists():
+            continue
+        df = pd.read_csv(path)
+        non_positive = df[df["rate_per_usd"] <= 0]
+        if len(non_positive) > 0:
+            error(f"{relpath}: {len(non_positive)} non-positive rates")
+        else:
+            ok(f"{relpath}: all rates > 0")
+
+
+def check_regime_codes():
+    """Verify coarse_regime values are in the valid range [1, 6]."""
+    print("\n[Regime code validation]")
+
+    path = DERIVED / "analysis/yearly_regime_classification.csv"
+    if not path.exists():
+        return
+    df = pd.read_csv(path)
+    invalid = df[~df["coarse_regime"].isin(range(1, 7))]
+    if len(invalid) > 0:
+        error(f"yearly_regime_classification.csv: {len(invalid)} rows with "
+              f"coarse_regime outside [1, 6]")
+    else:
+        ok(f"yearly_regime_classification.csv: all coarse_regime in [1, 6] "
+           f"({len(df):,} rows)")
+
+
 def check_completeness():
     """Check that expected currencies/countries appear."""
     print("\n[Completeness check]")
@@ -282,6 +341,9 @@ def check_completeness():
 
 
 def main():
+    global _r
+    _r = _Results()
+
     print("forex-centuries data validation\n")
 
     check_schema()
@@ -290,14 +352,16 @@ def main():
     check_outliers()
     check_cross_source_consistency()
     check_gold_files()
+    check_rate_positivity()
+    check_regime_codes()
     check_completeness()
 
     print(f"\n{'=' * 50}")
-    if errors:
-        print(f"FAILED: {len(errors)} error(s), {len(warnings)} warning(s)")
+    if _r.errors:
+        print(f"FAILED: {len(_r.errors)} error(s), {len(_r.warnings)} warning(s)")
         sys.exit(2)
-    elif warnings:
-        print(f"PASSED with {len(warnings)} warning(s)")
+    elif _r.warnings:
+        print(f"PASSED with {len(_r.warnings)} warning(s)")
         sys.exit(1)
     else:
         print("ALL CHECKS PASSED")

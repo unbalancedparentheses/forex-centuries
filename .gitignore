@@ -11,6 +11,8 @@ result
 # Python
 __pycache__/
 *.pyc
+.pytest_cache/
+.ipynb_checkpoints/
 
 # macOS
 .DS_Store
