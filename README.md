@@ -112,13 +112,24 @@ Seven sections: yearly panel, daily data, fat tails (histogram + QQ-plot), regim
 ## Updating source data
 
 ```bash
-python scripts/update_sources.py --gold   # refresh gold prices (no auth)
-python scripts/update_sources.py --imf    # refresh IMF rates (no auth)
-python scripts/update_sources.py --fred   # refresh FRED (needs FRED_API_KEY env var)
-python scripts/update_sources.py --all    # all of the above
+python scripts/update_sources.py --fred          # FRED daily FX (needs FRED_API_KEY)
+python scripts/update_sources.py --imf           # IMF exchange rates
+python scripts/update_sources.py --gold          # DataHub gold prices
+python scripts/update_sources.py --bis           # BIS bilateral + effective rates
+python scripts/update_sources.py --riksbank      # Riksbank SEK pairs (rate-limited)
+python scripts/update_sources.py --worldbank     # World Bank official rates
+python scripts/update_sources.py --jst           # JST Macrohistory
+python scripts/update_sources.py --pwt           # Penn World Table
+python scripts/update_sources.py --measuringworth # MeasuringWorth FX + gold
+python scripts/update_sources.py --clio          # Clio Infra (FX, inflation, bonds, debt, GDP)
+python scripts/update_sources.py --freegold      # FreeGoldAPI (768 years gold + silver)
+python scripts/update_sources.py --lbma          # LBMA gold + silver daily (from 1968)
+python scripts/update_sources.py --irr           # IRR regime classifications
+python scripts/update_sources.py --boe           # Bank of England Millennium
+python scripts/update_sources.py --all           # all of the above
 ```
 
-FRED requires a free API key from [fred.stlouisfed.org](https://fred.stlouisfed.org/docs/api/api_key.html). Set it as `FRED_API_KEY` in your environment.
+FRED requires a free API key from [fred.stlouisfed.org](https://fred.stlouisfed.org/docs/api/api_key.html). Set it as `FRED_API_KEY` in your environment. All other sources require no authentication.
 
 ## Charts
 
@@ -207,6 +218,9 @@ forex-centuries/
 | [Bank of England](https://www.bankofengland.co.uk/statistics/research-datasets) | UK millennium dataset ($/£, rates, prices, GDP) | 1791–2016 | 1 |
 | [Global Macro Database](https://www.globalmacrodata.com/data.html) | 243 countries, USDfx + REER, harmonized from 111 sources | 1960–2024 | 1 |
 | [DataHub Gold](https://github.com/datasets/gold-prices) | Monthly gold prices USD | 1833–2025 | 1 |
+| [FreeGoldAPI](https://freegoldapi.com/) | 768 years gold prices + gold/silver ratio + silver | 1258–2025 | 3 |
+| [LBMA](https://www.lbma.org.uk/prices-and-data/precious-metal-prices) | Daily gold + silver prices (USD, GBP, EUR) | 1968–2025 | 2 |
+| [Penn World Table](https://www.rug.nl/ggdc/productivity/pwt/) | 185 countries, exchange rates + PPP + price levels | 1950–2023 | 1 |
 
 See [SOURCES.md](SOURCES.md) for column schemas, quoting conventions, and file-level details.
 
@@ -261,7 +275,14 @@ See [SOURCES.md](SOURCES.md) for column schemas, quoting conventions, and file-l
 
 ## TODO
 
-- [ ] Reinhart-Rogoff official and parallel exchange rates from [carmenreinhart.com](https://carmenreinhart.com/exchange-rates-official-and-parallel/) (requires manual browser download). Unique dataset with parallel/black-market rates.
+### Manual data sources (not yet automatable)
+
+- [ ] **Reinhart-Rogoff official and parallel exchange rates** from [carmenreinhart.com](https://carmenreinhart.com/exchange-rates-official-and-parallel/). Unique dataset with parallel/black-market rates. Requires manual browser download.
+- [ ] **Reinhart-Rogoff "This Time Is Different"** crisis dataset from [rogoff.scholars.harvard.edu](https://rogoff.scholars.harvard.edu/time-different%E2%80%94data-files). 66 countries, eight centuries of currency crashes, debasements, sovereign defaults. ~100 individual Excel files per chapter.
+- [ ] **MEMDB medieval exchange rates** from [memdb.libraries.rutgers.edu](https://memdb.libraries.rutgers.edu/). Spufford (1106–1500) and Metz (1350–1800) data. No export API — requires web scraping with pagination.
+- [ ] **Global Macro Database** from [globalmacrodata.com](https://www.globalmacrodata.com/data.html). 243 countries, USDfx + REER. Download is email-gated. Alternative: `pip install global_macro_data` Python package.
+- [ ] **NBER Macrohistory Database** from [nber.org](https://www.nber.org/research/data/nber-macrohistory-xiv-money-and-banking). Pre-WWI and interwar US/UK/France/Germany money, banking, exchange rates. Available in .db/.dat format (not CSV). Some series also on [FRED](https://fred.stlouisfed.org/categories/33061).
+- [ ] **Center for Financial Stability Historical Financial Statistics** from [centerforfinancialstability.org](https://centerforfinancialstability.org/hfs.php). Free dataset covering exchange rates, central bank balance sheets, interest rates, money supply across many countries.
 
 ## References
 

@@ -1,0 +1,72 @@
+name: Weekly Data Update
+
+on:
+  schedule:
+    - cron: "0 6 * * 1" # Monday 06:00 UTC
+  workflow_dispatch:
+
+concurrency:
+  group: data-update
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  update-and-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install pandas openpyxl xlrd matplotlib scipy pytest
+
+      - name: Update sources
+        env:
+          FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
+        timeout-minutes: 20
+        run: python scripts/update_sources.py --all
+
+      - name: Build derived data
+        run: python build.py
+
+      - name: Validate
+        run: |
+          python validate.py
+          rc=$?
+          if [ $rc -ge 2 ]; then exit $rc; fi
+          exit 0
+
+      - name: Run tests
+        run: pytest tests/ -v
+
+      - name: Generate charts
+        run: python visualize.py
+
+      - name: Check for changes
+        id: diff
+        run: |
+          if git diff --quiet data/ charts/; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Create release
+        if: steps.diff.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          DATE=$(date +%Y-%m-%d)
+          TAG="data-${DATE}"
+          tar -czf "forex-centuries-data-${DATE}.tar.gz" data/derived/ charts/
+          gh release create "$TAG" "forex-centuries-data-${DATE}.tar.gz" \
+            --title "Data update ${DATE}" \
+            --notes "Automated weekly data refresh ($(date +%Y-%m-%d))" \
+            || echo "Release ${TAG} already exists, skipping."
