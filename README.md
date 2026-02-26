@@ -1,44 +1,48 @@
 # forex-centuries
 
-Historical monetary and exchange rate data spanning nine centuries (1106-2026). 17 sources, 88 files, ~240 countries. Exchange rates, gold, silver, interest rates, CPI, and regime classifications — assembled for long-run volatility and tail-risk research.
+Historical monetary and exchange rate data spanning twenty centuries (1 CE-2026). 20 sources, 1,060+ files, ~240 countries. Exchange rates, gold, silver, interest rates, CPI, GDP per capita, and commodity prices — assembled for long-run volatility and tail-risk research.
 
 Related project: [fatcrash](https://github.com/unbalancedparentheses/fatcrash) — crash detection via fat-tail statistics (LPPLS, EVT, Hill estimator, Kappa).
 
 ## Coverage
 
 ```
-Asset                1100   1200   1300   1400   1500   1600   1700   1800   1900   2000
-                     :      :      :      :      :      :      :      :      :      :
-EXCHANGE RATES       :      :      :      :      :      :      :      :      :      :
-Medieval FX          ██████████████████████████████████████████████████████████      :
-Clio Infra FX        :      :      :      :      ████████████████████████████████████████
-MeasuringWorth FX    :      :      :      :      :      :      :      █████████████████
-BoE Millennium       :      :      :      :      :      :      :      ██████████████████
-JST Macrohistory     :      :      :      :      :      :      :      :     ████████████
-Riksbank             :      :      :      :      :      :      :      :       ██████████
-Penn World Table     :      :      :      :      :      :      :      :         ████████
-BIS                  :      :      :      :      :      :      :      :            █████
-IMF IFS              :      :      :      :      :      :      :      :            █████
-World Bank           :      :      :      :      :      :      :      :            █████
-GMD                  :      :      :      :      :      :      :      :            █████
-FRED Daily           :      :      :      :      :      :      :      :             ████
-                     :      :      :      :      :      :      :      :      :      :
-PRECIOUS METALS      :      :      :      :      :      :      :      :      :      :
-Gold (GBP)           :      █████████████████████████████████████████████████████████████
-Gold (USD)           :      :      :      :      :      :      :      █████████████████
-Silver               :      :      :      :      :      :      ████████████████████████
-LBMA Gold+Silver     :      :      :      :      :      :      :      :      :  ████████
-Gold/Silver Ratio    :      :      :      :      :      :      ████████████████████████
-                     :      :      :      :      :      :      :      :      :      :
-INTEREST RATES       :      :      :      :      :      :      :      :      :      :
-UK+US Rates          :      :      :      :      :      :      ████████████████████████
-                     :      :      :      :      :      :      :      :      :      :
-INFLATION            :      :      :      :      :      :      :      :      :      :
-US CPI               :      :      :      :      :      :      :      █████████████████
-Clio Infra CPI       :      :      :      :      ████████████████████████████████████████
-                     :      :      :      :      :      :      :      :      :      :
-REGIMES              :      :      :      :      :      :      :      :      :      :
-IRR Classifications  :      :      :      :      :      :      :      :       █████████
+Asset                 0    500   1100   1200   1300   1400   1500   1600   1700   1800   1900   2000
+                      :      :      :      :      :      :      :      :      :      :      :      :
+EXCHANGE RATES        :      :      :      :      :      :      :      :      :      :      :      :
+Medieval FX           :      :      ██████████████████████████████████████████████████████████      :
+Clio Infra FX         :      :      :      :      :      :      ████████████████████████████████████████
+MeasuringWorth FX     :      :      :      :      :      :      :      :      :      █████████████████
+BoE Millennium        :      :      :      :      :      :      :      :      :      ██████████████████
+JST Macrohistory      :      :      :      :      :      :      :      :      :      :     ████████████
+Riksbank              :      :      :      :      :      :      :      :      :      :       ██████████
+Penn World Table      :      :      :      :      :      :      :      :      :      :         ████████
+BIS                   :      :      :      :      :      :      :      :      :      :            █████
+IMF / WB / GMD / FRED :      :      :      :      :      :      :      :      :      :            █████
+                      :      :      :      :      :      :      :      :      :      :      :      :
+PRECIOUS METALS       :      :      :      :      :      :      :      :      :      :      :      :
+Gold (GBP)            :      :      :      █████████████████████████████████████████████████████████████
+Gold (USD)            :      :      :      :      :      :      :      :      :      █████████████████
+Silver                :      :      :      :      :      :      :      :      ████████████████████████
+LBMA Gold+Silver      :      :      :      :      :      :      :      :      :      :      :  ████████
+Gold/Silver Ratio     :      :      :      :      :      :      :      :      ████████████████████████
+                      :      :      :      :      :      :      :      :      :      :      :      :
+COMMODITIES           :      :      :      :      :      :      :      :      :      :      :      :
+Allen-Unger (973)     :      :      :      ██████████████████████████████████████████████      :      :
+                      :      :      :      :      :      :      :      :      :      :      :      :
+INTEREST RATES        :      :      :      :      :      :      :      :      :      :      :      :
+Schmelzing (8 ctry)   :      :      :      ████████████████████████████████████████████████████████████
+UK+US Nominal Rates   :      :      :      :      :      :      :      :      ████████████████████████
+                      :      :      :      :      :      :      :      :      :      :      :      :
+INFLATION / CPI       :      :      :      :      :      :      :      :      :      :      :      :
+US CPI                :      :      :      :      :      :      :      :      :      █████████████████
+Clio Infra CPI        :      :      :      :      :      :      ████████████████████████████████████████
+                      :      :      :      :      :      :      :      :      :      :      :      :
+GDP PER CAPITA        :      :      :      :      :      :      :      :      :      :      :      :
+Maddison (178 ctry)   █████████████████████████████████████████████████████████████████████████████████
+                      :      :      :      :      :      :      :      :      :      :      :      :
+REGIMES               :      :      :      :      :      :      :      :      :      :      :      :
+IRR Classifications   :      :      :      :      :      :      :      :      :      :       █████████
 ```
 
 ## What the data shows
@@ -148,10 +152,10 @@ Seven sections: yearly panel, daily data, fat tails (histogram + QQ-plot), regim
 
 ## Updating source data
 
-14 sources are automatically fetched by `update_sources.py`. A weekly GitHub Actions workflow runs `--all` every Monday at 06:00 UTC, or trigger it manually from the Actions tab.
+17 sources are automatically fetched by `update_sources.py`. A weekly GitHub Actions workflow runs `--all` every Monday at 06:00 UTC, or trigger it manually from the Actions tab. Each run creates a GitHub Release with a tarball of all data.
 
 ```bash
-python scripts/update_sources.py --all           # update all 14 sources
+python scripts/update_sources.py --all           # update all 17 sources
 python scripts/update_sources.py --fred          # or update individually
 ```
 
@@ -178,10 +182,13 @@ FRED requires a free API key from [fred.stlouisfed.org](https://fred.stlouisfed.
 ```
 forex-centuries/
 ├── data/
-│   ├── sources/           # Raw data, untouched from provider (17 sources)
+│   ├── sources/           # Raw data, untouched from provider (20 sources)
+│   │   ├── maddison/      # GDP per capita, 178 countries (1 CE - 2022)
 │   │   ├── memdb/         # Medieval exchange rates (1106-1800)
+│   │   ├── allenunger/    # 973 commodity price series (1260-1914)
+│   │   ├── measuringworth/# FX, gold, interest rates, CPI (1257-2025)
+│   │   ├── schmelzing/    # Real interest rates, 8 countries (1311-2018)
 │   │   ├── clio_infra/    # Exchange rates, inflation, bonds, debt, GDP (1500-2016)
-│   │   ├── measuringworth/# FX, gold, silver, interest rates, CPI (1257-2025)
 │   │   ├── freegold/      # 768-year gold, silver, gold/silver ratio (1258-2025)
 │   │   ├── lbma/          # Daily gold + silver prices in USD/GBP/EUR (1968-2025)
 │   │   ├── imf/           # 173 currencies, monthly (1955-2025)
@@ -200,7 +207,7 @@ forex-centuries/
 │       └── analysis/      # Log returns, volatility, correlations, regimes, gold
 ├── charts/                # Generated by visualize.py (9 PNGs)
 ├── notebooks/             # Jupyter exploration notebook
-├── scripts/               # update_sources.py (14 automated fetchers)
+├── scripts/               # update_sources.py (17 automated fetchers)
 ├── tests/                 # Unit tests (13 tests, synthetic data)
 ├── build.py               # 8-step ETL pipeline
 ├── validate.py            # Data quality checks (52 checks)
@@ -229,6 +236,9 @@ forex-centuries/
 | [DataHub Gold](https://github.com/datasets/gold-prices) | `--gold` | Monthly gold prices USD | 1833-2025 | |
 | [IRR](https://www.ilzetzki.com/irr-data) | `--irr` | De facto FX regime classifications, ~190 countries | 1940-2021 | |
 | [Bank of England](https://www.bankofengland.co.uk/statistics/research-datasets) | `--boe` | UK millennium dataset ($/£, rates, prices, GDP) | 1791-2016 | |
+| [Schmelzing (BoE)](https://www.bankofengland.co.uk/working-paper/2020/eight-centuries-of-global-real-interest-rates-r-g-and-the-suprasecular-decline-1311-2018) | `--schmelzing` | Real interest rates, 8 countries (IT, UK, NL, DE, FR, ES, JP, US) | 1311-2018 | |
+| [Maddison Project](https://www.rug.nl/ggdc/historicaldevelopment/maddison/) | `--maddison` | GDP per capita, 178 countries (via OWID API + Dataverse xlsx) | 1 CE-2022 | |
+| [Allen-Unger GCPD](https://datasets.iisg.amsterdam/dataset.xhtml?persistentId=hdl:10622/3SV0BO) | `--allenunger` | 973 commodity price series (wheat, rye, silver, etc.) across cities | 1260-1914 | |
 
 ### Static (committed to repo, updated manually)
 
@@ -244,16 +254,17 @@ See [SOURCES.md](SOURCES.md) for column schemas, quoting conventions, and file-l
 
 | Asset | Series | Years | Period | Source |
 |-------|--------|------:|--------|--------|
+| GDP per capita | 178 countries | 2,021 | 1 CE-2022 | Maddison Project |
 | Gold | British official price (GBP/oz) | 768 | 1257-2025 | MeasuringWorth |
 | Gold | USD price per oz | 767 | 1258-2025 | FreeGoldAPI |
-| Exchange rates | 186 countries vs GBP | 516 | 1500-2016 | Clio Infra |
-| Exchange rates | 186 countries vs USD | 516 | 1500-2016 | Clio Infra |
+| Interest rates | Real rates, 8 countries | 707 | 1311-2018 | Schmelzing (BoE) |
 | Medieval FX | European exchange quotations | 694 | 1106-1800 | MEMDB |
+| Commodity prices | 973 series across European/Asian cities | 654 | 1260-1914 | Allen-Unger |
+| Exchange rates | 186 countries vs GBP | 516 | 1500-2016 | Clio Infra |
 | Silver | Silver-normalized prices | 337 | 1688-2025 | FreeGoldAPI |
 | Gold/silver ratio | Annual ratio | 338 | 1687-2025 | MeasuringWorth |
-| Interest rates | UK short + long term | 296 | 1729-2025 | MeasuringWorth |
+| Interest rates | UK+US nominal short + long term | 296 | 1729-2025 | MeasuringWorth |
 | US CPI | Consumer price index | 251 | 1774-2025 | MeasuringWorth |
-| Dollar-pound | $/£ rate | 234 | 1791-2025 | MeasuringWorth |
 | 41 FX vs USD | Annual rates | 234 | 1791-2025 | MeasuringWorth |
 | FX regimes | De facto classifications | 81 | 1940-2021 | IRR |
 
@@ -309,7 +320,7 @@ If you use this dataset in your research, please cite it as:
 ```bibtex
 @misc{forex-centuries,
   author       = {Federico Carrone},
-  title        = {forex-centuries: Nine Centuries of Exchange Rate, Gold, Silver, and Interest Rate Data (1106--2026)},
+  title        = {forex-centuries: Twenty Centuries of Exchange Rate, Gold, Silver, Interest Rate, and Commodity Price Data (1 CE--2026)},
   year         = {2025},
   publisher    = {GitHub},
   url          = {https://github.com/unbalancedparentheses/forex-centuries}
@@ -318,12 +329,14 @@ If you use this dataset in your research, please cite it as:
 
 Or in prose:
 
-> Federico Carrone, *forex-centuries: Nine Centuries of Exchange Rate, Gold, Silver, and Interest Rate Data (1106-2026)*, 2025. https://github.com/unbalancedparentheses/forex-centuries
+> Federico Carrone, *forex-centuries: Twenty Centuries of Exchange Rate, Gold, Silver, Interest Rate, and Commodity Price Data (1 CE-2026)*, 2025. https://github.com/unbalancedparentheses/forex-centuries
 
-This dataset assembles and harmonizes data from 17 primary sources. Please also cite the underlying sources relevant to your work:
+This dataset assembles and harmonizes data from 20 primary sources. Please also cite the underlying sources relevant to your work:
 
 ## Source references
 
+- Allen, R.C. & Unger, R.W. "Global Commodity Prices Database." International Institute of Social History.
+- Bolt, J. & van Zanden, J.L. (2024). "Maddison style estimates of the evolution of the world economy. A new 2023 update." *Journal of Economic Surveys*, 38(4), 1507-1545.
 - Clark, G. "What Were the UK Earnings and Prices Then?" *MeasuringWorth*.
 - Denzel, M.A. (2010). *Handbook of World Exchange Rates, 1590-1914*. Ashgate/Routledge.
 - Feenstra, R.C., Inklaar, R. & Timmer, M.P. (2015). "The Next Generation of the Penn World Table." *AER*, 105(10), 3150-3182.
@@ -335,5 +348,6 @@ This dataset assembles and harmonizes data from 17 primary sources. Please also 
 - Officer, L.H. & Williamson, S.H. "The Price of Gold, 1257-Present." *MeasuringWorth*.
 - Officer, L.H. & Williamson, S.H. "The Annual Consumer Price Index for the United States, 1774-Present." *MeasuringWorth*.
 - Reinhart, C.M. & Rogoff, K.S. (2009). *This Time Is Different: Eight Centuries of Financial Folly*. Princeton University Press.
+- Schmelzing, P. (2020). "Eight centuries of global real interest rates, R-G, and the 'suprasecular' decline, 1311-2018." *Bank of England Staff Working Paper No. 845*.
 - Spufford, P. (1986). *Handbook of Medieval Exchange*. Royal Historical Society.
 - Thomas, R. & Dimsdale, N. (2017). "A Millennium of UK Data." Bank of England OBRA dataset.

@@ -30,7 +30,7 @@ jobs:
       - name: Update sources
         env:
           FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
-        timeout-minutes: 20
+        timeout-minutes: 30
         run: python scripts/update_sources.py --all
 
       - name: Build derived data
@@ -65,7 +65,7 @@ jobs:
         run: |
           DATE=$(date +%Y-%m-%d)
           TAG="data-${DATE}"
-          tar -czf "forex-centuries-data-${DATE}.tar.gz" data/derived/ charts/
+          tar -czf "forex-centuries-data-${DATE}.tar.gz" data/ charts/
           gh release create "$TAG" "forex-centuries-data-${DATE}.tar.gz" \
             --title "Data update ${DATE}" \
             --notes "Automated weekly data refresh ($(date +%Y-%m-%d))" \

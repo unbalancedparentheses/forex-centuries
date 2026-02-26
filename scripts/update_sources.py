@@ -17,6 +17,9 @@ Usage:
     python scripts/update_sources.py --lbma   # no auth needed (gold + silver from LBMA)
     python scripts/update_sources.py --irr    # no auth needed
     python scripts/update_sources.py --boe    # no auth needed
+    python scripts/update_sources.py --schmelzing  # no auth needed
+    python scripts/update_sources.py --maddison    # no auth needed
+    python scripts/update_sources.py --allenunger  # no auth needed
     python scripts/update_sources.py --all    # all of the above
 """
 
@@ -760,6 +763,133 @@ def update_boe():
 
 
 # ---------------------------------------------------------------------------
+# Schmelzing (Bank of England) — Eight Centuries of Real Interest Rates
+# ---------------------------------------------------------------------------
+
+def update_schmelzing():
+    """Update Schmelzing (2020) real interest rates dataset (1311-2018)."""
+    url = (
+        "https://www.bankofengland.co.uk/-/media/boe/files/working-paper/2020/"
+        "eight-centuries-of-global-real-interest-rates-r-g-and-the-"
+        "suprasecular-decline-1311-2018-data.xlsx"
+    )
+    dest = SOURCES / "schmelzing" / "schmelzing_real_interest_rates.xlsx"
+
+    print("Updating Schmelzing real interest rates (1311-2018)...")
+    try:
+        data = fetch_bytes(url, timeout=120)
+        if len(data) < 100_000:
+            print(f"  WARNING: file too small ({len(data)} bytes), possible error")
+            return
+        write_atomic_bytes(dest, data)
+        size_mb = len(data) / (1024 * 1024)
+        print(f"  schmelzing_real_interest_rates.xlsx: {size_mb:.1f} MB")
+    except Exception as e:
+        print(f"  ERROR: {e}")
+
+    print("Schmelzing update complete.")
+
+
+# ---------------------------------------------------------------------------
+# Maddison Project Database 2023
+# ---------------------------------------------------------------------------
+
+def update_maddison():
+    """Update Maddison Project Database (GDP per capita, 1 CE - 2022)."""
+    dest_dir = SOURCES / "maddison"
+
+    print("Updating Maddison Project Database 2023...")
+
+    # Primary: OWID API (always reachable, has full Maddison data).
+    # The indicator 900793 is "GDP per capita" from the Maddison Project Database.
+    data_url = "https://api.ourworldindata.org/v1/indicators/900793.data.json"
+    meta_url = "https://api.ourworldindata.org/v1/indicators/900793.metadata.json"
+    try:
+        raw_data = json.loads(fetch_url(data_url, timeout=60))
+        raw_meta = json.loads(fetch_url(meta_url, timeout=60))
+
+        # Build entity_id -> (name, code) mapping
+        entities = {
+            e["id"]: (e["name"], e.get("code", ""))
+            for e in raw_meta.get("dimensions", {}).get("entities", {}).get("values", [])
+        }
+
+        # Build CSV
+        lines = ["entity_code,entity_name,year,gdp_per_capita"]
+        values = raw_data["values"]
+        years = raw_data["years"]
+        ent_ids = raw_data["entities"]
+        rows = []
+        for i in range(len(values)):
+            name, code = entities.get(ent_ids[i], ("Unknown", ""))
+            rows.append((code, name, years[i], values[i]))
+        rows.sort(key=lambda r: (r[0] or "", r[2]))
+        for code, name, year, val in rows:
+            if "," in name:
+                name = f'"{name}"'
+            lines.append(f"{code},{name},{year},{val}")
+        content = "\n".join(lines) + "\n"
+        write_atomic(dest_dir / "maddison_gdp_per_capita.csv", content)
+        print(f"  maddison_gdp_per_capita.csv: {len(rows):,} rows ({len(entities)} countries, years {min(years)}-{max(years)})")
+    except Exception as e:
+        print(f"  ERROR (OWID API): {e}")
+
+    # Also try to get the original xlsx from Dataverse/rug.nl
+    xlsx_urls = [
+        ("https://dataverse.nl/api/access/datafile/421302", "maddison_mpd2023.xlsx"),
+        ("https://www.rug.nl/ggdc/historicaldevelopment/maddison/data/mpd2023.xlsx", "maddison_mpd2023.xlsx"),
+    ]
+    for url, filename in xlsx_urls:
+        try:
+            data = fetch_bytes(url, timeout=300)
+            if len(data) < 100_000:
+                print(f"  WARNING: {filename} too small ({len(data)} bytes), trying next URL")
+                continue
+            write_atomic_bytes(dest_dir / filename, data)
+            size_mb = len(data) / (1024 * 1024)
+            print(f"  {filename}: {size_mb:.1f} MB (from {url.split('/')[2]})")
+            break
+        except Exception as e:
+            print(f"  {url.split('/')[2]}: {e}, trying next...")
+    else:
+        print("  NOTE: original xlsx unavailable (Dataverse/rug.nl down), CSV from OWID API is complete")
+
+    print("Maddison update complete.")
+
+
+# ---------------------------------------------------------------------------
+# Allen-Unger Global Commodity Prices Database (1260-1914)
+# ---------------------------------------------------------------------------
+
+def update_allenunger():
+    """Update Allen-Unger Global Commodity Prices Database."""
+    url = (
+        "https://datasets.iisg.amsterdam/api/access/dataset/"
+        ":persistentId/?persistentId=hdl:10622/3SV0BO"
+    )
+    dest_dir = SOURCES / "allenunger"
+
+    print("Updating Allen-Unger Global Commodity Prices (1260-1914)...")
+    try:
+        data = fetch_bytes(url, timeout=300)
+        if len(data) < 10_000:
+            print(f"  WARNING: file too small ({len(data)} bytes), possible error")
+            return
+        dest_dir.mkdir(parents=True, exist_ok=True)
+        with zipfile.ZipFile(io.BytesIO(data)) as zf:
+            members = zf.namelist()
+            tab_files = [m for m in members if m.endswith(".tab")]
+            for tf in tab_files:
+                content = zf.read(tf)
+                write_atomic_bytes(dest_dir / Path(tf).name, content)
+            print(f"  Extracted {len(tab_files)} commodity price files ({len(data) / 1024:.0f} KB compressed)")
+    except Exception as e:
+        print(f"  ERROR: {e}")
+
+    print("Allen-Unger update complete.")
+
+
+# ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
 
@@ -778,6 +908,9 @@ ALL_SOURCES = [
     ("lbma", update_lbma, "Update LBMA gold + silver daily prices (from 1968)"),
     ("irr", update_irr, "Update IRR regime classifications"),
     ("boe", update_boe, "Update Bank of England Millennium dataset"),
+    ("schmelzing", update_schmelzing, "Update Schmelzing real interest rates (1311-2018)"),
+    ("maddison", update_maddison, "Update Maddison Project GDP per capita (1 CE - 2022)"),
+    ("allenunger", update_allenunger, "Update Allen-Unger commodity prices (1260-1914)"),
 ]
 
 
