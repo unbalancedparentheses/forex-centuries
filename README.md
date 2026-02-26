@@ -4,6 +4,45 @@ Historical monetary and economic data spanning twenty centuries (1 CE-2026). 27 
 
 Related project: [fatcrash](https://github.com/unbalancedparentheses/fatcrash) — crash detection via fat-tail statistics (LPPLS, EVT, Hill estimator, Kappa).
 
+## Data overview
+
+| Category | What | Countries/Series | Period |
+|----------|------|-----------------|--------|
+| **GDP per capita** | Real GDP per person | 178 countries | 1 CE - 2022 |
+| **Exchange rates** | Bilateral FX vs USD, GBP, and cross rates | ~243 countries | 1106 - 2026 |
+| **Gold** | Gold prices in GBP and USD | Global | 1257 - 2025 |
+| **Silver** | Silver prices and gold/silver ratio | Global | 1687 - 2025 |
+| **Commodity prices** | 973 historical + 70 modern series (wheat, rye, oil, metals, agriculture) | European/Asian cities + global | 1260 - present |
+| **Interest rates** | Real and nominal, short and long term | 8 countries (historical), UK+US (nominal) | 1311 - 2025 |
+| **Inflation / CPI** | Consumer price indices | ~180 countries | 1500 - 2025 |
+| **Real wages** | Labourers' real wage in subsistence ratios | ~40 countries | 1820 - 2000+ |
+| **Sovereign debt** | Public debt-to-GDP ratios | 191 countries | 1800 - 2016 |
+| **FX regimes & crises** | Peg/float/fall classifications, banking/currency/debt crisis indices | ~190 countries | 1800 - 2021 |
+| **Real effective exchange rates** | Trade-weighted, CPI-deflated REER | 178 countries | 1960s - 2026 |
+| **Swedish historical macro** | FX, CPI, wages, GDP, money supply, stocks, bonds | Sweden | 1277 - 2026 |
+| **Historical financial statistics** | Official/market FX, interest rates, money supply, central bank balance sheets | Various | ~1500 - 1950 |
+| **Macroeconomic panel** | 59 variables (FX, CPI, rates, GDP, credit, housing, stocks) | 18 advanced economies | 1870 - 2017 |
+
+Time depth: **2,000+ years** for GDP (Maddison, 1 CE), **900 years** for medieval exchange rates (MEMDB, 1106), **768 years** for gold (MeasuringWorth, 1257), **707 years** for real interest rates (Schmelzing, 1311), **654 years** for commodity prices (Allen-Unger, 1260), **526 years** for exchange rate panels (Clio Infra, 1500), **55 years** for daily FX (FRED, 1971).
+
+## Citation
+
+If you use this dataset in your research, please cite:
+
+```bibtex
+@misc{forex-centuries,
+  author       = {Federico Carrone},
+  title        = {forex-centuries: Twenty Centuries of Exchange Rate, Gold, Silver, Interest Rate, and Commodity Price Data (1 CE--2026)},
+  year         = {2025},
+  publisher    = {GitHub},
+  url          = {https://github.com/unbalancedparentheses/forex-centuries}
+}
+```
+
+> Federico Carrone, *forex-centuries: Twenty Centuries of Exchange Rate, Gold, Silver, Interest Rate, and Commodity Price Data (1 CE-2026)*, 2025. https://github.com/unbalancedparentheses/forex-centuries
+
+Please also cite the underlying sources relevant to your work (see [Sources](#sources) below).
+
 ## Coverage
 
 ```
@@ -469,26 +508,6 @@ Riksbank Historical Monetary Statistics, 13 Excel files across 3 volumes. Vol I 
 - [ ] Add silver purchasing power analysis (parallel to gold inflation)
 - [ ] Add real exchange rate computation using CPI and Bruegel REER data
 - [ ] Cross-validate overlapping series (e.g. MeasuringWorth gold vs FreeGoldAPI vs LBMA)
-
-## Citation
-
-If you use this dataset in your research, please cite it as:
-
-```bibtex
-@misc{forex-centuries,
-  author       = {Federico Carrone},
-  title        = {forex-centuries: Twenty Centuries of Exchange Rate, Gold, Silver, Interest Rate, and Commodity Price Data (1 CE--2026)},
-  year         = {2025},
-  publisher    = {GitHub},
-  url          = {https://github.com/unbalancedparentheses/forex-centuries}
-}
-```
-
-Or in prose:
-
-> Federico Carrone, *forex-centuries: Twenty Centuries of Exchange Rate, Gold, Silver, Interest Rate, and Commodity Price Data (1 CE-2026)*, 2025. https://github.com/unbalancedparentheses/forex-centuries
-
-This dataset assembles and harmonizes data from 22 primary sources. Please also cite the underlying sources relevant to your work.
 
 ## References
 
