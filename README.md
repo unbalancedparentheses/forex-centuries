@@ -1,8 +1,45 @@
 # forex-centuries
 
-Historical foreign exchange rate data spanning nine centuries (1106–2026), assembled for volatility research. 13 sources, 76 files, ~240 countries.
+Historical monetary and exchange rate data spanning nine centuries (1106-2026). 17 sources, 88 files, ~240 countries. Exchange rates, gold, silver, interest rates, CPI, and regime classifications — assembled for long-run volatility and tail-risk research.
 
 Related project: [fatcrash](https://github.com/unbalancedparentheses/fatcrash) — crash detection via fat-tail statistics (LPPLS, EVT, Hill estimator, Kappa).
+
+## Coverage
+
+```
+Asset                1100   1200   1300   1400   1500   1600   1700   1800   1900   2000
+                     :      :      :      :      :      :      :      :      :      :
+EXCHANGE RATES       :      :      :      :      :      :      :      :      :      :
+Medieval FX          ██████████████████████████████████████████████████████████      :
+Clio Infra FX        :      :      :      :      ████████████████████████████████████████
+MeasuringWorth FX    :      :      :      :      :      :      :      █████████████████
+BoE Millennium       :      :      :      :      :      :      :      ██████████████████
+JST Macrohistory     :      :      :      :      :      :      :      :     ████████████
+Riksbank             :      :      :      :      :      :      :      :       ██████████
+Penn World Table     :      :      :      :      :      :      :      :         ████████
+BIS                  :      :      :      :      :      :      :      :            █████
+IMF IFS              :      :      :      :      :      :      :      :            █████
+World Bank           :      :      :      :      :      :      :      :            █████
+GMD                  :      :      :      :      :      :      :      :            █████
+FRED Daily           :      :      :      :      :      :      :      :             ████
+                     :      :      :      :      :      :      :      :      :      :
+PRECIOUS METALS      :      :      :      :      :      :      :      :      :      :
+Gold (GBP)           :      █████████████████████████████████████████████████████████████
+Gold (USD)           :      :      :      :      :      :      :      █████████████████
+Silver               :      :      :      :      :      :      ████████████████████████
+LBMA Gold+Silver     :      :      :      :      :      :      :      :      :  ████████
+Gold/Silver Ratio    :      :      :      :      :      :      ████████████████████████
+                     :      :      :      :      :      :      :      :      :      :
+INTEREST RATES       :      :      :      :      :      :      :      :      :      :
+UK+US Rates          :      :      :      :      :      :      ████████████████████████
+                     :      :      :      :      :      :      :      :      :      :
+INFLATION            :      :      :      :      :      :      :      :      :      :
+US CPI               :      :      :      :      :      :      :      █████████████████
+Clio Infra CPI       :      :      :      :      ████████████████████████████████████████
+                     :      :      :      :      :      :      :      :      :      :
+REGIMES              :      :      :      :      :      :      :      :      :      :
+IRR Classifications  :      :      :      :      :      :      :      :       █████████
+```
 
 ## What the data shows
 
@@ -10,9 +47,9 @@ Related project: [fatcrash](https://github.com/unbalancedparentheses/fatcrash) �
 
 Every single currency pair — across all time scales and all centuries — shows heavier tails than a Gaussian distribution.
 
-**Daily (1971–2025, 23 currencies):** 3-sigma events happen **3–6x more often** than a normal distribution predicts. Even the most "stable" pair (EUR/USD, excess kurtosis 2.5) has 4x too many tail events. Pegged and managed currencies (HKD, CNY, LKR) show the **highest** kurtosis — the peg suppresses daily moves but creates catastrophic jumps when it breaks.
+**Daily (1971-2025, 23 currencies):** 3-sigma events happen **3-6x more often** than a normal distribution predicts. Even the most "stable" pair (EUR/USD, excess kurtosis 2.5) has 4x too many tail events. Pegged and managed currencies (HKD, CNY, LKR) show the **highest** kurtosis — the peg suppresses daily moves but creates catastrophic jumps when it breaks.
 
-**Yearly (1791–2025, 40 currencies):** Germany's Weimar hyperinflation produces kurtosis of 36.8 (a single year, 1923, saw a 16x log move). Latin American currencies (Mexico 82, Argentina 19, Brazil 13) show the fattest tails from repeated devaluations and redenominations. Even the UK, with 234 years of data, has excess kurtosis of 5.1.
+**Yearly (1791-2025, 40 currencies):** Germany's Weimar hyperinflation produces kurtosis of 36.8 (a single year, 1923, saw a 16x log move). Latin American currencies (Mexico 82, Argentina 19, Brazil 13) show the fattest tails from repeated devaluations and redenominations. Even the UK, with 234 years of data, has excess kurtosis of 5.1.
 
 | Currency | Ann Vol | Excess Kurtosis | Tail Ratio |
 |----------|---------|-----------------|------------|
@@ -31,9 +68,9 @@ Currencies with the lowest daily volatility (HKD at 3.2%, CNY at 8.2%) have some
 
 Three distinct regimes emerge from the data:
 
-- **Gold standard era** (~1870–1914): low nominal volatility, sudden large breaks
-- **Bretton Woods** (1944–1971): artificially suppressed vol, then explosive devaluations
-- **Free float** (1971–present): higher day-to-day vol but fewer catastrophic jumps
+- **Gold standard era** (~1870-1914): low nominal volatility, sudden large breaks
+- **Bretton Woods** (1944-1971): artificially suppressed vol, then explosive devaluations
+- **Free float** (1971-present): higher day-to-day vol but fewer catastrophic jumps
 
 The regime-conditional statistics quantify this: freely falling currencies have annual volatility of 225% vs 10.8% for free-floating. Pegged currencies show excess kurtosis of 133 vs 0.8 for free float — confirming that pegs suppress daily volatility but produce catastrophic jumps.
 
@@ -89,7 +126,7 @@ The 8-step build pipeline produces:
 4. Volatility statistics (kurtosis, tail events, 3-sigma counts)
 5. Correlation matrices (daily 23x23, yearly 40x40)
 6. Rolling volatility (252-day window)
-7. Regime analysis (IRR fine→coarse, regime-conditional stats)
+7. Regime analysis (IRR fine->coarse, regime-conditional stats)
 8. Gold inflation (yearly 243 countries since 1257, monthly 174 currencies)
 
 ## Testing
@@ -111,25 +148,14 @@ Seven sections: yearly panel, daily data, fat tails (histogram + QQ-plot), regim
 
 ## Updating source data
 
+14 sources are automatically fetched by `update_sources.py`. A weekly GitHub Actions workflow runs `--all` every Monday at 06:00 UTC, or trigger it manually from the Actions tab.
+
 ```bash
-python scripts/update_sources.py --fred          # FRED daily FX (needs FRED_API_KEY)
-python scripts/update_sources.py --imf           # IMF exchange rates
-python scripts/update_sources.py --gold          # DataHub gold prices
-python scripts/update_sources.py --bis           # BIS bilateral + effective rates
-python scripts/update_sources.py --riksbank      # Riksbank SEK pairs (rate-limited)
-python scripts/update_sources.py --worldbank     # World Bank official rates
-python scripts/update_sources.py --jst           # JST Macrohistory
-python scripts/update_sources.py --pwt           # Penn World Table
-python scripts/update_sources.py --measuringworth # MeasuringWorth FX + gold
-python scripts/update_sources.py --clio          # Clio Infra (FX, inflation, bonds, debt, GDP)
-python scripts/update_sources.py --freegold      # FreeGoldAPI (768 years gold + silver)
-python scripts/update_sources.py --lbma          # LBMA gold + silver daily (from 1968)
-python scripts/update_sources.py --irr           # IRR regime classifications
-python scripts/update_sources.py --boe           # Bank of England Millennium
-python scripts/update_sources.py --all           # all of the above
+python scripts/update_sources.py --all           # update all 14 sources
+python scripts/update_sources.py --fred          # or update individually
 ```
 
-FRED requires a free API key from [fred.stlouisfed.org](https://fred.stlouisfed.org/docs/api/api_key.html). Set it as `FRED_API_KEY` in your environment. All other sources require no authentication.
+FRED requires a free API key from [fred.stlouisfed.org](https://fred.stlouisfed.org/docs/api/api_key.html). Set it as `FRED_API_KEY` in your environment or as a GitHub repository secret. All other sources require no authentication.
 
 ## Charts
 
@@ -143,58 +169,41 @@ FRED requires a free API key from [fred.stlouisfed.org](https://fred.stlouisfed.
 | `rolling_volatility.png` | 1-year rolling vol for GBP, JPY, CHF, EUR with Nixon shock, Lehman, COVID markers |
 | `correlation_heatmap.png` | Hierarchically clustered daily log-return correlations (23x23) |
 | `gold_erosion.png` | Cumulative gold purchasing power retained for USD, GBP, JPY, CHF, FRF, DEM, INR, CNY |
-| `regime_timeline.png` | Exchange rate regime (peg → free float → freely falling) for 25 countries, 1940–2019 |
+| `regime_timeline.png` | Exchange rate regime (peg -> free float -> freely falling) for 25 countries, 1940-2019 |
 | `qq_daily.png` | QQ-plots for 6 daily currencies — tail deviation from the normal reference line |
 | `qq_regimes.png` | QQ-plots comparing peg vs free float vs freely falling return distributions |
-
-## Coverage
-
-```
-                     1100   1200   1300   1400   1500   1600   1700   1800   1900   2000
-MEMDB Spufford       ███████████████████████████████
-MEMDB Metz                              ███████████████████████████████████
-Clio Infra (GBP)                                   ████████████████████████████████████████
-Clio Infra (USD)                                                         ██████████████████
-BoE Millennium                                                            █████████████████
-MeasuringWorth                                                            █████████████████
-JST Macrohistory                                                                ███████████
-Riksbank                                                                          █████████
-IRR Regimes                                                                        ████████
-IMF IFS                                                                               █████
-BIS                                                                                   █████
-World Bank                                                                            █████
-GMD                                                                                   █████
-FRED Daily                                                                             ████
-```
 
 ## Project structure
 
 ```
 forex-centuries/
 ├── data/
-│   ├── sources/           # Raw data organized by provider (13 sources)
-│   │   ├── memdb/         # Medieval exchange rates (1106–1800)
-│   │   ├── clio_infra/    # Exchange rates, inflation, bonds, debt, GDP (1500–2016)
-│   │   ├── measuringworth/# 40 currencies vs USD + gold prices (1257–2025)
-│   │   ├── imf/           # 168 currencies, monthly (1955–2025)
-│   │   ├── bis/           # Bilateral + effective rates, ~190 economies (1957–2026)
-│   │   ├── fred/          # 23 daily pairs + 2 USD indices (1971–2025)
-│   │   ├── gold/          # Monthly gold prices USD (1833–2025)
-│   │   ├── riksbank/      # 53 SEK bilateral series (1900–2026)
-│   │   ├── worldbank/     # Official rates, all members (1960–present)
-│   │   ├── irr/           # Exchange rate regime classifications (1940–2021)
-│   │   ├── jst/           # Macrohistory: 18 countries, 59 variables (1870–2017)
-│   │   ├── boe/           # UK millennium dataset (1791–2016)
-│   │   └── gmd/           # 243 countries, USDfx + REER (1960–2024)
-│   └── derived/           # Computed by build.py
+│   ├── sources/           # Raw data, untouched from provider (17 sources)
+│   │   ├── memdb/         # Medieval exchange rates (1106-1800)
+│   │   ├── clio_infra/    # Exchange rates, inflation, bonds, debt, GDP (1500-2016)
+│   │   ├── measuringworth/# FX, gold, silver, interest rates, CPI (1257-2025)
+│   │   ├── freegold/      # 768-year gold, silver, gold/silver ratio (1258-2025)
+│   │   ├── lbma/          # Daily gold + silver prices in USD/GBP/EUR (1968-2025)
+│   │   ├── imf/           # 173 currencies, monthly (1955-2025)
+│   │   ├── bis/           # Bilateral + effective rates, ~190 economies (1957-2026)
+│   │   ├── fred/          # 23 daily pairs + 2 USD indices (1971-2025)
+│   │   ├── gold/          # Monthly gold prices USD (1833-2025)
+│   │   ├── riksbank/      # 53 SEK bilateral series (1900-2026)
+│   │   ├── worldbank/     # Official rates, all members (1960-present)
+│   │   ├── pwt/           # Penn World Table: 185 countries, FX + PPP (1950-2023)
+│   │   ├── irr/           # Exchange rate regime classifications (1940-2021)
+│   │   ├── jst/           # Macrohistory: 18 countries, 59 variables (1870-2017)
+│   │   ├── boe/           # UK millennium dataset (1791-2016)
+│   │   └── gmd/           # 243 countries, USDfx + REER (1960-2024)
+│   └── derived/           # Computed by build.py (never hand-edited)
 │       ├── normalized/    # Unified panels (yearly 243 countries, daily 23 currencies)
 │       └── analysis/      # Log returns, volatility, correlations, regimes, gold
 ├── charts/                # Generated by visualize.py (9 PNGs)
 ├── notebooks/             # Jupyter exploration notebook
-├── scripts/               # Data update scripts
-├── tests/                 # Unit tests
+├── scripts/               # update_sources.py (14 automated fetchers)
+├── tests/                 # Unit tests (13 tests, synthetic data)
 ├── build.py               # 8-step ETL pipeline
-├── validate.py            # Data quality checks
+├── validate.py            # Data quality checks (52 checks)
 ├── visualize.py           # Chart generation (9 PNGs)
 ├── quickstart.py          # Explore data with pure stdlib
 └── quickstart_pandas.py   # Explore data with pandas
@@ -204,33 +213,49 @@ forex-centuries/
 
 ### Automated (`update_sources.py --all`)
 
-| Source | Data | Period | Update | Auth | Notes |
-|--------|------|--------|--------|------|-------|
-| [FRED](https://fred.stlouisfed.org/) | 23 daily pairs + 2 USD indices | 1971–2025 | `--fred` | `FRED_API_KEY` | H.10 release |
-| [IMF IFS](https://codeforiati.org/imf-exchangerates/) | 173 currencies vs USD, monthly | 1955–2025 | `--imf` | None | Via codeforIATI mirror |
-| [BIS](https://data.bis.org/bulkdownload) | Bilateral + effective rates, ~190 economies | 1957–2026 | `--bis` | None | ZIP bulk download (~700 MB) |
-| [Sveriges Riksbank](https://www.riksbank.se/en-gb/statistics/) | 53 SEK bilateral series, daily | 1900–2026 | `--riksbank` | None | REST API, 5 req/min rate limit |
-| [World Bank](https://data.worldbank.org/indicator/PA.NUS.FCRF) | Official rates, all member countries | 1960–present | `--worldbank` | None | JSON API, paginated |
-| [JST Macrohistory](https://www.macrohistory.net/database/) | 18 advanced economies, 59 variables | 1870–2017 | `--jst` | None | Single xlsx |
-| [Penn World Table](https://www.rug.nl/ggdc/productivity/pwt/) | 185 countries, FX + PPP + price levels | 1950–2023 | `--pwt` | None | Dataverse xlsx (slow server) |
-| [MeasuringWorth](https://www.measuringworth.com/datasets/exchangeglobal/) | 41 currencies vs USD | 1791–2025 | `--measuringworth` | None | CSV export API |
-| [MeasuringWorth Gold](https://www.measuringworth.com/datasets/gold/) | Gold prices (5 series) + gold/silver ratio | 1257–2025 | `--measuringworth` | None | Series fetched individually |
-| [Clio Infra](https://clio-infra.eu/) | FX (USD+GBP), inflation, bonds, debt, GDP, gold standard | 1500–2016 | `--clio` | None | 7 xlsx files |
-| [FreeGoldAPI](https://freegoldapi.com/) | Gold prices (768 yrs) + gold/silver ratio + silver | 1258–2025 | `--freegold` | None | GitHub Pages CSV, daily updates |
-| [LBMA](https://www.lbma.org.uk/prices-and-data/precious-metal-prices) | Daily gold + silver in USD, GBP, EUR | 1968–2025 | `--lbma` | None | JSON feed from prices.lbma.org.uk |
-| [DataHub Gold](https://github.com/datasets/gold-prices) | Monthly gold prices USD | 1833–2025 | `--gold` | None | GitHub CSV |
-| [IRR](https://www.ilzetzki.com/irr-data) | De facto FX regime classifications, ~190 countries | 1940–2021 | `--irr` | None | 3 xlsx from Ilzetzki's site |
-| [Bank of England](https://www.bankofengland.co.uk/statistics/research-datasets) | UK millennium dataset ($/£, rates, prices, GDP) | 1791–2016 | `--boe` | None | Single xlsx (27 MB) |
+| Source | Flag | Data | Period | Auth |
+|--------|------|------|--------|------|
+| [FRED](https://fred.stlouisfed.org/) | `--fred` | 23 daily FX pairs + 2 USD indices | 1971-2025 | `FRED_API_KEY` |
+| [IMF IFS](https://codeforiati.org/imf-exchangerates/) | `--imf` | 173 currencies vs USD, monthly | 1955-2025 | |
+| [BIS](https://data.bis.org/bulkdownload) | `--bis` | Bilateral + effective rates, ~190 economies | 1957-2026 | |
+| [Sveriges Riksbank](https://www.riksbank.se/en-gb/statistics/) | `--riksbank` | 53 SEK bilateral series, daily | 1900-2026 | |
+| [World Bank](https://data.worldbank.org/indicator/PA.NUS.FCRF) | `--worldbank` | Official rates, all member countries | 1960-present | |
+| [JST Macrohistory](https://www.macrohistory.net/database/) | `--jst` | 18 economies, 59 macro/financial variables | 1870-2017 | |
+| [Penn World Table](https://www.rug.nl/ggdc/productivity/pwt/) | `--pwt` | 185 countries, exchange rates + PPP | 1950-2023 | |
+| [MeasuringWorth](https://www.measuringworth.com/datasets/) | `--measuringworth` | 41 FX vs USD, gold (5 series), interest rates (UK+US), US CPI, $/£ | 1257-2025 | |
+| [Clio Infra](https://clio-infra.eu/) | `--clio` | FX (USD+GBP), inflation, bonds, debt, GDP, gold standard | 1500-2016 | |
+| [FreeGoldAPI](https://freegoldapi.com/) | `--freegold` | 768-year gold prices, gold/silver ratio, silver prices | 1258-2025 | |
+| [LBMA](https://www.lbma.org.uk/prices-and-data/precious-metal-prices) | `--lbma` | Daily gold + silver in USD, GBP, EUR | 1968-2025 | |
+| [DataHub Gold](https://github.com/datasets/gold-prices) | `--gold` | Monthly gold prices USD | 1833-2025 | |
+| [IRR](https://www.ilzetzki.com/irr-data) | `--irr` | De facto FX regime classifications, ~190 countries | 1940-2021 | |
+| [Bank of England](https://www.bankofengland.co.uk/statistics/research-datasets) | `--boe` | UK millennium dataset ($/£, rates, prices, GDP) | 1791-2016 | |
 
 ### Static (committed to repo, updated manually)
 
 | Source | Data | Period | Notes |
 |--------|------|--------|-------|
-| [MEMDB Spufford](https://memdb.libraries.rutgers.edu/spufford-currency) | Medieval exchange quotations (521 places) | 1106–1500 | No export API, scraped |
-| [MEMDB Metz](https://memdb.libraries.rutgers.edu/metz-currency) | Lower Rhine + European comparison (29 places) | 1350–1800 | No export API, scraped |
-| [Global Macro Database](https://www.globalmacrodata.com/data.html) | 243 countries, USDfx + REER | 1960–2024 | Email-gated download |
+| [MEMDB Spufford](https://memdb.libraries.rutgers.edu/spufford-currency) | Medieval exchange quotations (521 places) | 1106-1500 | No export API |
+| [MEMDB Metz](https://memdb.libraries.rutgers.edu/metz-currency) | Lower Rhine + European comparison (29 places) | 1350-1800 | No export API |
+| [Global Macro Database](https://www.globalmacrodata.com/data.html) | 243 countries, USDfx + REER | 1960-2024 | Email-gated |
 
 See [SOURCES.md](SOURCES.md) for column schemas, quoting conventions, and file-level details.
+
+## Longest series by asset type
+
+| Asset | Series | Years | Period | Source |
+|-------|--------|------:|--------|--------|
+| Gold | British official price (GBP/oz) | 768 | 1257-2025 | MeasuringWorth |
+| Gold | USD price per oz | 767 | 1258-2025 | FreeGoldAPI |
+| Exchange rates | 186 countries vs GBP | 516 | 1500-2016 | Clio Infra |
+| Exchange rates | 186 countries vs USD | 516 | 1500-2016 | Clio Infra |
+| Medieval FX | European exchange quotations | 694 | 1106-1800 | MEMDB |
+| Silver | Silver-normalized prices | 337 | 1688-2025 | FreeGoldAPI |
+| Gold/silver ratio | Annual ratio | 338 | 1687-2025 | MeasuringWorth |
+| Interest rates | UK short + long term | 296 | 1729-2025 | MeasuringWorth |
+| US CPI | Consumer price index | 251 | 1774-2025 | MeasuringWorth |
+| Dollar-pound | $/£ rate | 234 | 1791-2025 | MeasuringWorth |
+| 41 FX vs USD | Annual rates | 234 | 1791-2025 | MeasuringWorth |
+| FX regimes | De facto classifications | 81 | 1940-2021 | IRR |
 
 ## Derived data
 
@@ -238,7 +263,7 @@ See [SOURCES.md](SOURCES.md) for column schemas, quoting conventions, and file-l
 
 | File | Description |
 |------|-------------|
-| `yearly_unified_panel.csv` | 243 countries, 1500–2025 (MW + CI + GMD with source priority tag) |
+| `yearly_unified_panel.csv` | 243 countries, 1500-2025 (MW + CI + GMD with source priority tag) |
 | `yearly_unified_wide.csv` | Same, year x country matrix |
 | `fred_daily_normalized.csv` | 23 FRED pairs, foreign-per-USD convention |
 | `fred_daily_normalized_wide.csv` | Same, date x currency matrix |
@@ -254,35 +279,10 @@ See [SOURCES.md](SOURCES.md) for column schemas, quoting conventions, and file-l
 | `daily_rolling_volatility.csv` | 252-day rolling annualized vol, 231K obs |
 | `daily_correlation_matrix.csv` | Pairwise Pearson correlations (23x23) |
 | `yearly_correlation_matrix.csv` | Pairwise Pearson correlations (min 30 shared years) |
-| `yearly_regime_classification.csv` | IRR regime per country-year (194 countries, 1940–2019) |
+| `yearly_regime_classification.csv` | IRR regime per country-year (194 countries, 1940-2019) |
 | `regime_conditional_stats.csv` | Volatility and kurtosis by regime type |
-| `yearly_gold_inflation.csv` | Gold inflation, purchasing power, CPI gap (243 countries, 1257–2025) |
-| `monthly_gold_inflation.csv` | Monthly gold inflation and debasement (174 currencies, 1940–2025) |
-
-## Data inventory
-
-| Directory | Source | Files | Rows | Period |
-|-----------|--------|------:|-----:|--------|
-| `sources/memdb/` | MEMDB Spufford | 1 | 13,197 | 1106–1500 |
-| `sources/memdb/` | MEMDB Metz | 1 | 50,559 | 1350–1800 |
-| `sources/clio_infra/` | Clio Infra | 14 | ~3K rows/file | 1500–2016 |
-| `sources/measuringworth/` | MeasuringWorth | 2 | 4,294 | 1257–2025 |
-| `sources/imf/` | IMF IFS | 1 | 158,519 | 1955–2025 |
-| `sources/bis/` | BIS | 2 | 2,664,238 | 1957–2026 |
-| `sources/fred/` | FRED | 25 | ~14K/file | 1971–2025 |
-| `sources/riksbank/` | Sveriges Riksbank | 1 | 295,018 | 1900–2026 |
-| `sources/worldbank/` | World Bank | 1 | 12,379 | 1960–present |
-| `sources/irr/` | Ilzetzki-Reinhart-Rogoff | 7 | — | 1940–2021 |
-| `sources/jst/` | Jorda-Schularick-Taylor | 1 | 2,718 | 1870–2017 |
-| `sources/boe/` | Bank of England | 1 | — | 1791–2016 |
-| `sources/gmd/` | Global Macro Database | 1 | 56,850 | 1960–2024 |
-| `sources/gold/` | DataHub gold prices | 1 | 2,311 | 1833–2025 |
-| `sources/freegold/` | FreeGoldAPI | 3 | 4,876 | 1258–2025 |
-| `sources/lbma/` | LBMA | 2 | 29,251 | 1968–2025 |
-| `sources/pwt/` | Penn World Table | 1 | — | 1950–2023 |
-| `derived/normalized/` | Derived | 4 | 310,212 | 1500–2025 |
-| `derived/analysis/` | Derived | 11 | 663,136 | 1257–2025 |
-| **Total** | **17 sources** | **83** | | **1106–2026** |
+| `yearly_gold_inflation.csv` | Gold inflation, purchasing power, CPI gap (243 countries, 1257-2025) |
+| `monthly_gold_inflation.csv` | Monthly gold inflation and debasement (174 currencies, 1940-2025) |
 
 ## TODO
 
@@ -290,17 +290,25 @@ See [SOURCES.md](SOURCES.md) for column schemas, quoting conventions, and file-l
 
 - [ ] **Reinhart-Rogoff official and parallel exchange rates** from [carmenreinhart.com](https://carmenreinhart.com/exchange-rates-official-and-parallel/). Unique dataset with parallel/black-market rates. Requires manual browser download.
 - [ ] **Reinhart-Rogoff "This Time Is Different"** crisis dataset from [rogoff.scholars.harvard.edu](https://rogoff.scholars.harvard.edu/time-different%E2%80%94data-files). 66 countries, eight centuries of currency crashes, debasements, sovereign defaults. ~100 individual Excel files per chapter.
-- [ ] **MEMDB medieval exchange rates** from [memdb.libraries.rutgers.edu](https://memdb.libraries.rutgers.edu/). Spufford (1106–1500) and Metz (1350–1800) data. No export API — requires web scraping with pagination.
-- [ ] **Global Macro Database** from [globalmacrodata.com](https://www.globalmacrodata.com/data.html). 243 countries, USDfx + REER. Download is email-gated. Alternative: `pip install global_macro_data` Python package.
-- [ ] **NBER Macrohistory Database** from [nber.org](https://www.nber.org/research/data/nber-macrohistory-xiv-money-and-banking). Pre-WWI and interwar US/UK/France/Germany money, banking, exchange rates. Available in .db/.dat format (not CSV). Some series also on [FRED](https://fred.stlouisfed.org/categories/33061).
-- [ ] **Center for Financial Stability Historical Financial Statistics** from [centerforfinancialstability.org](https://centerforfinancialstability.org/hfs.php). Free dataset covering exchange rates, central bank balance sheets, interest rates, money supply across many countries.
+- [ ] **MEMDB medieval exchange rates** from [memdb.libraries.rutgers.edu](https://memdb.libraries.rutgers.edu/). Spufford (1106-1500) and Metz (1350-1800). No export API — requires web scraping with pagination.
+- [ ] **Global Macro Database** from [globalmacrodata.com](https://www.globalmacrodata.com/data.html). 243 countries, USDfx + REER. Email-gated download. Alternative: `pip install global_macro_data`.
+- [ ] **NBER Macrohistory Database** from [nber.org](https://www.nber.org/research/data/nber-macrohistory-xiv-money-and-banking). Pre-WWI and interwar US/UK/France/Germany money, banking, exchange rates. .db/.dat format. Some series on [FRED](https://fred.stlouisfed.org/categories/33061).
+- [ ] **Center for Financial Stability** from [centerforfinancialstability.org](https://centerforfinancialstability.org/hfs.php). Exchange rates, central bank balance sheets, interest rates, money supply.
+
+### Pipeline improvements
+
+- [ ] Integrate new sources into `build.py` (PWT, LBMA silver, interest rates, CPI)
+- [ ] Add silver purchasing power analysis (parallel to gold inflation)
+- [ ] Add real exchange rate computation using CPI data
+- [ ] Cross-validate overlapping series (e.g. MeasuringWorth gold vs FreeGoldAPI vs LBMA)
 
 ## References
 
-- Denzel, M.A. (2010). *Handbook of World Exchange Rates, 1590–1914*. Ashgate/Routledge.
-- Ilzetzki, E., Reinhart, C.M. & Rogoff, K.S. (2019). "Exchange Arrangements Entering the 21st Century." *QJE*, 134(2), 599–646.
-- Jorda, O., Schularick, M. & Taylor, A.M. (2017). "Macrofinancial History and the New Business Cycle Facts." *NBER Macroeconomics Annual*, 31(1), 213–263.
-- Metz, R. (1990). *Geld, Währung und Preisentwicklung: der Niederrheinraum im europäischen Vergleich, 1350–1800*. Frankfurt.
+- Denzel, M.A. (2010). *Handbook of World Exchange Rates, 1590-1914*. Ashgate/Routledge.
+- Feenstra, R.C., Inklaar, R. & Timmer, M.P. (2015). "The Next Generation of the Penn World Table." *AER*, 105(10), 3150-3182.
+- Ilzetzki, E., Reinhart, C.M. & Rogoff, K.S. (2019). "Exchange Arrangements Entering the 21st Century." *QJE*, 134(2), 599-646.
+- Jorda, O., Schularick, M. & Taylor, A.M. (2017). "Macrofinancial History and the New Business Cycle Facts." *NBER Macroeconomics Annual*, 31(1), 213-263.
+- Metz, R. (1990). *Geld, Wahrung und Preisentwicklung: der Niederrheinraum im europaischen Vergleich, 1350-1800*. Frankfurt.
 - Officer, L.H. & Williamson, S.H. *MeasuringWorth*.
 - Reinhart, C.M. & Rogoff, K.S. (2009). *This Time Is Different: Eight Centuries of Financial Folly*. Princeton University Press.
 - Spufford, P. (1986). *Handbook of Medieval Exchange*. Royal Historical Society.
