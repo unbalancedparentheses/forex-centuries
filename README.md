@@ -302,14 +302,38 @@ See [SOURCES.md](SOURCES.md) for column schemas, quoting conventions, and file-l
 - [ ] Add real exchange rate computation using CPI data
 - [ ] Cross-validate overlapping series (e.g. MeasuringWorth gold vs FreeGoldAPI vs LBMA)
 
-## References
+## Citation
 
+If you use this dataset in your research, please cite it as:
+
+```bibtex
+@misc{forex-centuries,
+  author       = {Federico Carrone},
+  title        = {forex-centuries: Nine Centuries of Exchange Rate, Gold, Silver, and Interest Rate Data (1106--2026)},
+  year         = {2025},
+  publisher    = {GitHub},
+  url          = {https://github.com/unbalancedparentheses/forex-centuries}
+}
+```
+
+Or in prose:
+
+> Federico Carrone, *forex-centuries: Nine Centuries of Exchange Rate, Gold, Silver, and Interest Rate Data (1106-2026)*, 2025. https://github.com/unbalancedparentheses/forex-centuries
+
+This dataset assembles and harmonizes data from 17 primary sources. Please also cite the underlying sources relevant to your work:
+
+## Source references
+
+- Clark, G. "What Were the UK Earnings and Prices Then?" *MeasuringWorth*.
 - Denzel, M.A. (2010). *Handbook of World Exchange Rates, 1590-1914*. Ashgate/Routledge.
 - Feenstra, R.C., Inklaar, R. & Timmer, M.P. (2015). "The Next Generation of the Penn World Table." *AER*, 105(10), 3150-3182.
 - Ilzetzki, E., Reinhart, C.M. & Rogoff, K.S. (2019). "Exchange Arrangements Entering the 21st Century." *QJE*, 134(2), 599-646.
 - Jorda, O., Schularick, M. & Taylor, A.M. (2017). "Macrofinancial History and the New Business Cycle Facts." *NBER Macroeconomics Annual*, 31(1), 213-263.
 - Metz, R. (1990). *Geld, Wahrung und Preisentwicklung: der Niederrheinraum im europaischen Vergleich, 1350-1800*. Frankfurt.
-- Officer, L.H. & Williamson, S.H. *MeasuringWorth*.
+- Officer, L.H. "What Was the Interest Rate Then?" *MeasuringWorth*.
+- Officer, L.H. "Dollar-Pound Exchange Rate From 1791." *MeasuringWorth*.
+- Officer, L.H. & Williamson, S.H. "The Price of Gold, 1257-Present." *MeasuringWorth*.
+- Officer, L.H. & Williamson, S.H. "The Annual Consumer Price Index for the United States, 1774-Present." *MeasuringWorth*.
 - Reinhart, C.M. & Rogoff, K.S. (2009). *This Time Is Different: Eight Centuries of Financial Folly*. Princeton University Press.
 - Spufford, P. (1986). *Handbook of Medieval Exchange*. Royal Historical Society.
 - Thomas, R. & Dimsdale, N. (2017). "A Millennium of UK Data." Bank of England OBRA dataset.
