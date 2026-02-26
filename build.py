@@ -561,35 +561,319 @@ def build_gold_inflation(daily_long, panel):
     _build_monthly_gold(daily_long)
 
 
+def build_momentum_analysis(daily_long):
+    """Compute momentum signals for FRED daily currencies.
+
+    3, 6, and 12-month trailing log returns, plus momentum reversal detection
+    (strong positive momentum followed by sharp drop).
+
+    Reference: Jegadeesh, N. & Titman, S. (1993). "Returns to Buying Winners
+    and Selling Losers." Journal of Finance, 48(1), 65-91.
+    """
+    print("  Computing momentum signals...")
+    wide = daily_long.pivot(index="date", columns="currency", values="rate_per_usd")
+    wide.index = pd.to_datetime(wide.index)
+    wide = wide.sort_index()
+
+    lookbacks = {"3m": 63, "6m": 126, "12m": 252}
+    records = []
+
+    for currency in wide.columns:
+        prices = wide[currency].dropna()
+        if len(prices) < 252:
+            continue
+        for label, lb in lookbacks.items():
+            mom = np.log(prices / prices.shift(lb))
+            for date_val, m_val in mom.dropna().items():
+                records.append({
+                    "date": date_val.strftime("%Y-%m-%d"),
+                    "currency": currency,
+                    "lookback": label,
+                    "momentum": round(m_val, 6),
+                })
+
+    mom_df = pd.DataFrame(records)
+    mom_df = mom_df.sort_values(["date", "currency", "lookback"]).reset_index(drop=True)
+    mom_df.to_csv(ANALYSIS / "daily_momentum_signals.csv", index=False)
+    print(f"    daily_momentum_signals.csv: {len(mom_df):,} rows, "
+          f"{mom_df['currency'].nunique()} currencies")
+
+    # Momentum reversal: 12m momentum minus 1m momentum
+    # High positive = long-term up but short-term turning down
+    print("  Computing momentum reversals...")
+    reversal_records = []
+    for currency in wide.columns:
+        prices = wide[currency].dropna()
+        if len(prices) < 252:
+            continue
+        mom_12m = np.log(prices / prices.shift(252))
+        mom_1m = np.log(prices / prices.shift(21))
+        reversal = mom_12m - mom_1m
+        for date_val, rev_val in reversal.dropna().items():
+            reversal_records.append({
+                "date": date_val.strftime("%Y-%m-%d"),
+                "currency": currency,
+                "reversal": round(rev_val, 6),
+                "mom_12m": round(mom_12m.loc[date_val], 6),
+                "mom_1m": round(mom_1m.loc[date_val], 6),
+            })
+
+    rev_df = pd.DataFrame(reversal_records)
+    rev_df = rev_df.sort_values(["date", "currency"]).reset_index(drop=True)
+    rev_df.to_csv(ANALYSIS / "daily_momentum_reversals.csv", index=False)
+    print(f"    daily_momentum_reversals.csv: {len(rev_df):,} rows")
+
+
+def build_sigma_events(daily_ret):
+    """Count n-sigma events per currency vs Gaussian expected frequency.
+
+    Inspired by Monday Morning Macro (2019): "The Impossible has Happened.
+    Again." — documenting 10 four-sigma events in one month in Treasuries.
+    """
+    print("  Computing sigma event frequencies...")
+    sigma_levels = [2, 3, 4, 5]
+    records = []
+
+    for currency, group in daily_ret.groupby("currency"):
+        r = group["log_return"].values
+        n = len(r)
+        vol = r.std(ddof=1)
+        if vol < 1e-10:
+            continue
+
+        for sigma in sigma_levels:
+            threshold = sigma * vol
+            observed = int(np.sum(np.abs(r) > threshold))
+            expected = n * 2 * norm.sf(sigma)
+            ratio = observed / expected if expected > 0 else 0.0
+
+            records.append({
+                "currency": currency,
+                "n_days": n,
+                "sigma_level": sigma,
+                "threshold": round(threshold, 6),
+                "observed": observed,
+                "expected_gaussian": round(expected, 2),
+                "ratio_vs_gaussian": round(ratio, 2),
+            })
+
+    sigma_df = pd.DataFrame(records)
+    sigma_df = sigma_df.sort_values(
+        ["sigma_level", "ratio_vs_gaussian"], ascending=[True, False]
+    ).reset_index(drop=True)
+    sigma_df.to_csv(ANALYSIS / "sigma_event_frequency.csv", index=False)
+    print(f"    sigma_event_frequency.csv: {len(sigma_df)} rows "
+          f"({len(sigma_levels)} sigma levels x {sigma_df['currency'].nunique()} currencies)")
+
+    # Summary: average ratio by sigma level
+    summary = sigma_df.groupby("sigma_level").agg(
+        mean_ratio=("ratio_vs_gaussian", "mean"),
+        median_ratio=("ratio_vs_gaussian", "median"),
+        max_ratio=("ratio_vs_gaussian", "max"),
+        max_currency=("ratio_vs_gaussian", lambda x: sigma_df.loc[x.idxmax(), "currency"]),
+    )
+    print("    Sigma event ratios vs Gaussian:")
+    for level, row in summary.iterrows():
+        print(f"      {level}σ: mean={row['mean_ratio']:.1f}x, "
+              f"median={row['median_ratio']:.1f}x, "
+              f"max={row['max_ratio']:.1f}x ({row['max_currency']})")
+
+
+def build_jst_returns():
+    """Extract real asset class returns from JST Macrohistory database.
+
+    Computes statistics on equities, housing, bonds, and bills from Jordà,
+    Schularick & Taylor (2019) — 18 countries, 1870-2017.
+
+    Reference: Jordà, Ò., Knoll, K., Kuvshinov, D., Schularick, M. &
+    Taylor, A.M. (2019). "The Rate of Return on Everything, 1870-2015."
+    Quarterly Journal of Economics, 134(3), 1225-1298.
+    """
+    jst_path = SOURCES / "jst" / "jst_macrohistory.xlsx"
+    if not jst_path.exists():
+        print("    Skipping: JST macrohistory not found")
+        return
+
+    print("  Loading JST macrohistory...")
+    jst = pd.read_excel(jst_path, sheet_name="Sheet1")
+
+    # Key return columns (nominal total returns)
+    return_cols = {
+        "eq_tr": "equity",
+        "housing_tr": "housing",
+        "bond_tr": "bonds",
+        "bill_rate": "bills",
+    }
+
+    # Extract return data
+    print("  Computing asset class return statistics...")
+    records = []
+    for col, asset in return_cols.items():
+        for country, group in jst.groupby("country"):
+            series = group[["year", col]].dropna()
+            if len(series) < 10:
+                continue
+            returns = series[col].values
+            years = series["year"].values
+
+            # Real returns (deflate by CPI)
+            cpi = group.set_index("year")["cpi"].reindex(series["year"].values)
+            inflation = cpi.pct_change().values
+            if asset == "bills":
+                # bill_rate is already a rate, not total return
+                real_returns = returns - inflation[1:]
+                returns_clean = returns[1:]
+                years_clean = years[1:]
+            else:
+                real_returns = returns - inflation
+                returns_clean = returns
+                years_clean = years
+
+            # Drop NaN
+            mask = np.isfinite(real_returns) & np.isfinite(returns_clean)
+            real_returns = real_returns[mask]
+            returns_clean = returns_clean[mask]
+            years_clean = years_clean[mask]
+
+            if len(real_returns) < 10:
+                continue
+
+            records.append({
+                "country": country,
+                "asset_class": asset,
+                "n_years": len(real_returns),
+                "start_year": int(years_clean.min()),
+                "end_year": int(years_clean.max()),
+                "mean_nominal_return": round(float(np.nanmean(returns_clean)), 4),
+                "mean_real_return": round(float(np.nanmean(real_returns)), 4),
+                "volatility": round(float(np.nanstd(returns_clean, ddof=1)), 4),
+                "sharpe_ratio": round(
+                    float(np.nanmean(real_returns) / np.nanstd(real_returns, ddof=1))
+                    if np.nanstd(real_returns, ddof=1) > 0 else 0.0, 4),
+                "excess_kurtosis": round(float(kurtosis(returns_clean, fisher=True, nan_policy="omit")), 4),
+                "skewness": round(float(skew(returns_clean, nan_policy="omit")), 4),
+                "max_return": round(float(np.nanmax(returns_clean)), 4),
+                "min_return": round(float(np.nanmin(returns_clean)), 4),
+            })
+
+    returns_df = pd.DataFrame(records)
+    returns_df = returns_df.sort_values(["asset_class", "country"]).reset_index(drop=True)
+    returns_df.to_csv(ANALYSIS / "jst_asset_returns.csv", index=False)
+    print(f"    jst_asset_returns.csv: {len(returns_df)} rows "
+          f"({returns_df['asset_class'].nunique()} asset classes, "
+          f"{returns_df['country'].nunique()} countries)")
+
+    # Global averages per asset class
+    summary = returns_df.groupby("asset_class").agg(
+        mean_real=("mean_real_return", "mean"),
+        mean_vol=("volatility", "mean"),
+        mean_sharpe=("sharpe_ratio", "mean"),
+        mean_kurtosis=("excess_kurtosis", "mean"),
+    ).round(4)
+    print("    Global averages by asset class:")
+    for asset, row in summary.iterrows():
+        print(f"      {asset}: real={row['mean_real']:.1%}, vol={row['mean_vol']:.1%}, "
+              f"sharpe={row['mean_sharpe']:.2f}, kurtosis={row['mean_kurtosis']:.1f}")
+
+
+def build_stock_bond_correlation():
+    """Compute rolling stock-bond return correlation from JST data.
+
+    Stock-bond negative correlation is historically RARE — only the last
+    ~25 years. When it flips positive, diversification breaks.
+
+    Reference: Artemis Capital Management (2020). "Volatility and the
+    Allegory of the Prisoner's Dilemma: False Peace, the Alchemy of Risk,
+    and Volgamageddon" ("Dennis Rodman" paper).
+    """
+    jst_path = SOURCES / "jst" / "jst_macrohistory.xlsx"
+    if not jst_path.exists():
+        print("    Skipping: JST macrohistory not found")
+        return
+
+    print("  Loading JST for stock-bond correlation...")
+    jst = pd.read_excel(jst_path, sheet_name="Sheet1")
+
+    # Need eq_tr and bond_tr
+    records = []
+    for country, group in jst.groupby("country"):
+        data = group[["year", "eq_tr", "bond_tr"]].dropna()
+        if len(data) < 20:
+            continue
+        data = data.sort_values("year")
+
+        # 20-year rolling correlation
+        window = 20
+        for i in range(window, len(data) + 1):
+            window_data = data.iloc[i - window:i]
+            corr = window_data["eq_tr"].corr(window_data["bond_tr"])
+            records.append({
+                "year": int(window_data["year"].iloc[-1]),
+                "country": country,
+                "correlation_20y": round(corr, 4) if np.isfinite(corr) else None,
+            })
+
+    corr_df = pd.DataFrame(records).dropna()
+    corr_df = corr_df.sort_values(["year", "country"]).reset_index(drop=True)
+    corr_df.to_csv(ANALYSIS / "stock_bond_correlation.csv", index=False)
+    print(f"    stock_bond_correlation.csv: {len(corr_df):,} rows, "
+          f"{corr_df['country'].nunique()} countries")
+
+    # Summary: what fraction of observations are negative?
+    n_neg = (corr_df["correlation_20y"] < 0).sum()
+    n_total = len(corr_df)
+    pct_neg = n_neg / n_total * 100
+    recent = corr_df[corr_df["year"] >= 2000]
+    n_neg_recent = (recent["correlation_20y"] < 0).sum()
+    pct_neg_recent = n_neg_recent / len(recent) * 100 if len(recent) > 0 else 0
+
+    print(f"    Negative stock-bond correlation: "
+          f"{pct_neg:.1f}% overall, {pct_neg_recent:.1f}% since 2000")
+    print(f"    (Negative correlation = diversification works; "
+          f"historically RARE per Artemis)")
+
+
 def main():
     print("forex-centuries build pipeline\n")
 
     NORM.mkdir(parents=True, exist_ok=True)
     ANALYSIS.mkdir(parents=True, exist_ok=True)
 
-    print("[1/8] FRED daily normalization")
+    print("[1/12] FRED daily normalization")
     daily_long = build_fred_daily()
 
-    print("\n[2/8] Yearly unified panel")
+    print("\n[2/12] Yearly unified panel")
     panel = build_yearly_panel()
 
-    print("\n[3/8] Log returns")
+    print("\n[3/12] Log returns")
     daily_ret, yearly_ret = build_log_returns(daily_long)
 
-    print("\n[4/8] Volatility statistics")
+    print("\n[4/12] Volatility statistics")
     build_volatility_stats(daily_ret, yearly_ret)
 
-    print("\n[5/8] Correlation matrices")
+    print("\n[5/12] Correlation matrices")
     build_correlations(daily_ret, yearly_ret)
 
-    print("\n[6/8] Rolling volatility")
+    print("\n[6/12] Rolling volatility")
     build_rolling_volatility(daily_long)
 
-    print("\n[7/8] Regime analysis")
+    print("\n[7/12] Regime analysis")
     build_regime_analysis(yearly_ret)
 
-    print("\n[8/8] Gold inflation")
+    print("\n[8/12] Gold inflation")
     build_gold_inflation(daily_long, panel)
+
+    print("\n[9/12] Momentum analysis (Jegadeesh-Titman 1993)")
+    build_momentum_analysis(daily_long)
+
+    print("\n[10/12] Sigma event frequency (Monday Morning Macro)")
+    build_sigma_events(daily_ret)
+
+    print("\n[11/12] Asset class returns (Jordà et al. 2019)")
+    build_jst_returns()
+
+    print("\n[12/12] Stock-bond correlation (Artemis 2020)")
+    build_stock_bond_correlation()
 
     print("\nDone. All derived files regenerated.")
 

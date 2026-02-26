@@ -493,6 +493,11 @@ Riksbank Historical Monetary Statistics, 13 Excel files across 3 volumes. Vol I 
 | `regime_conditional_stats.csv` | Volatility and kurtosis by regime type |
 | `yearly_gold_inflation.csv` | Gold inflation, purchasing power, CPI gap (243 countries, 1257-2025) |
 | `monthly_gold_inflation.csv` | Monthly gold inflation and debasement (174 currencies, 1940-2025) |
+| `daily_momentum_signals.csv` | 3/6/12-month trailing momentum for 23 currencies (Jegadeesh-Titman 1993) |
+| `daily_momentum_reversals.csv` | Momentum reversal signals: 12m vs 1m divergence (crash precursor) |
+| `sigma_event_frequency.csv` | 2-5 sigma event counts vs Gaussian expected (Monday Morning Macro) |
+| `jst_asset_returns.csv` | Real returns, vol, kurtosis for equities, housing, bonds, bills (Jordà et al. 2019) |
+| `stock_bond_correlation.csv` | 20-year rolling stock-bond correlation, 18 countries (Artemis 2020) |
 
 ## TODO
 
@@ -520,6 +525,8 @@ Riksbank Historical Monetary Statistics, 13 Excel files across 3 volumes. Vol I 
 - Denzel, M.A. (2010). *Handbook of World Exchange Rates, 1590-1914*. Ashgate/Routledge.
 - Feenstra, R.C., Inklaar, R. & Timmer, M.P. (2015). "The Next Generation of the Penn World Table." *AER*, 105(10), 3150-3182.
 - Ilzetzki, E., Reinhart, C.M. & Rogoff, K.S. (2019). "Exchange Arrangements Entering the 21st Century." *QJE*, 134(2), 599-646.
+- Jegadeesh, N. & Titman, S. (1993). "Returns to Buying Winners and Selling Losers: Implications for Stock Market Efficiency." *Journal of Finance*, 48(1), 65-91.
+- Jorda, O., Knoll, K., Kuvshinov, D., Schularick, M. & Taylor, A.M. (2019). "The Rate of Return on Everything, 1870-2015." *QJE*, 134(3), 1225-1298.
 - Jorda, O., Schularick, M. & Taylor, A.M. (2017). "Macrofinancial History and the New Business Cycle Facts." *NBER Macroeconomics Annual*, 31(1), 213-263.
 - Metz, R. (1990). *Geld, Wahrung und Preisentwicklung: der Niederrheinraum im europaischen Vergleich, 1350-1800*. Frankfurt.
 - Officer, L.H. "What Was the Interest Rate Then?" *MeasuringWorth*.
@@ -529,4 +536,6 @@ Riksbank Historical Monetary Statistics, 13 Excel files across 3 volumes. Vol I 
 - Reinhart, C.M. & Rogoff, K.S. (2009). *This Time Is Different: Eight Centuries of Financial Folly*. Princeton University Press.
 - Schmelzing, P. (2020). "Eight centuries of global real interest rates, R-G, and the 'suprasecular' decline, 1311-2018." *Bank of England Staff Working Paper No. 845*.
 - Spufford, P. (1986). *Handbook of Medieval Exchange*. Royal Historical Society.
+- Rattray, S., Harvey, C.R. & Van Hemert, O. (2018). "Strategic Rebalancing." *Journal of Portfolio Management*, 44(4), 18-31.
+- Scowcroft, A. & Sefton, J. (2005). "Understanding Momentum." *Financial Analysts Journal*, 61(2), 64-82.
 - Thomas, R. & Dimsdale, N. (2017). "A Millennium of UK Data." Bank of England OBRA dataset.

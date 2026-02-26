@@ -189,3 +189,52 @@ def test_cumulative_retained_pct():
 
     # Same price -> 100% retained
     assert abs((base_gold / base_gold) * 100 - 100.0) < 1e-10
+
+
+def test_momentum_formula():
+    """Momentum = ln(price_t / price_{t-lookback})."""
+    prices = pd.Series([100.0, 110.0, 121.0, 133.1])
+    mom = np.log(prices / prices.shift(2))
+    expected_2 = np.log(121.0 / 100.0)
+    assert abs(mom.iloc[2] - expected_2) < 1e-10
+    assert np.isnan(mom.iloc[0])
+    assert np.isnan(mom.iloc[1])
+
+
+def test_reversal_formula():
+    """Reversal = long_momentum - short_momentum."""
+    long_mom = 0.2  # strong uptrend
+    short_mom = -0.05  # recent dip
+    reversal = long_mom - short_mom
+    assert reversal == 0.25  # positive = reversing
+
+
+def test_sigma_event_counting():
+    """n-sigma events are counted and compared to Gaussian expectation."""
+    from scipy.stats import norm
+    rng = np.random.default_rng(42)
+    data = rng.normal(0, 1, 10000)
+    vol = data.std(ddof=1)
+
+    # 3-sigma events
+    threshold_3 = 3 * vol
+    observed_3 = int(np.sum(np.abs(data) > threshold_3))
+    expected_3 = 10000 * 2 * norm.sf(3)
+
+    # Should have more than expected (sample noise is OK, but formula should work)
+    assert expected_3 > 0
+    assert observed_3 >= 0
+    # Ratio should be roughly 1.0 for Gaussian data (within factor of 5)
+    ratio = observed_3 / expected_3 if expected_3 > 0 else 0
+    assert 0.1 < ratio < 5.0, f"3-sigma ratio should be near 1 for Gaussian, got {ratio}"
+
+
+def test_stock_bond_correlation_formula():
+    """20-year rolling correlation uses standard Pearson."""
+    rng = np.random.default_rng(42)
+    # Independent series should have correlation near 0
+    eq = pd.Series(rng.normal(0, 0.1, 30))
+    bond = pd.Series(rng.normal(0, 0.05, 30))
+    corr = eq.iloc[-20:].corr(bond.iloc[-20:])
+    assert -1.0 <= corr <= 1.0
+    assert abs(corr) < 0.5, f"Independent series should have low correlation, got {corr}"
