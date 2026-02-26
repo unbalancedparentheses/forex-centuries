@@ -1,6 +1,8 @@
 # forex-centuries
 
-Historical monetary and economic data spanning twenty centuries (1 CE-2026). 27 sources, 1,100+ files, ~240 countries. Exchange rates, gold, silver, interest rates, CPI, GDP per capita, commodity prices, real wages, sovereign debt, regime classifications, and real effective exchange rates — assembled for long-run volatility and tail-risk research.
+The most comprehensive open-source collection of long-run financial and economic data available. 27 sources, 1,100+ files, ~240 countries, spanning twenty centuries (1 CE-2026). Exchange rates, gold, silver, interest rates, commodity prices, CPI, GDP per capita, real wages, sovereign debt, regime classifications, and real effective exchange rates — with an automated build pipeline, weekly CI updates, and reproducible analysis.
+
+No other free repository combines this breadth of asset classes across this depth of history. The only comparable product is [Global Financial Data](https://globalfinancialdata.com/) (commercial, institutional pricing). The closest open alternative, the [Global Macro Database](https://www.globalmacrodata.com/) (111 sources, 46 variables), covers macroeconomic aggregates but has no gold, silver, commodity prices, interest rate series spanning centuries, medieval exchange rates, daily FX, or crisis indices.
 
 Related project: [fatcrash](https://github.com/unbalancedparentheses/fatcrash) — crash detection via fat-tail statistics (LPPLS, EVT, Hill estimator, Kappa).
 
