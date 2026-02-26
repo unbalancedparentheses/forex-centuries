@@ -20,6 +20,8 @@ Usage:
     python scripts/update_sources.py --schmelzing  # no auth needed
     python scripts/update_sources.py --maddison    # no auth needed
     python scripts/update_sources.py --allenunger  # no auth needed
+    python scripts/update_sources.py --commodities # no auth needed
+    python scripts/update_sources.py --bruegel     # no auth needed
     python scripts/update_sources.py --all    # all of the above
 """
 
@@ -391,7 +393,7 @@ def update_worldbank():
 
 def update_jst():
     """Update JST Macrohistory dataset."""
-    url = "https://www.macrohistory.net/app/download/9834512469/JSTdatasetR6.xlsx"
+    url = "https://www.macrohistory.net/app/download/9834512569/JSTdatasetR6.xlsx"
     dest = SOURCES / "jst" / "jst_macrohistory.xlsx"
 
     print("Updating JST Macrohistory dataset...")
@@ -590,6 +592,7 @@ CLIO_DATASETS = {
     "TotalGrossCentralGovernmentDebtasaPercentageofGDP_Compact.xlsx": "clio_infra_govt_debt_compact.xlsx",
     "Long-TermGovernmentBondYield_Compact.xlsx": "clio_infra_bond_yield_compact.xlsx",
     "GDPperCapita_Compact.xlsx": "clio_infra_gdp_per_capita_compact.xlsx",
+    "LabourersRealWage_Compact.xlsx": "clio_infra_real_wages_compact.xlsx",
 }
 
 
@@ -763,6 +766,133 @@ def update_boe():
 
 
 # ---------------------------------------------------------------------------
+# World Bank Commodity Prices ("Pink Sheet")
+# ---------------------------------------------------------------------------
+
+def update_commodities():
+    """Update World Bank commodity price data (monthly + annual, ~70 commodities, 1960-present)."""
+    dest_dir = SOURCES / "worldbank_commodities"
+
+    print("Updating World Bank commodity prices (Pink Sheet)...")
+
+    # The URL hash rotates periodically. Try scraping the commodity-markets
+    # page for the current links, falling back to known URLs.
+    base_page = "https://www.worldbank.org/en/research/commodity-markets"
+    monthly_url = None
+    annual_url = None
+
+    try:
+        html = fetch_url(base_page, timeout=30)
+        import re
+        # Look for CMO-Historical-Data-Monthly.xlsx and Annual.xlsx links
+        monthly_match = re.search(
+            r'(https://thedocs\.worldbank\.org/[^"\']+CMO-Historical-Data-Monthly\.xlsx)', html
+        )
+        annual_match = re.search(
+            r'(https://thedocs\.worldbank\.org/[^"\']+CMO-Historical-Data-Annual\.xlsx)', html
+        )
+        if monthly_match:
+            monthly_url = monthly_match.group(1)
+        if annual_match:
+            annual_url = annual_match.group(1)
+    except Exception as e:
+        print(f"  Could not scrape commodity-markets page: {e}")
+
+    # Fallback URLs
+    if not monthly_url:
+        monthly_url = (
+            "https://thedocs.worldbank.org/en/doc/"
+            "74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/"
+            "related/CMO-Historical-Data-Monthly.xlsx"
+        )
+    if not annual_url:
+        annual_url = (
+            "https://thedocs.worldbank.org/en/doc/"
+            "74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/"
+            "related/CMO-Historical-Data-Annual.xlsx"
+        )
+
+    for url, filename in [
+        (monthly_url, "wb_commodity_prices_monthly.xlsx"),
+        (annual_url, "wb_commodity_prices_annual.xlsx"),
+    ]:
+        try:
+            data = fetch_bytes(url, timeout=120)
+            if len(data) < 10_000:
+                print(f"  WARNING: {filename} too small ({len(data)} bytes)")
+                continue
+            write_atomic_bytes(dest_dir / filename, data)
+            size_kb = len(data) / 1024
+            print(f"  {filename}: {size_kb:.0f} KB")
+        except Exception as e:
+            print(f"  ERROR {filename}: {e}")
+
+    print("World Bank commodities update complete.")
+
+
+# ---------------------------------------------------------------------------
+# Bruegel REER (Darvas Real Effective Exchange Rates)
+# ---------------------------------------------------------------------------
+
+def update_bruegel():
+    """Update Darvas/Bruegel REER dataset (178 countries, monthly)."""
+    dest_dir = SOURCES / "bruegel"
+
+    print("Updating Bruegel Real Effective Exchange Rates...")
+
+    # The download URL changes with each release (date in filename).
+    # Scrape the dataset page to find the current ZIP link.
+    page_url = (
+        "https://www.bruegel.org/publications/datasets/"
+        "real-effective-exchange-rates-for-178-countries-a-new-database"
+    )
+    zip_url = None
+    try:
+        html = fetch_url(page_url, timeout=30)
+        import re
+        match = re.search(
+            r'(https://www\.bruegel\.org/sites/default/files/[^"\']+REER[^"\']*\.zip)', html
+        )
+        if not match:
+            # Try relative URL
+            match = re.search(
+                r'(/sites/default/files/[^"\']+REER[^"\']*\.zip)', html
+            )
+            if match:
+                zip_url = "https://www.bruegel.org" + match.group(1)
+        else:
+            zip_url = match.group(1)
+    except Exception as e:
+        print(f"  Could not scrape Bruegel page: {e}")
+
+    if not zip_url:
+        # Fallback to known URL (may go stale)
+        zip_url = (
+            "https://www.bruegel.org/sites/default/files/2026-02/"
+            "REER_database_ver16Feb2026.zip"
+        )
+        print(f"  Using fallback URL (may be outdated)")
+
+    try:
+        data = fetch_bytes(zip_url, timeout=120)
+        if len(data) < 100_000:
+            print(f"  WARNING: file too small ({len(data)} bytes)")
+            return
+        dest_dir.mkdir(parents=True, exist_ok=True)
+        with zipfile.ZipFile(io.BytesIO(data)) as zf:
+            members = zf.namelist()
+            for m in members:
+                content = zf.read(m)
+                write_atomic_bytes(dest_dir / Path(m).name, content)
+                size_mb = len(content) / (1024 * 1024)
+                print(f"  {Path(m).name}: {size_mb:.1f} MB")
+    except Exception as e:
+        print(f"  ERROR: {e}")
+
+    print("Bruegel REER update complete.")
+
+
+# ---------------------------------------------------------------------------
 # Schmelzing (Bank of England) — Eight Centuries of Real Interest Rates
 # ---------------------------------------------------------------------------
 
@@ -911,6 +1041,8 @@ ALL_SOURCES = [
     ("schmelzing", update_schmelzing, "Update Schmelzing real interest rates (1311-2018)"),
     ("maddison", update_maddison, "Update Maddison Project GDP per capita (1 CE - 2022)"),
     ("allenunger", update_allenunger, "Update Allen-Unger commodity prices (1260-1914)"),
+    ("commodities", update_commodities, "Update World Bank commodity prices (Pink Sheet, 1960-present)"),
+    ("bruegel", update_bruegel, "Update Bruegel/Darvas REER (178 countries, monthly)"),
 ]
 
 

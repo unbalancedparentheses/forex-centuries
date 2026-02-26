@@ -1,4 +1,4 @@
-.PHONY: all build validate visualize test clean help
+.PHONY: all build validate visualize test clean update-sources help
 
 all: build validate visualize
 
@@ -14,6 +14,9 @@ visualize:
 test:
 	pytest tests/ -v
 
+update-sources:
+	python scripts/update_sources.py --all
+
 clean:
 	rm -f data/derived/normalized/*.csv
 	rm -f data/derived/analysis/*.csv
@@ -26,5 +29,6 @@ help:
 	@echo "  validate   Run validate.py data quality checks"
 	@echo "  visualize  Run visualize.py to generate charts"
 	@echo "  test       Run pytest test suite"
+	@echo "  update-sources  Fetch all remote data sources"
 	@echo "  clean      Remove all derived CSVs and chart PNGs"
 	@echo "  help       Show this help message"

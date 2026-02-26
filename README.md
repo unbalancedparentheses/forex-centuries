@@ -1,6 +1,6 @@
 # forex-centuries
 
-Historical monetary and exchange rate data spanning twenty centuries (1 CE-2026). 20 sources, 1,060+ files, ~240 countries. Exchange rates, gold, silver, interest rates, CPI, GDP per capita, and commodity prices — assembled for long-run volatility and tail-risk research.
+Historical monetary and economic data spanning twenty centuries (1 CE-2026). 22 sources, 1,060+ files, ~240 countries. Exchange rates, gold, silver, interest rates, CPI, GDP per capita, commodity prices, real wages, and real effective exchange rates — assembled for long-run volatility and tail-risk research.
 
 Related project: [fatcrash](https://github.com/unbalancedparentheses/fatcrash) — crash detection via fat-tail statistics (LPPLS, EVT, Hill estimator, Kappa).
 
@@ -16,6 +16,7 @@ MeasuringWorth FX     :      :      :      :      :      :      :      :      : 
 BoE Millennium        :      :      :      :      :      :      :      :      :      ██████████████████
 JST Macrohistory      :      :      :      :      :      :      :      :      :      :     ████████████
 Riksbank              :      :      :      :      :      :      :      :      :      :       ██████████
+Bruegel REER          :      :      :      :      :      :      :      :      :      :          ███████
 Penn World Table      :      :      :      :      :      :      :      :      :      :         ████████
 BIS                   :      :      :      :      :      :      :      :      :      :            █████
 IMF / WB / GMD / FRED :      :      :      :      :      :      :      :      :      :            █████
@@ -29,6 +30,7 @@ Gold/Silver Ratio     :      :      :      :      :      :      :      :      �
                       :      :      :      :      :      :      :      :      :      :      :      :
 COMMODITIES           :      :      :      :      :      :      :      :      :      :      :      :
 Allen-Unger (973)     :      :      :      ██████████████████████████████████████████████      :      :
+WB Pink Sheet (~70)   :      :      :      :      :      :      :      :      :      :          ███████
                       :      :      :      :      :      :      :      :      :      :      :      :
 INTEREST RATES        :      :      :      :      :      :      :      :      :      :      :      :
 Schmelzing (8 ctry)   :      :      :      ████████████████████████████████████████████████████████████
@@ -40,6 +42,9 @@ Clio Infra CPI        :      :      :      :      :      :      █████�
                       :      :      :      :      :      :      :      :      :      :      :      :
 GDP PER CAPITA        :      :      :      :      :      :      :      :      :      :      :      :
 Maddison (178 ctry)   █████████████████████████████████████████████████████████████████████████████████
+                      :      :      :      :      :      :      :      :      :      :      :      :
+REAL WAGES            :      :      :      :      :      :      :      :      :      :      :      :
+Clio Infra Wages      :      :      :      :      :      :      :      :      :      ██████████████████
                       :      :      :      :      :      :      :      :      :      :      :      :
 REGIMES               :      :      :      :      :      :      :      :      :      :      :      :
 IRR Classifications   :      :      :      :      :      :      :      :      :      :       █████████
@@ -121,6 +126,7 @@ python validate.py            # run data quality checks (52 checks)
 python visualize.py           # generate charts/ (9 PNGs)
 
 make all                      # build + validate + visualize in one step
+make update-sources           # fetch all remote data sources
 ```
 
 The 8-step build pipeline produces:
@@ -152,10 +158,10 @@ Seven sections: yearly panel, daily data, fat tails (histogram + QQ-plot), regim
 
 ## Updating source data
 
-17 sources are automatically fetched by `update_sources.py`. A weekly GitHub Actions workflow runs `--all` every Monday at 06:00 UTC, or trigger it manually from the Actions tab. Each run creates a GitHub Release with a tarball of all data.
+19 sources are automatically fetched by `update_sources.py`. A weekly GitHub Actions workflow runs `--all` every Monday at 06:00 UTC, or trigger it manually from the Actions tab. Each run creates a GitHub Release with a tarball of all data.
 
 ```bash
-python scripts/update_sources.py --all           # update all 17 sources
+python scripts/update_sources.py --all           # update all 19 sources
 python scripts/update_sources.py --fred          # or update individually
 ```
 
@@ -182,21 +188,23 @@ FRED requires a free API key from [fred.stlouisfed.org](https://fred.stlouisfed.
 ```
 forex-centuries/
 ├── data/
-│   ├── sources/           # Raw data, untouched from provider (20 sources)
+│   ├── sources/           # Raw data, untouched from provider (22 sources)
 │   │   ├── maddison/      # GDP per capita, 178 countries (1 CE - 2022)
 │   │   ├── memdb/         # Medieval exchange rates (1106-1800)
 │   │   ├── allenunger/    # 973 commodity price series (1260-1914)
 │   │   ├── measuringworth/# FX, gold, interest rates, CPI (1257-2025)
 │   │   ├── schmelzing/    # Real interest rates, 8 countries (1311-2018)
-│   │   ├── clio_infra/    # Exchange rates, inflation, bonds, debt, GDP (1500-2016)
+│   │   ├── clio_infra/    # FX, inflation, bonds, debt, GDP, wages (1500-2016)
 │   │   ├── freegold/      # 768-year gold, silver, gold/silver ratio (1258-2025)
 │   │   ├── lbma/          # Daily gold + silver prices in USD/GBP/EUR (1968-2025)
+│   │   ├── bruegel/       # Real effective exchange rates, 178 countries (1960s-2026)
 │   │   ├── imf/           # 173 currencies, monthly (1955-2025)
 │   │   ├── bis/           # Bilateral + effective rates, ~190 economies (1957-2026)
 │   │   ├── fred/          # 23 daily pairs + 2 USD indices (1971-2025)
 │   │   ├── gold/          # Monthly gold prices USD (1833-2025)
 │   │   ├── riksbank/      # 53 SEK bilateral series (1900-2026)
 │   │   ├── worldbank/     # Official rates, all members (1960-present)
+│   │   ├── worldbank_commodities/ # ~70 commodity prices, monthly + annual (1960-present)
 │   │   ├── pwt/           # Penn World Table: 185 countries, FX + PPP (1950-2023)
 │   │   ├── irr/           # Exchange rate regime classifications (1940-2021)
 │   │   ├── jst/           # Macrohistory: 18 countries, 59 variables (1870-2017)
@@ -207,7 +215,7 @@ forex-centuries/
 │       └── analysis/      # Log returns, volatility, correlations, regimes, gold
 ├── charts/                # Generated by visualize.py (9 PNGs)
 ├── notebooks/             # Jupyter exploration notebook
-├── scripts/               # update_sources.py (17 automated fetchers)
+├── scripts/               # update_sources.py (19 automated fetchers)
 ├── tests/                 # Unit tests (13 tests, synthetic data)
 ├── build.py               # 8-step ETL pipeline
 ├── validate.py            # Data quality checks (52 checks)
@@ -226,11 +234,12 @@ forex-centuries/
 | [IMF IFS](https://codeforiati.org/imf-exchangerates/) | `--imf` | 173 currencies vs USD, monthly | 1955-2025 | |
 | [BIS](https://data.bis.org/bulkdownload) | `--bis` | Bilateral + effective rates, ~190 economies | 1957-2026 | |
 | [Sveriges Riksbank](https://www.riksbank.se/en-gb/statistics/) | `--riksbank` | 53 SEK bilateral series, daily | 1900-2026 | |
-| [World Bank](https://data.worldbank.org/indicator/PA.NUS.FCRF) | `--worldbank` | Official rates, all member countries | 1960-present | |
+| [World Bank FX](https://data.worldbank.org/indicator/PA.NUS.FCRF) | `--worldbank` | Official rates, all member countries | 1960-present | |
+| [World Bank Commodities](https://www.worldbank.org/en/research/commodity-markets) | `--commodities` | ~70 commodity prices (oil, metals, agriculture), monthly + annual | 1960-present | |
 | [JST Macrohistory](https://www.macrohistory.net/database/) | `--jst` | 18 economies, 59 macro/financial variables | 1870-2017 | |
 | [Penn World Table](https://www.rug.nl/ggdc/productivity/pwt/) | `--pwt` | 185 countries, exchange rates + PPP | 1950-2023 | |
 | [MeasuringWorth](https://www.measuringworth.com/datasets/) | `--measuringworth` | 41 FX vs USD, gold (5 series), interest rates (UK+US), US CPI, $/£ | 1257-2025 | |
-| [Clio Infra](https://clio-infra.eu/) | `--clio` | FX (USD+GBP), inflation, bonds, debt, GDP, gold standard | 1500-2016 | |
+| [Clio Infra](https://clio-infra.eu/) | `--clio` | FX (USD+GBP), inflation, bonds, debt, GDP, gold standard, real wages | 1500-2016 | |
 | [FreeGoldAPI](https://freegoldapi.com/) | `--freegold` | 768-year gold prices, gold/silver ratio, silver prices | 1258-2025 | |
 | [LBMA](https://www.lbma.org.uk/prices-and-data/precious-metal-prices) | `--lbma` | Daily gold + silver in USD, GBP, EUR | 1968-2025 | |
 | [DataHub Gold](https://github.com/datasets/gold-prices) | `--gold` | Monthly gold prices USD | 1833-2025 | |
@@ -239,6 +248,7 @@ forex-centuries/
 | [Schmelzing (BoE)](https://www.bankofengland.co.uk/working-paper/2020/eight-centuries-of-global-real-interest-rates-r-g-and-the-suprasecular-decline-1311-2018) | `--schmelzing` | Real interest rates, 8 countries (IT, UK, NL, DE, FR, ES, JP, US) | 1311-2018 | |
 | [Maddison Project](https://www.rug.nl/ggdc/historicaldevelopment/maddison/) | `--maddison` | GDP per capita, 178 countries (via OWID API + Dataverse xlsx) | 1 CE-2022 | |
 | [Allen-Unger GCPD](https://datasets.iisg.amsterdam/dataset.xhtml?persistentId=hdl:10622/3SV0BO) | `--allenunger` | 973 commodity price series (wheat, rye, silver, etc.) across cities | 1260-1914 | |
+| [Bruegel/Darvas REER](https://www.bruegel.org/publications/datasets/real-effective-exchange-rates-for-178-countries-a-new-database) | `--bruegel` | Real effective exchange rates, 178 countries, monthly | 1960s-2026 | |
 
 ### Static (committed to repo, updated manually)
 
@@ -247,8 +257,6 @@ forex-centuries/
 | [MEMDB Spufford](https://memdb.libraries.rutgers.edu/spufford-currency) | Medieval exchange quotations (521 places) | 1106-1500 | No export API |
 | [MEMDB Metz](https://memdb.libraries.rutgers.edu/metz-currency) | Lower Rhine + European comparison (29 places) | 1350-1800 | No export API |
 | [Global Macro Database](https://www.globalmacrodata.com/data.html) | 243 countries, USDfx + REER | 1960-2024 | Email-gated |
-
-See [SOURCES.md](SOURCES.md) for column schemas, quoting conventions, and file-level details.
 
 ## Longest series by asset type
 
@@ -266,7 +274,117 @@ See [SOURCES.md](SOURCES.md) for column schemas, quoting conventions, and file-l
 | Interest rates | UK+US nominal short + long term | 296 | 1729-2025 | MeasuringWorth |
 | US CPI | Consumer price index | 251 | 1774-2025 | MeasuringWorth |
 | 41 FX vs USD | Annual rates | 234 | 1791-2025 | MeasuringWorth |
+| REER | 178 countries, monthly | ~66 | 1960s-2026 | Bruegel/Darvas |
+| Commodities | ~70 series (oil, metals, agriculture) | ~66 | 1960-present | World Bank |
+| Real wages | Labourers' real wage, ~40 countries | ~180 | 1820-2000+ | Clio Infra |
 | FX regimes | De facto classifications | 81 | 1940-2021 | IRR |
+
+## Source data schemas
+
+### `sources/memdb/`
+
+**`memdb_spufford_medieval_exchange_rates.csv`** (13,197 rows) — Place, Date_start, Date_end, Type_of_Exchange, Currency_From, Amount_From, Currency_To, Amount_To, Notes, Source.
+
+**`memdb_metz_currency_exchanges.csv`** (50,559 rows) — Place, Year, Coin_Ratio, Relationship, Value, Length_of_Series, Note.
+
+### `sources/clio_infra/`
+
+All Clio Infra files share the same wide format: first column is `year`, remaining columns are country names. Values are yearly averages.
+
+| File | Unit | Period |
+|------|------|--------|
+| `clio_infra_exchange_rates.csv` | Local currency per 1 USD | 1500-2013 |
+| `clio_infra_exchange_rates_gbp.csv` | Local currency per 1 GBP | 1500-2013 |
+| `clio_infra_inflation.csv` | Annual % change | 1500-2010 |
+| `clio_infra_gold_standard.csv` | 0/1 indicator | 1800-2010 |
+| `clio_infra_bond_yield.csv` | Annual avg % | 1727-2011 |
+| `clio_infra_govt_debt.csv` | % of GDP | 1692-2010 |
+| `clio_infra_gdp_per_capita_compact.xlsx` | 1990 Int'l GK dollars | 1500-2016 |
+| `clio_infra_real_wages_compact.xlsx` | Subsistence ratios | 1820-2000+ |
+
+### `sources/measuringworth/`
+
+**`measuringworth_exchange_rates.csv`** — Wide format: `year` + 41 country columns. Values are foreign currency per 1 USD.
+
+**`measuringworth_gold_prices.csv`** (769 rows) — year, British_price (GBP/oz, 1257-1945), london_price (GBP then USD), us_price (USD/oz, 1786-2025), newyork_price (USD/oz, 1791-2025), goldsilver_price (ratio, 1687-2025).
+
+**`measuringworth_interest_rates.csv`** — UK+US short and long term rates, 1729-2025.
+
+**`measuringworth_us_cpi.csv`** — US CPI index (avg 1982-84=100), 1774-2025.
+
+**`measuringworth_dollar_pound.csv`** — USD per GBP, 1791-2025.
+
+### `sources/gold/`
+
+**`gold_monthly_usd.csv`** — Date (YYYY-MM), Price (USD/troy oz). 1833-2025.
+
+### `sources/imf/`
+
+**`imf_exchange_rates.csv`** (158K rows) — Date, Rate (LCU per USD), Currency, Frequency (M), Source, Country code, Country.
+
+### `sources/bis/`
+
+BIS SDMX flat CSV format. `xru/WS_XRU_csv_flat.csv.gz` (1.5M rows): bilateral rates vs USD. `eer/WS_EER_csv_flat.csv.gz` (1.2M rows): nominal+real effective rates (2020=100).
+
+### `sources/fred/`
+
+25 CSVs in `daily/`. Two columns: observation_date, rate. GBP/EUR/AUD/NZD quoted as USD-per-foreign; all others as foreign-per-USD. Missing values shown as `.`.
+
+### `sources/riksbank/`
+
+**`riksbank_exchange_rates.csv`** (295K rows) — date, series_id (`SEK[CURRENCY]PMI`), value.
+
+### `sources/worldbank/`
+
+**`worldbank_exchange_rates.csv`** — iso3, country, year, exchange_rate (LCU per USD). Via World Bank API.
+
+### `sources/worldbank_commodities/`
+
+**`wb_commodity_prices_monthly.xlsx`** and **`wb_commodity_prices_annual.xlsx`** — ~70 commodities (crude oil Brent/WTI/Dubai, natural gas, coal, metals, agriculture) from the World Bank "Pink Sheet". 1960-present.
+
+### `sources/irr/`
+
+Ilzetzki-Reinhart-Rogoff regime classifications. Rows are months (YYYY:MM), columns are countries. `irr_regime_coarse.csv` (1=peg to 6=dual market), `irr_regime_fine.csv` (1-15 scale), `irr_anchor_master.csv` (anchor currency), `irr_unified_market_indicator.csv` (0=unified, 1=parallel).
+
+### `sources/jst/`
+
+**`jst_macrohistory.xlsx`** (2,719 rows, 59 cols) — Long format, one row per country-year. Key columns: year, country, iso, xrusd, cpi, stir, ltrate, peg, crisisJST. 18 countries, 1870-2017.
+
+### `sources/boe/`
+
+**`boe_millennium.xlsx`** (26 MB, 90+ sheets) — UK data. Key sheets: A33 ($/£ from 1791), M14 (monthly bilateral rates 1963+), M15 (monthly $/£ 1791-2015), A31 (interest rates), D1 (daily Bank Rate).
+
+### `sources/gmd/`
+
+**`gmd_exchange_rates.csv`** (57K rows) — ISO3, countryname, year, USDfx (LCU per USD), REER.
+
+### `sources/freegold/`
+
+**`freegold_prices.csv`** — date, price. Gold prices 1258-2025 (GBP before 1791, USD after). **`freegold_silver_prices.csv`** — Silver prices 1688-2025. **`freegold_gold_silver_ratio.csv`** — Gold/silver ratio 1258-2025.
+
+### `sources/lbma/`
+
+**`lbma_gold_daily.csv`** (14.5K rows) — date, gold_pm_usd, gold_pm_gbp, gold_pm_eur. Daily PM fix from 1968. **`lbma_silver_daily.csv`** (14.7K rows) — Same for silver.
+
+### `sources/schmelzing/`
+
+**`schmelzing_real_interest_rates.xlsx`** (2.1 MB, 9 sheets) — Real interest rates 1311-2018 for Italy, UK, Netherlands, Germany, France, Spain, Japan, US. Key sheet: "II. Headline series" (719 rows x 35 cols).
+
+### `sources/maddison/`
+
+**`maddison_gdp_per_capita.csv`** (21.6K rows) — entity_code, entity_name, year, gdp_per_capita. 178 countries, 1 CE-2022. Via OWID API (Maddison Project Database 2023).
+
+### `sources/allenunger/`
+
+973 tab-delimited files, one per city-commodity pair (e.g. `Amsterdam_Wheat.tab`, `London_Coal.tab`). Columns: Commodity, Variety, Market, Original Measure, Standard Measure, Original Currency, Standard Currency, Year, Original Value, Standardized Value, Notes, Sources. Prices standardized to silver grams per litre. 1260-1914.
+
+### `sources/pwt/`
+
+**`pwt.xlsx`** (6.3 MB) — Penn World Table 10.0/11.0. 185 countries, 1950-2023. Key variables: xr (exchange rate), pl_gdpo (price level of GDP), rgdpe (real GDP).
+
+### `sources/bruegel/`
+
+**`REER_database_ver*.xls`** (9 MB) — Darvas/Bruegel real effective exchange rates. 178 countries, monthly, various start dates (many from 1960s). Nominal and CPI-based REER indices.
 
 ## Derived data
 
@@ -300,17 +418,20 @@ See [SOURCES.md](SOURCES.md) for column schemas, quoting conventions, and file-l
 ### Manual data sources (not yet automatable)
 
 - [ ] **Reinhart-Rogoff official and parallel exchange rates** from [carmenreinhart.com](https://carmenreinhart.com/exchange-rates-official-and-parallel/). Unique dataset with parallel/black-market rates. Requires manual browser download.
-- [ ] **Reinhart-Rogoff "This Time Is Different"** crisis dataset from [rogoff.scholars.harvard.edu](https://rogoff.scholars.harvard.edu/time-different%E2%80%94data-files). 66 countries, eight centuries of currency crashes, debasements, sovereign defaults. ~100 individual Excel files per chapter.
+- [ ] **Reinhart-Rogoff "This Time Is Different"** crisis dataset from [rogoff.scholars.harvard.edu](https://rogoff.scholars.harvard.edu/time-different%E2%80%94data-files). 66 countries, eight centuries of currency crashes, debasements, sovereign defaults.
 - [ ] **MEMDB medieval exchange rates** from [memdb.libraries.rutgers.edu](https://memdb.libraries.rutgers.edu/). Spufford (1106-1500) and Metz (1350-1800). No export API — requires web scraping with pagination.
-- [ ] **Global Macro Database** from [globalmacrodata.com](https://www.globalmacrodata.com/data.html). 243 countries, USDfx + REER. Email-gated download. Alternative: `pip install global_macro_data`.
-- [ ] **NBER Macrohistory Database** from [nber.org](https://www.nber.org/research/data/nber-macrohistory-xiv-money-and-banking). Pre-WWI and interwar US/UK/France/Germany money, banking, exchange rates. .db/.dat format. Some series on [FRED](https://fred.stlouisfed.org/categories/33061).
+- [ ] **Global Macro Database** from [globalmacrodata.com](https://www.globalmacrodata.com/data.html). 243 countries, USDfx + REER. Email-gated download.
+- [ ] **NBER Macrohistory Database** from [nber.org](https://www.nber.org/research/data/nber-macrohistory-xiv-money-and-banking). Pre-WWI and interwar US/UK/France/Germany money, banking, exchange rates.
 - [ ] **Center for Financial Stability** from [centerforfinancialstability.org](https://centerforfinancialstability.org/hfs.php). Exchange rates, central bank balance sheets, interest rates, money supply.
+- [ ] **Energy Institute Statistical Review** from [energyinst.org](https://www.energyinst.org/statistical-review). Oil prices from 1861. Cloudflare-blocked — requires browser download.
+- [ ] **IMF Historical Public Debt Database** (187 countries, 1800-2015) from [data.imf.org](https://data.imf.org/en?sk=806ED027-520D-497F-9052-63EC199F5E63).
+- [ ] **Riksbank Historical Monetary Statistics** Vols I-III (Swedish prices/wages/money from 1277) from [riksbank.se](https://www.riksbank.se/en-gb/statistics/historical-monetary-statistics-of-sweden/).
 
 ### Pipeline improvements
 
-- [ ] Integrate new sources into `build.py` (PWT, LBMA silver, interest rates, CPI)
+- [ ] Integrate new sources into `build.py` (Schmelzing, Maddison, Allen-Unger, Bruegel REER, WB commodities, PWT, LBMA silver, interest rates, CPI, real wages)
 - [ ] Add silver purchasing power analysis (parallel to gold inflation)
-- [ ] Add real exchange rate computation using CPI data
+- [ ] Add real exchange rate computation using CPI and Bruegel REER data
 - [ ] Cross-validate overlapping series (e.g. MeasuringWorth gold vs FreeGoldAPI vs LBMA)
 
 ## Citation
@@ -331,13 +452,14 @@ Or in prose:
 
 > Federico Carrone, *forex-centuries: Twenty Centuries of Exchange Rate, Gold, Silver, Interest Rate, and Commodity Price Data (1 CE-2026)*, 2025. https://github.com/unbalancedparentheses/forex-centuries
 
-This dataset assembles and harmonizes data from 20 primary sources. Please also cite the underlying sources relevant to your work:
+This dataset assembles and harmonizes data from 22 primary sources. Please also cite the underlying sources relevant to your work.
 
-## Source references
+## References
 
 - Allen, R.C. & Unger, R.W. "Global Commodity Prices Database." International Institute of Social History.
 - Bolt, J. & van Zanden, J.L. (2024). "Maddison style estimates of the evolution of the world economy. A new 2023 update." *Journal of Economic Surveys*, 38(4), 1507-1545.
 - Clark, G. "What Were the UK Earnings and Prices Then?" *MeasuringWorth*.
+- Darvas, Z. (2012). "Real effective exchange rates for 178 countries: A new database." Bruegel Working Paper 2012/06.
 - Denzel, M.A. (2010). *Handbook of World Exchange Rates, 1590-1914*. Ashgate/Routledge.
 - Feenstra, R.C., Inklaar, R. & Timmer, M.P. (2015). "The Next Generation of the Penn World Table." *AER*, 105(10), 3150-3182.
 - Ilzetzki, E., Reinhart, C.M. & Rogoff, K.S. (2019). "Exchange Arrangements Entering the 21st Century." *QJE*, 134(2), 599-646.
