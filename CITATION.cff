@@ -1,0 +1,24 @@
+cff-version: 1.2.0
+message: "If you use this dataset, please cite it as below."
+type: dataset
+title: "forex-centuries: Twenty Centuries of Exchange Rate, Gold, Silver, Interest Rate, and Commodity Price Data (1 CE–2026)"
+authors:
+  - family-names: Carrone
+    given-names: Federico
+    orcid: ""
+url: "https://github.com/unbalancedparentheses/forex-centuries"
+repository-code: "https://github.com/unbalancedparentheses/forex-centuries"
+license: MIT
+date-released: "2025-01-01"
+keywords:
+  - exchange-rates
+  - gold
+  - silver
+  - interest-rates
+  - inflation
+  - commodity-prices
+  - sovereign-debt
+  - fat-tails
+  - historical-data
+  - macroeconomics
+abstract: "Historical monetary and economic data spanning twenty centuries (1 CE-2026). 27 sources, 1,100+ files, ~240 countries. Exchange rates, gold, silver, interest rates, CPI, GDP per capita, commodity prices, real wages, sovereign debt, regime classifications, and real effective exchange rates."
