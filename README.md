@@ -202,25 +202,33 @@ forex-centuries/
 
 ## Sources
 
-| Source | Description | Period | Files |
-|--------|-------------|--------|------:|
-| [MEMDB Spufford](https://memdb.libraries.rutgers.edu/spufford-currency) | Medieval exchange quotations: Europe, Byzantium, Levant, North Africa | 1106–1500 | 1 |
-| [MEMDB Metz](https://memdb.libraries.rutgers.edu/metz-currency) | Lower Rhine region and European comparison | 1350–1800 | 1 |
-| [Clio Infra](https://clio-infra.eu/) | Exchange rates (USD + GBP), inflation, bonds, debt, GDP | 1500–2016 | 14 |
-| [MeasuringWorth](https://www.measuringworth.com/datasets/exchangeglobal/) | 40 currencies vs USD + [gold prices](https://www.measuringworth.com/datasets/gold/) (769 years) | 1257–2025 | 2 |
-| [IMF IFS](https://github.com/codeforIATI/imf-exchangerates) | 173 currencies vs USD, monthly | 1955–2025 | 1 |
-| [BIS](https://data.bis.org/bulkdownload) | Bilateral + effective exchange rates, ~190 economies | 1957–2026 | 2 |
-| [FRED](https://fred.stlouisfed.org/) | 23 daily pairs + 2 USD indices (H.10 release) | 1971–2025 | 25 |
-| [Sveriges Riksbank](https://www.riksbank.se/en-gb/statistics/) | 53 SEK bilateral series | 1900–2026 | 1 |
-| [World Bank](https://data.worldbank.org/indicator/PA.NUS.FCRF) | Official rates, all member countries | 1960–present | 1 |
-| [Ilzetzki-Reinhart-Rogoff](https://www.ilzetzki.com/irr-data) | De facto exchange rate regime classifications, ~190 countries | 1940–2021 | 7 |
-| [Jorda-Schularick-Taylor](https://www.macrohistory.net/database/) | 18 advanced economies, 59 macrofinancial variables | 1870–2017 | 1 |
-| [Bank of England](https://www.bankofengland.co.uk/statistics/research-datasets) | UK millennium dataset ($/£, rates, prices, GDP) | 1791–2016 | 1 |
-| [Global Macro Database](https://www.globalmacrodata.com/data.html) | 243 countries, USDfx + REER, harmonized from 111 sources | 1960–2024 | 1 |
-| [DataHub Gold](https://github.com/datasets/gold-prices) | Monthly gold prices USD | 1833–2025 | 1 |
-| [FreeGoldAPI](https://freegoldapi.com/) | 768 years gold prices + gold/silver ratio + silver | 1258–2025 | 3 |
-| [LBMA](https://www.lbma.org.uk/prices-and-data/precious-metal-prices) | Daily gold + silver prices (USD, GBP, EUR) | 1968–2025 | 2 |
-| [Penn World Table](https://www.rug.nl/ggdc/productivity/pwt/) | 185 countries, exchange rates + PPP + price levels | 1950–2023 | 1 |
+### Automated (`update_sources.py --all`)
+
+| Source | Data | Period | Update | Auth | Notes |
+|--------|------|--------|--------|------|-------|
+| [FRED](https://fred.stlouisfed.org/) | 23 daily pairs + 2 USD indices | 1971–2025 | `--fred` | `FRED_API_KEY` | H.10 release |
+| [IMF IFS](https://codeforiati.org/imf-exchangerates/) | 173 currencies vs USD, monthly | 1955–2025 | `--imf` | None | Via codeforIATI mirror |
+| [BIS](https://data.bis.org/bulkdownload) | Bilateral + effective rates, ~190 economies | 1957–2026 | `--bis` | None | ZIP bulk download (~700 MB) |
+| [Sveriges Riksbank](https://www.riksbank.se/en-gb/statistics/) | 53 SEK bilateral series, daily | 1900–2026 | `--riksbank` | None | REST API, 5 req/min rate limit |
+| [World Bank](https://data.worldbank.org/indicator/PA.NUS.FCRF) | Official rates, all member countries | 1960–present | `--worldbank` | None | JSON API, paginated |
+| [JST Macrohistory](https://www.macrohistory.net/database/) | 18 advanced economies, 59 variables | 1870–2017 | `--jst` | None | Single xlsx |
+| [Penn World Table](https://www.rug.nl/ggdc/productivity/pwt/) | 185 countries, FX + PPP + price levels | 1950–2023 | `--pwt` | None | Dataverse xlsx (slow server) |
+| [MeasuringWorth](https://www.measuringworth.com/datasets/exchangeglobal/) | 41 currencies vs USD | 1791–2025 | `--measuringworth` | None | CSV export API |
+| [MeasuringWorth Gold](https://www.measuringworth.com/datasets/gold/) | Gold prices (5 series) + gold/silver ratio | 1257–2025 | `--measuringworth` | None | Series fetched individually |
+| [Clio Infra](https://clio-infra.eu/) | FX (USD+GBP), inflation, bonds, debt, GDP, gold standard | 1500–2016 | `--clio` | None | 7 xlsx files |
+| [FreeGoldAPI](https://freegoldapi.com/) | Gold prices (768 yrs) + gold/silver ratio + silver | 1258–2025 | `--freegold` | None | GitHub Pages CSV, daily updates |
+| [LBMA](https://www.lbma.org.uk/prices-and-data/precious-metal-prices) | Daily gold + silver in USD, GBP, EUR | 1968–2025 | `--lbma` | None | JSON feed from prices.lbma.org.uk |
+| [DataHub Gold](https://github.com/datasets/gold-prices) | Monthly gold prices USD | 1833–2025 | `--gold` | None | GitHub CSV |
+| [IRR](https://www.ilzetzki.com/irr-data) | De facto FX regime classifications, ~190 countries | 1940–2021 | `--irr` | None | 3 xlsx from Ilzetzki's site |
+| [Bank of England](https://www.bankofengland.co.uk/statistics/research-datasets) | UK millennium dataset ($/£, rates, prices, GDP) | 1791–2016 | `--boe` | None | Single xlsx (27 MB) |
+
+### Static (committed to repo, updated manually)
+
+| Source | Data | Period | Notes |
+|--------|------|--------|-------|
+| [MEMDB Spufford](https://memdb.libraries.rutgers.edu/spufford-currency) | Medieval exchange quotations (521 places) | 1106–1500 | No export API, scraped |
+| [MEMDB Metz](https://memdb.libraries.rutgers.edu/metz-currency) | Lower Rhine + European comparison (29 places) | 1350–1800 | No export API, scraped |
+| [Global Macro Database](https://www.globalmacrodata.com/data.html) | 243 countries, USDfx + REER | 1960–2024 | Email-gated download |
 
 See [SOURCES.md](SOURCES.md) for column schemas, quoting conventions, and file-level details.
 
@@ -258,20 +266,23 @@ See [SOURCES.md](SOURCES.md) for column schemas, quoting conventions, and file-l
 | `sources/memdb/` | MEMDB Spufford | 1 | 13,197 | 1106–1500 |
 | `sources/memdb/` | MEMDB Metz | 1 | 50,559 | 1350–1800 |
 | `sources/clio_infra/` | Clio Infra | 14 | ~3K rows/file | 1500–2016 |
-| `sources/measuringworth/` | MeasuringWorth | 2 | 1,004 | 1257–2025 |
-| `sources/imf/` | IMF IFS | 1 | 158,517 | 1955–2025 |
+| `sources/measuringworth/` | MeasuringWorth | 2 | 4,294 | 1257–2025 |
+| `sources/imf/` | IMF IFS | 1 | 158,519 | 1955–2025 |
 | `sources/bis/` | BIS | 2 | 2,664,238 | 1957–2026 |
 | `sources/fred/` | FRED | 25 | ~14K/file | 1971–2025 |
 | `sources/riksbank/` | Sveriges Riksbank | 1 | 295,018 | 1900–2026 |
-| `sources/worldbank/` | World Bank | 1 | — | 1960–present |
+| `sources/worldbank/` | World Bank | 1 | 12,379 | 1960–present |
 | `sources/irr/` | Ilzetzki-Reinhart-Rogoff | 7 | — | 1940–2021 |
 | `sources/jst/` | Jorda-Schularick-Taylor | 1 | 2,718 | 1870–2017 |
 | `sources/boe/` | Bank of England | 1 | — | 1791–2016 |
 | `sources/gmd/` | Global Macro Database | 1 | 56,850 | 1960–2024 |
 | `sources/gold/` | DataHub gold prices | 1 | 2,311 | 1833–2025 |
+| `sources/freegold/` | FreeGoldAPI | 3 | 4,876 | 1258–2025 |
+| `sources/lbma/` | LBMA | 2 | 29,251 | 1968–2025 |
+| `sources/pwt/` | Penn World Table | 1 | — | 1950–2023 |
 | `derived/normalized/` | Derived | 4 | 310,212 | 1500–2025 |
 | `derived/analysis/` | Derived | 11 | 663,136 | 1257–2025 |
-| **Total** | **13 sources** | **76** | | **1106–2026** |
+| **Total** | **17 sources** | **83** | | **1106–2026** |
 
 ## TODO
 

@@ -29,6 +29,7 @@ import sys
 import tempfile
 import time
 import urllib.error
+import urllib.parse
 import urllib.request
 import zipfile
 from datetime import datetime
@@ -307,7 +308,7 @@ def update_riksbank():
             print(f"  ERROR {series_id}: {e}")
             errors += 1
         # Rate limit: 5 calls/min without API key
-        time.sleep(1.5)
+        time.sleep(3)
 
     if all_rows:
         all_rows.sort()
@@ -387,7 +388,7 @@ def update_worldbank():
 
 def update_jst():
     """Update JST Macrohistory dataset."""
-    url = "https://www.macrohistory.net/wp-content/uploads/2024/09/JSTdatasetR6.xlsx"
+    url = "https://www.macrohistory.net/app/download/9834512469/JSTdatasetR6.xlsx"
     dest = SOURCES / "jst" / "jst_macrohistory.xlsx"
 
     print("Updating JST Macrohistory dataset...")
@@ -416,7 +417,7 @@ def update_pwt():
 
     print("Updating Penn World Table...")
     try:
-        data = fetch_bytes(url, timeout=180)
+        data = fetch_bytes(url, timeout=300)
         if len(data) < 100_000:
             print(f"  WARNING: file too small ({len(data)} bytes), possible error page")
             return
@@ -450,7 +451,9 @@ def update_measuringworth():
     year = datetime.now().year
 
     # Exchange rates (41 currencies vs USD)
-    country_params = "&".join(f"countryE[]={c}" for c in MW_COUNTRIES)
+    country_params = "&".join(
+        f"countryE[]={urllib.parse.quote(c)}" for c in MW_COUNTRIES
+    )
     url = (
         f"https://www.measuringworth.com/datasets/exchangeglobal/export.php"
         f"?year_source=1791&year_result={year}&{country_params}"
@@ -464,21 +467,59 @@ def update_measuringworth():
     except Exception as e:
         print(f"  ERROR exchange rates: {e}")
 
-    # Gold prices (all series: British official, London market, US official,
-    # New York market, gold/silver ratio)
-    url = (
-        f"https://www.measuringworth.com/datasets/gold/export.php"
-        f"?year_source=1257&year_result={year}"
-        f"&British=on&london=on&us=on&newyork=on&goldsilver=on"
-    )
-    dest = SOURCES / "measuringworth" / "measuringworth_gold_prices.csv"
-    try:
-        content = fetch_url(url)
-        rows = validate_csv(content, min_rows=100)
+    # Gold prices — each series has a different start year, so we fetch them
+    # separately and merge on year.
+    # Series: (param, start_year)
+    gold_series = [
+        ("British", 1257),   # British official GBP
+        ("london", 1718),    # London market GBP + USD
+        ("us", 1786),        # US official USD
+        ("newyork", 1791),   # New York market USD
+        ("goldsilver", 1687),  # Gold/silver ratio
+    ]
+    gold_data = {}  # year -> {col: val}
+    all_columns = []
+    for param, start_year in gold_series:
+        series_url = (
+            f"https://www.measuringworth.com/datasets/gold/export.php"
+            f"?year_source={start_year}&year_result={year}&{param}=on"
+        )
+        try:
+            raw = fetch_url(series_url)
+            reader = csv.reader(io.StringIO(raw))
+            # Skip preamble lines until we find the header starting with "Year"
+            header = None
+            for row in reader:
+                if row and row[0].strip().strip('"').lower() == "year":
+                    header = [c.strip().strip('"') for c in row]
+                    break
+            if not header or len(header) < 2:
+                print(f"  SKIP gold/{param}: no valid header")
+                continue
+            # Use short column names based on param
+            col_name = f"{param}_price"
+            all_columns.append(col_name)
+            for row in reader:
+                if not row or not row[0].strip().strip('"').isdigit():
+                    continue
+                yr = row[0].strip().strip('"')
+                if yr not in gold_data:
+                    gold_data[yr] = {}
+                if len(row) > 1 and row[1].strip().strip('"'):
+                    gold_data[yr][col_name] = row[1].strip().strip('"')
+            print(f"  gold/{param}: fetched ({start_year}-{year})")
+        except Exception as e:
+            print(f"  ERROR gold/{param}: {e}")
+
+    if gold_data:
+        dest = SOURCES / "measuringworth" / "measuringworth_gold_prices.csv"
+        lines = ["year," + ",".join(all_columns)]
+        for yr in sorted(gold_data.keys(), key=int):
+            vals = [gold_data[yr].get(c, "") for c in all_columns]
+            lines.append(f"{yr},{','.join(vals)}")
+        content = "\n".join(lines) + "\n"
         write_atomic(dest, content)
-        print(f"  measuringworth_gold_prices.csv: {rows:,} rows")
-    except Exception as e:
-        print(f"  ERROR gold prices: {e}")
+        print(f"  measuringworth_gold_prices.csv: {len(gold_data):,} rows")
 
     print("MeasuringWorth update complete.")
 
