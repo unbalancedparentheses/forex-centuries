@@ -412,20 +412,28 @@ def update_jst():
 
 def update_pwt():
     """Update Penn World Table."""
-    url = "https://dataverse.nl/api/access/datafile/554105"
-    dest = SOURCES / "pwt" / "pwt.xlsx"
+    # Primary: PWT 11.0 from Dataverse. Fallback: PWT 10.0 from rug.nl.
+    urls = [
+        ("https://dataverse.nl/api/access/datafile/554105", "pwt.xlsx"),
+        ("https://www.rug.nl/ggdc/docs/pwt100.xlsx", "pwt.xlsx"),
+    ]
+    dest_dir = SOURCES / "pwt"
 
     print("Updating Penn World Table...")
-    try:
-        data = fetch_bytes(url, timeout=300)
-        if len(data) < 100_000:
-            print(f"  WARNING: file too small ({len(data)} bytes), possible error page")
-            return
-        write_atomic_bytes(dest, data)
-        size_mb = len(data) / (1024 * 1024)
-        print(f"  pwt.xlsx: {size_mb:.1f} MB")
-    except Exception as e:
-        print(f"  ERROR: {e}")
+    for url, filename in urls:
+        try:
+            data = fetch_bytes(url, timeout=300)
+            if len(data) < 100_000:
+                print(f"  WARNING: file too small ({len(data)} bytes), trying next URL")
+                continue
+            write_atomic_bytes(dest_dir / filename, data)
+            size_mb = len(data) / (1024 * 1024)
+            print(f"  {filename}: {size_mb:.1f} MB (from {url.split('/')[2]})")
+            break
+        except Exception as e:
+            print(f"  {url.split('/')[2]}: {e}, trying next...")
+    else:
+        print("  ERROR: all download URLs failed")
 
     print("Penn World Table update complete.")
 
@@ -520,6 +528,49 @@ def update_measuringworth():
         content = "\n".join(lines) + "\n"
         write_atomic(dest, content)
         print(f"  measuringworth_gold_prices.csv: {len(gold_data):,} rows")
+
+    # US CPI (1774-present)
+    url = (
+        f"https://www.measuringworth.com/datasets/uscpi/export.php"
+        f"?year_source=1774&year_result={year}"
+    )
+    dest = SOURCES / "measuringworth" / "measuringworth_us_cpi.csv"
+    try:
+        content = fetch_url(url)
+        rows = validate_csv(content, min_rows=5)
+        write_atomic(dest, content)
+        print(f"  measuringworth_us_cpi.csv: {rows:,} rows")
+    except Exception as e:
+        print(f"  ERROR US CPI: {e}")
+
+    # Dollar-Pound exchange rate (1791-present)
+    url = (
+        f"https://www.measuringworth.com/datasets/exchangepound/export.php"
+        f"?year_source=1791&year_result={year}"
+    )
+    dest = SOURCES / "measuringworth" / "measuringworth_dollar_pound.csv"
+    try:
+        content = fetch_url(url)
+        rows = validate_csv(content, min_rows=5)
+        write_atomic(dest, content)
+        print(f"  measuringworth_dollar_pound.csv: {rows:,} rows")
+    except Exception as e:
+        print(f"  ERROR dollar-pound: {e}")
+
+    # UK + US interest rates (1729-present)
+    data_params = "&".join(f"data{i}=on" for i in range(1, 13))
+    url = (
+        f"https://www.measuringworth.com/datasets/interestrates/export.php"
+        f"?year_source=1729&year_result={year}&{data_params}"
+    )
+    dest = SOURCES / "measuringworth" / "measuringworth_interest_rates.csv"
+    try:
+        content = fetch_url(url)
+        rows = validate_csv(content, min_rows=5)
+        write_atomic(dest, content)
+        print(f"  measuringworth_interest_rates.csv: {rows:,} rows")
+    except Exception as e:
+        print(f"  ERROR interest rates: {e}")
 
     print("MeasuringWorth update complete.")
 
