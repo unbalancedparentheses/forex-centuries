@@ -22,6 +22,10 @@ Usage:
     python scripts/update_sources.py --allenunger  # no auth needed
     python scripts/update_sources.py --commodities # no auth needed
     python scripts/update_sources.py --bruegel     # no auth needed
+    python scripts/update_sources.py --imfhpdd     # no auth needed
+    python scripts/update_sources.py --cfs         # no auth needed
+    python scripts/update_sources.py --riksbank_hist # no auth needed
+    python scripts/update_sources.py --reinhartrogoff # no auth needed
     python scripts/update_sources.py --all    # all of the above
 """
 
@@ -1020,6 +1024,193 @@ def update_allenunger():
 
 
 # ---------------------------------------------------------------------------
+# IMF Historical Public Debt Database (via DBnomics)
+# ---------------------------------------------------------------------------
+
+def update_imfhpdd():
+    """Update IMF Historical Public Debt Database (187 countries, 1800-2015)."""
+    dest_dir = SOURCES / "imf_hpdd"
+
+    print("Updating IMF Historical Public Debt Database (via DBnomics)...")
+
+    # DBnomics provides the IMF HPDD dataset as a paginated JSON API
+    all_rows = []
+    offset = 0
+    limit = 200
+    while True:
+        url = (
+            f"https://api.db.nomics.world/v22/series/IMF/HPDD"
+            f"?limit={limit}&offset={offset}&observations=1&format=json"
+        )
+        try:
+            raw = json.loads(fetch_url(url, timeout=60))
+            series_list = raw.get("series", {}).get("docs", [])
+            if not series_list:
+                break
+            for s in series_list:
+                country = s.get("dimensions", {}).get("REF_AREA", "")
+                indicator = s.get("dimensions", {}).get("INDICATOR", "")
+                periods = s.get("period", [])
+                values = s.get("value", [])
+                for p, v in zip(periods, values):
+                    if v is not None:
+                        all_rows.append((country, indicator, p, str(v)))
+            num_found = raw.get("series", {}).get("num_found", 0)
+            offset += limit
+            if offset >= num_found:
+                break
+        except Exception as e:
+            print(f"  ERROR fetching offset {offset}: {e}")
+            break
+
+    if all_rows:
+        all_rows.sort(key=lambda r: (r[0], r[1], r[2]))
+        lines = ["country,indicator,year,value"]
+        for country, indicator, year, value in all_rows:
+            lines.append(f"{country},{indicator},{year},{value}")
+        content = "\n".join(lines) + "\n"
+        write_atomic(dest_dir / "imf_hpdd_debt_gdp.csv", content)
+        countries = len(set(r[0] for r in all_rows))
+        print(f"  imf_hpdd_debt_gdp.csv: {len(all_rows):,} rows ({countries} countries)")
+    else:
+        print("  WARNING: no data fetched")
+
+    print("IMF HPDD update complete.")
+
+
+# ---------------------------------------------------------------------------
+# Center for Financial Stability — Historical Financial Statistics
+# ---------------------------------------------------------------------------
+
+CFS_FILES = {
+    "General_tables.xlsx": "cfs_general_tables.xlsx",
+    "Official_exchange_rates.xlsb": "cfs_official_exchange_rates.xlsb",
+    "Market_exchange_rates.xlsb": "cfs_market_exchange_rates.xlsb",
+    "Interest_rates.xlsb": "cfs_interest_rates.xlsb",
+    "Exchange_controls.xls": "cfs_exchange_controls.xls",
+    "Additional_data.xlsb": "cfs_additional_data.xlsb",
+    "League_of_Nations_price_indices.xlsb": "cfs_league_of_nations_prices.xlsb",
+    "Fed_weekly_balance_sheet_since_1914_data.xlsb": "cfs_fed_balance_sheet.xlsb",
+}
+
+
+def update_cfs():
+    """Update Center for Financial Stability Historical Financial Statistics."""
+    dest_dir = SOURCES / "cfs"
+
+    print("Updating Center for Financial Stability HFS...")
+    for remote_name, local_name in sorted(CFS_FILES.items()):
+        url = f"https://centerforfinancialstability.org/hfs/{remote_name}"
+        try:
+            data = fetch_bytes(url, timeout=120)
+            if len(data) < 10_000:
+                print(f"  SKIP {remote_name}: too small ({len(data)} bytes)")
+                continue
+            write_atomic_bytes(dest_dir / local_name, data)
+            size_mb = len(data) / (1024 * 1024)
+            print(f"  {local_name}: {size_mb:.1f} MB")
+        except Exception as e:
+            print(f"  ERROR {remote_name}: {e}")
+
+    print("CFS update complete.")
+
+
+# ---------------------------------------------------------------------------
+# Riksbank Historical Monetary Statistics (Volumes I-III)
+# ---------------------------------------------------------------------------
+
+RIKSBANK_HIST_BASE = (
+    "https://www.riksbank.se/globalassets/media/forskning/monetar-statistik"
+)
+
+RIKSBANK_HIST_FILES = {
+    # Volume I: Exchange Rates, Prices, Wages (1277-2008)
+    "volym1/volumeich3middleages.xls": "vol1_ch3_middle_ages.xls",
+    "volym1/volumeich4exchangerates1534_1803.xls": "vol1_ch4_exchange_rates_1534_1803.xls",
+    "volym1/volumeich5foreignexchangerates1658_1803.xls": "vol1_ch5_foreign_fx_1658_1803.xls",
+    "volym1/volumeich6exchangerates1804_1914.xls": "vol1_ch6_exchange_rates_1804_1914.xls",
+    "volym1/volumeich7exchangerates1913_.xls": "vol1_ch7_exchange_rates_1913_.xls",
+    "volym1/volumeich8consumerpriceindex.xls": "vol1_ch8_cpi.xls",
+    "volym1/volumeich9wages_1850.xls": "vol1_ch9_wages_to_1850.xls",
+    "volym1/volumeich10wages1860_.xls": "vol1_ch10_wages_1860_.xls",
+    # Volume II: House Prices, Stocks, National Accounts, Money (1620-2012)
+    "volym2/volumeiich4gdp.xls": "vol2_ch4_gdp.xls",
+    "volym2/volumeiich6stocksandbonds.xls": "vol2_ch6_stocks_bonds.xls",
+    "volym2/volumeiich7moneysupply.xls": "vol2_ch7_money_supply.xls",
+    "volym2/volumeiich8riksbankbalancesheet.xls": "vol2_ch8_riksbank_balance.xls",
+    # Volume III: Banking, Bonds, Wealth (1420-2020)
+    "volym-3/volumeiiich4bonds.xlsx": "vol3_ch4_bonds.xlsx",
+}
+
+
+def update_riksbank_hist():
+    """Update Riksbank Historical Monetary Statistics (Vols I-III, 1277-2020)."""
+    dest_dir = SOURCES / "riksbank_hist"
+
+    print("Updating Riksbank Historical Monetary Statistics...")
+    for remote_path, local_name in sorted(RIKSBANK_HIST_FILES.items()):
+        url = f"{RIKSBANK_HIST_BASE}/{remote_path}"
+        try:
+            data = fetch_bytes(url, timeout=60)
+            if len(data) < 1000:
+                print(f"  SKIP {local_name}: too small ({len(data)} bytes)")
+                continue
+            write_atomic_bytes(dest_dir / local_name, data)
+            size_kb = len(data) / 1024
+            print(f"  {local_name}: {size_kb:.0f} KB")
+        except Exception as e:
+            print(f"  ERROR {local_name}: {e}")
+
+    print("Riksbank Historical update complete.")
+
+
+# ---------------------------------------------------------------------------
+# Reinhart-Rogoff data (carmenreinhart.com)
+# ---------------------------------------------------------------------------
+
+REINHART_ROGOFF_FILES = {
+    # IRR exchange rate regime + anchor (main datasets)
+    "236_data.xlsx": "rr_anchor_currency_1946_2016.xlsx",
+    "238_data.xlsx": "rr_regime_classification.xlsx",
+    "240_data.xlsx": "rr_capital_control_index.xlsx",
+    # Debt-to-GDP
+    "7_data.xls": "rr_external_debt_gdp.xls",
+    "18_data.xls": "rr_total_public_debt_gdp.xls",
+    "19_data.xls": "rr_domestic_public_debt_gdp.xls",
+    "20_data.xls": "rr_external_public_debt_gdp.xls",
+    # Inflation
+    "21_data.xls": "rr_inflation_annual.xls",
+    "26_data.xls": "rr_cpi_index.xls",
+    # Gold standard + crisis indicators
+    "30_data.xlsx": "rr_gold_standard_dates.xlsx",
+    "49_data.xls": "rr_bcdi_crisis_index.xls",
+    "29_data.xls": "rr_imf_fx_classification.xls",
+}
+
+
+def update_reinhartrogoff():
+    """Update Reinhart-Rogoff datasets from carmenreinhart.com."""
+    dest_dir = SOURCES / "reinhart_rogoff"
+
+    print("Updating Reinhart-Rogoff datasets...")
+    base = "https://carmenreinhart.com/wp-content/uploads/2020/02"
+    for remote_name, local_name in sorted(REINHART_ROGOFF_FILES.items()):
+        url = f"{base}/{remote_name}"
+        try:
+            data = fetch_bytes(url, timeout=60)
+            if len(data) < 1000:
+                print(f"  SKIP {local_name}: too small ({len(data)} bytes)")
+                continue
+            write_atomic_bytes(dest_dir / local_name, data)
+            size_kb = len(data) / 1024
+            print(f"  {local_name}: {size_kb:.0f} KB")
+        except Exception as e:
+            print(f"  ERROR {local_name}: {e}")
+
+    print("Reinhart-Rogoff update complete.")
+
+
+# ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
 
@@ -1043,6 +1234,10 @@ ALL_SOURCES = [
     ("allenunger", update_allenunger, "Update Allen-Unger commodity prices (1260-1914)"),
     ("commodities", update_commodities, "Update World Bank commodity prices (Pink Sheet, 1960-present)"),
     ("bruegel", update_bruegel, "Update Bruegel/Darvas REER (178 countries, monthly)"),
+    ("imfhpdd", update_imfhpdd, "Update IMF Historical Public Debt (187 countries, 1800-2015)"),
+    ("cfs", update_cfs, "Update CFS Historical Financial Statistics"),
+    ("riksbank_hist", update_riksbank_hist, "Update Riksbank Historical Monetary Stats (1277-2020)"),
+    ("reinhartrogoff", update_reinhartrogoff, "Update Reinhart-Rogoff datasets"),
 ]
 
 

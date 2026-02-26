@@ -1,6 +1,6 @@
 # forex-centuries
 
-Historical monetary and economic data spanning twenty centuries (1 CE-2026). 22 sources, 1,060+ files, ~240 countries. Exchange rates, gold, silver, interest rates, CPI, GDP per capita, commodity prices, real wages, and real effective exchange rates — assembled for long-run volatility and tail-risk research.
+Historical monetary and economic data spanning twenty centuries (1 CE-2026). 27 sources, 1,100+ files, ~240 countries. Exchange rates, gold, silver, interest rates, CPI, GDP per capita, commodity prices, real wages, sovereign debt, regime classifications, and real effective exchange rates — assembled for long-run volatility and tail-risk research.
 
 Related project: [fatcrash](https://github.com/unbalancedparentheses/fatcrash) — crash detection via fat-tail statistics (LPPLS, EVT, Hill estimator, Kappa).
 
@@ -46,8 +46,20 @@ Maddison (178 ctry)   ███████████████████�
 REAL WAGES            :      :      :      :      :      :      :      :      :      :      :      :
 Clio Infra Wages      :      :      :      :      :      :      :      :      :      ██████████████████
                       :      :      :      :      :      :      :      :      :      :      :      :
-REGIMES               :      :      :      :      :      :      :      :      :      :      :      :
+SOVEREIGN DEBT        :      :      :      :      :      :      :      :      :      :      :      :
+IMF HPDD (191 ctry)   :      :      :      :      :      :      :      :      :      ██████████████████
+Reinhart-Rogoff       :      :      :      :      :      :      :      :      :      ██████████████████
+                      :      :      :      :      :      :      :      :      :      :      :      :
+REGIMES / CRISES      :      :      :      :      :      :      :      :      :      :      :      :
 IRR Classifications   :      :      :      :      :      :      :      :      :      :       █████████
+RR Crisis Indices     :      :      :      :      :      :      :      :      :      ██████████████████
+                      :      :      :      :      :      :      :      :      :      :      :      :
+SWEDEN (1277+)        :      :      :      :      :      :      :      :      :      :      :      :
+Riksbank Hist FX      :      :      :      :      :      ██████████████████████████████████████████████
+Riksbank Hist CPI     :      :      :      :      :      :      :      :      :      ██████████████████
+Riksbank Hist Wages   :      :      :      :      :      :      :      :      :      ██████████████████
+                      :      :      :      :      :      :      :      :      :      :      :      :
+CFS HIST. FIN. STATS  :      :      :      :      :      :      ████████████████████████████      :
 ```
 
 ## What the data shows
@@ -158,10 +170,10 @@ Seven sections: yearly panel, daily data, fat tails (histogram + QQ-plot), regim
 
 ## Updating source data
 
-19 sources are automatically fetched by `update_sources.py`. A weekly GitHub Actions workflow runs `--all` every Monday at 06:00 UTC, or trigger it manually from the Actions tab. Each run creates a GitHub Release with a tarball of all data.
+23 sources are automatically fetched by `update_sources.py`. A weekly GitHub Actions workflow runs `--all` every Monday at 06:00 UTC, or trigger it manually from the Actions tab. Each run creates a GitHub Release with a tarball of all data.
 
 ```bash
-python scripts/update_sources.py --all           # update all 19 sources
+python scripts/update_sources.py --all           # update all 23 sources
 python scripts/update_sources.py --fred          # or update individually
 ```
 
@@ -188,15 +200,19 @@ FRED requires a free API key from [fred.stlouisfed.org](https://fred.stlouisfed.
 ```
 forex-centuries/
 ├── data/
-│   ├── sources/           # Raw data, untouched from provider (22 sources)
+│   ├── sources/           # Raw data, untouched from provider (27 sources)
 │   │   ├── maddison/      # GDP per capita, 178 countries (1 CE - 2022)
 │   │   ├── memdb/         # Medieval exchange rates (1106-1800)
 │   │   ├── allenunger/    # 973 commodity price series (1260-1914)
 │   │   ├── measuringworth/# FX, gold, interest rates, CPI (1257-2025)
+│   │   ├── riksbank_hist/ # Swedish FX, CPI, wages, GDP, money supply (1277-2020)
 │   │   ├── schmelzing/    # Real interest rates, 8 countries (1311-2018)
+│   │   ├── cfs/           # Historical Financial Statistics (FX, rates, money, ~1500-1950)
 │   │   ├── clio_infra/    # FX, inflation, bonds, debt, GDP, wages (1500-2016)
 │   │   ├── freegold/      # 768-year gold, silver, gold/silver ratio (1258-2025)
 │   │   ├── lbma/          # Daily gold + silver prices in USD/GBP/EUR (1968-2025)
+│   │   ├── reinhart_rogoff/ # Debt/GDP, inflation, crises, gold standard (1800-2016)
+│   │   ├── imf_hpdd/      # Sovereign debt-to-GDP, 191 countries (1800-2015)
 │   │   ├── bruegel/       # Real effective exchange rates, 178 countries (1960s-2026)
 │   │   ├── imf/           # 173 currencies, monthly (1955-2025)
 │   │   ├── bis/           # Bilateral + effective rates, ~190 economies (1957-2026)
@@ -215,7 +231,7 @@ forex-centuries/
 │       └── analysis/      # Log returns, volatility, correlations, regimes, gold
 ├── charts/                # Generated by visualize.py (9 PNGs)
 ├── notebooks/             # Jupyter exploration notebook
-├── scripts/               # update_sources.py (19 automated fetchers)
+├── scripts/               # update_sources.py (23 automated fetchers)
 ├── tests/                 # Unit tests (13 tests, synthetic data)
 ├── build.py               # 8-step ETL pipeline
 ├── validate.py            # Data quality checks (52 checks)
@@ -249,6 +265,10 @@ forex-centuries/
 | [Maddison Project](https://www.rug.nl/ggdc/historicaldevelopment/maddison/) | `--maddison` | GDP per capita, 178 countries (via OWID API + Dataverse xlsx) | 1 CE-2022 | |
 | [Allen-Unger GCPD](https://datasets.iisg.amsterdam/dataset.xhtml?persistentId=hdl:10622/3SV0BO) | `--allenunger` | 973 commodity price series (wheat, rye, silver, etc.) across cities | 1260-1914 | |
 | [Bruegel/Darvas REER](https://www.bruegel.org/publications/datasets/real-effective-exchange-rates-for-178-countries-a-new-database) | `--bruegel` | Real effective exchange rates, 178 countries, monthly | 1960s-2026 | |
+| [IMF HPDD](https://data.imf.org/) | `--imfhpdd` | Sovereign debt-to-GDP, 191 countries (via DBnomics) | 1800-2015 | |
+| [CFS HFS](https://centerforfinancialstability.org/hfs.php) | `--cfs` | Exchange rates, interest rates, money supply, central bank balance sheets | ~1500-1950 | |
+| [Riksbank Hist. Monetary](https://www.riksbank.se/en-gb/statistics/historical-monetary-statistics-of-sweden/) | `--riksbank_hist` | Swedish FX, CPI, wages, GDP, money supply, stocks/bonds (Vols I-III) | 1277-2020 | |
+| [Reinhart-Rogoff](https://carmenreinhart.com/data/) | `--reinhartrogoff` | Regime classifications, debt/GDP, inflation, crisis indices, gold standard dates | 1800-2016 | |
 
 ### Static (committed to repo, updated manually)
 
@@ -277,7 +297,11 @@ forex-centuries/
 | REER | 178 countries, monthly | ~66 | 1960s-2026 | Bruegel/Darvas |
 | Commodities | ~70 series (oil, metals, agriculture) | ~66 | 1960-present | World Bank |
 | Real wages | Labourers' real wage, ~40 countries | ~180 | 1820-2000+ | Clio Infra |
+| Swedish FX | Exchange rates from 1534 | 492 | 1534-2026 | Riksbank Hist. |
+| Sovereign debt | Debt-to-GDP, 191 countries | 215 | 1800-2015 | IMF HPDD |
+| Crisis indices | Banking/currency/debt crises | ~216 | 1800-2016 | Reinhart-Rogoff |
 | FX regimes | De facto classifications | 81 | 1940-2021 | IRR |
+| CFS FX/rates | Official + market exchange rates, interest rates | ~450 | ~1500-1950 | CFS |
 
 ## Source data schemas
 
@@ -386,6 +410,22 @@ Ilzetzki-Reinhart-Rogoff regime classifications. Rows are months (YYYY:MM), colu
 
 **`REER_database_ver*.xls`** (9 MB) — Darvas/Bruegel real effective exchange rates. 178 countries, monthly, various start dates (many from 1960s). Nominal and CPI-based REER indices.
 
+### `sources/imf_hpdd/`
+
+**`imf_hpdd_debt_gdp.csv`** (9.6K rows) — country, indicator, year, value. Gross government debt as % of GDP, 191 countries, 1800-2015. Via DBnomics mirror of IMF HPDD.
+
+### `sources/cfs/`
+
+Center for Financial Stability Historical Financial Statistics. 8 files (~31 MB total). Key files: `cfs_official_exchange_rates.xlsb` (daily official FX rates), `cfs_market_exchange_rates.xlsb` (daily/monthly market FX), `cfs_interest_rates.xlsb` (interest rates), `cfs_general_tables.xlsx` (summary tables). Coverage: ~1500-1950. Note: `.xlsb` files require `pyxlsb` library to read.
+
+### `sources/riksbank_hist/`
+
+Riksbank Historical Monetary Statistics, 13 Excel files across 3 volumes. Vol I (1277-2008): exchange rates, CPI, wages. Vol II (1620-2012): GDP, stocks/bonds, money supply, Riksbank balance sheet. Vol III (1420-2020): bonds. Key files: `vol1_ch3_middle_ages.xls` (earliest data, from 1277), `vol1_ch4_exchange_rates_1534_1803.xls`, `vol1_ch8_cpi.xls`.
+
+### `sources/reinhart_rogoff/`
+
+12 Excel files from Reinhart & Rogoff. Key files: `rr_regime_classification.xlsx` (FX regime, annual), `rr_anchor_currency_1946_2016.xlsx` (anchor currency), `rr_total_public_debt_gdp.xls` (debt/GDP), `rr_inflation_annual.xls`, `rr_bcdi_crisis_index.xls` (banking/currency/debt/inflation crisis indicator), `rr_gold_standard_dates.xlsx`. Coverage: ~1800-2016, ~70 countries.
+
 ## Derived data
 
 ### Normalized (`data/derived/normalized/`)
@@ -417,15 +457,11 @@ Ilzetzki-Reinhart-Rogoff regime classifications. Rows are months (YYYY:MM), colu
 
 ### Manual data sources (not yet automatable)
 
-- [ ] **Reinhart-Rogoff official and parallel exchange rates** from [carmenreinhart.com](https://carmenreinhart.com/exchange-rates-official-and-parallel/). Unique dataset with parallel/black-market rates. Requires manual browser download.
-- [ ] **Reinhart-Rogoff "This Time Is Different"** crisis dataset from [rogoff.scholars.harvard.edu](https://rogoff.scholars.harvard.edu/time-different%E2%80%94data-files). 66 countries, eight centuries of currency crashes, debasements, sovereign defaults.
-- [ ] **MEMDB medieval exchange rates** from [memdb.libraries.rutgers.edu](https://memdb.libraries.rutgers.edu/). Spufford (1106-1500) and Metz (1350-1800). No export API — requires web scraping with pagination.
-- [ ] **Global Macro Database** from [globalmacrodata.com](https://www.globalmacrodata.com/data.html). 243 countries, USDfx + REER. Email-gated download.
-- [ ] **NBER Macrohistory Database** from [nber.org](https://www.nber.org/research/data/nber-macrohistory-xiv-money-and-banking). Pre-WWI and interwar US/UK/France/Germany money, banking, exchange rates.
-- [ ] **Center for Financial Stability** from [centerforfinancialstability.org](https://centerforfinancialstability.org/hfs.php). Exchange rates, central bank balance sheets, interest rates, money supply.
+- [ ] **Reinhart-Rogoff parallel/black-market exchange rates** from [carmenreinhart.com](https://carmenreinhart.com/exchange-rates-official-and-parallel/). Unique dataset — links broken from site migration, requires manual browser download.
 - [ ] **Energy Institute Statistical Review** from [energyinst.org](https://www.energyinst.org/statistical-review). Oil prices from 1861. Cloudflare-blocked — requires browser download.
-- [ ] **IMF Historical Public Debt Database** (187 countries, 1800-2015) from [data.imf.org](https://data.imf.org/en?sk=806ED027-520D-497F-9052-63EC199F5E63).
-- [ ] **Riksbank Historical Monetary Statistics** Vols I-III (Swedish prices/wages/money from 1277) from [riksbank.se](https://www.riksbank.se/en-gb/statistics/historical-monetary-statistics-of-sweden/).
+- [ ] **MEMDB medieval exchange rates** from [memdb.libraries.rutgers.edu](https://memdb.libraries.rutgers.edu/). Spufford (1106-1500) and Metz (1350-1800). No export API — requires web scraping.
+- [ ] **Global Macro Database** from [globalmacrodata.com](https://www.globalmacrodata.com/data.html). 243 countries, USDfx + REER. Email-gated download.
+- [ ] **NBER Macrohistory Database** from [nber.org](https://www.nber.org/research/data/nber-macrohistory-database). 2,510 series of pre-WWI/interwar data. Available via FRED individual series or NBER directory scrape.
 
 ### Pipeline improvements
 
