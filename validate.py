@@ -83,7 +83,8 @@ def check_schema():
         "normalized/fred_daily_normalized.csv": [
             "date", "currency", "rate_per_usd"],
         "normalized/yearly_unified_panel.csv": [
-            "year", "iso3", "country", "rate_per_usd", "source"],
+            "year", "iso3", "country", "rate_per_usd", "source", "unit",
+            "flags", "comparable_with_previous"],
         "analysis/daily_log_returns.csv": [
             "date", "currency", "log_return"],
         "analysis/daily_volatility_stats.csv": [

@@ -13,7 +13,7 @@ DATA = Path(__file__).parent / "data"
 
 def load_yearly_panel() -> pd.DataFrame:
     """Unified yearly panel: 236 countries, 1500-2025.
-    Columns: year, iso3, country, rate_per_usd, source (MW/CI/GMD).
+    Columns: year, iso3, country, rate_per_usd, source, unit, flags, comparable_with_previous (MW/CI/GMD).
     """
     df = pd.read_csv(DATA / "derived/normalized/yearly_unified_panel.csv")
     df["year"] = df["year"].astype(int)

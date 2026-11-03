@@ -325,6 +325,92 @@ def merge_by_priority(df):
               .reset_index(drop=True))
 
 
+SOURCE_MISMATCH_TOL = 0.10   # |log ratio| between sources at a switch (~10%)
+LEVEL_JUMP = np.log(10)      # year-on-year move flagged as level_jump
+
+
+def mw_unit_breaks():
+    """Return {(iso3, year): unit label} for MW plus the set of (iso3, year)
+    where the MW currency unit changed (labeled or listed)."""
+    units = load_measuringworth_units()
+    name_to_iso, _ = country_maps()
+    changes = set(mw_unit_changes(units)) | set(MW_REDENOMINATIONS)
+    # Label-only changes (factor 1) keep levels comparable.
+    redenom = {(name_to_iso[c], y) for c, y in changes
+               if c in name_to_iso and MW_REDENOMINATIONS.get((c, y)) != 1}
+    long = units.melt(id_vars="year", var_name="country", value_name="unit").dropna()
+    unit = {(name_to_iso[c], int(y)): u
+            for c, y, u in long[["country", "year", "unit"]].itertuples(index=False)
+            if c in name_to_iso}
+    return unit, redenom
+
+
+def add_quality_flags(panel, candidates, mw_info):
+    """Add `unit`, `flags` and `comparable_with_previous` to the merged panel.
+
+    Levels are kept exactly as each source publishes them. Flags say where
+    a year cannot be compared with the previous one:
+      gap_before             previous year missing
+      redenomination         MW currency unit changed (levels not comparable)
+      source_switch          value comes from a different source than the
+                             previous (consecutive) year
+      source_level_mismatch  at a switch, the two sources disagree by >10% in
+                             the same year (different units or definitions)
+      source_unverified      at a switch, no year where both sources overlap
+      level_jump             |log change| > ln(10) with no explanation above
+      constant_growth        3rd+ identical non-zero log change in a row
+                             (typical of interpolated data)
+    comparable_with_previous is False for gap_before, redenomination,
+    source_level_mismatch and source_unverified.
+    """
+    unit_map, redenom = mw_info
+    p = panel.sort_values(["iso3", "year"]).reset_index(drop=True)
+    by_key = candidates.set_index(["iso3", "year", "source"])["rate_per_usd"]
+    by_key = by_key[~by_key.index.duplicated()]
+
+    g = p.groupby("iso3")
+    prev_year, prev_src = g["year"].shift(), g["source"].shift()
+    gap = prev_year.notna() & (p["year"] - prev_year != 1)
+    first = prev_year.isna()
+    dlog = np.log(p["rate_per_usd"] / g["rate_per_usd"].shift())
+    dlog[gap | first] = np.nan
+
+    switch = ~first & ~gap & (p["source"] != prev_src)
+    mismatch = pd.Series(False, index=p.index)
+    unverified = pd.Series(False, index=p.index)
+    for i in p.index[switch]:
+        iso, year, src, old = p.at[i, "iso3"], p.at[i, "year"], p.at[i, "source"], prev_src[i]
+        # Same-year values from both sources, at the switch or the year before.
+        ratio = None
+        for y in (year, year - 1):
+            a, b = by_key.get((iso, y, old)), by_key.get((iso, y, src))
+            if a and b and a > 0 and b > 0:
+                ratio = np.log(a / b)
+                break
+        if ratio is None:
+            unverified[i] = True
+        elif abs(ratio) > SOURCE_MISMATCH_TOL:
+            mismatch[i] = True
+
+    is_mw = p["source"] == "MW"
+    keys = list(zip(p["iso3"], p["year"]))
+    p["unit"] = [unit_map.get(k, "") if m else "" for k, m in zip(keys, is_mw)]
+    redenomination = pd.Series([k in redenom for k in keys], index=p.index) & is_mw & ~first
+
+    r = dlog.round(6)
+    gr = r.groupby(p["iso3"])
+    constant = (r != 0) & r.notna() & (r == gr.shift(1)) & (r == gr.shift(2))
+    jump = (dlog.abs() > LEVEL_JUMP) & ~redenomination & ~mismatch & ~unverified
+
+    flags = {"gap_before": gap, "redenomination": redenomination,
+             "source_switch": switch, "source_level_mismatch": mismatch,
+             "source_unverified": unverified, "level_jump": jump,
+             "constant_growth": constant}
+    p["flags"] = [";".join(n for n, f in flags.items() if f[i]) for i in p.index]
+    p["comparable_with_previous"] = ~first & ~(gap | redenomination | mismatch | unverified)
+    return p.sort_values(["year", "country"]).reset_index(drop=True)
+
+
 def build_yearly_panel():
     """Build unified yearly panel from MeasuringWorth + Clio Infra + GMD."""
     print("  Loading MeasuringWorth...")
@@ -350,11 +436,16 @@ def build_yearly_panel():
     gmd = gmd[["year", "country", "rate_per_usd"]]
     gmd["source"] = "GMD"
 
-    all_data = canonicalize_countries(pd.concat([mw, ci, gmd], ignore_index=True))
-    all_data = merge_by_priority(drop_known_bad(all_data))
+    candidates = drop_known_bad(
+        canonicalize_countries(pd.concat([mw, ci, gmd], ignore_index=True)))
+    all_data = merge_by_priority(candidates)
+    all_data = add_quality_flags(all_data, candidates, mw_unit_breaks())
 
-    all_data[["year", "iso3", "country", "rate_per_usd", "source"]].to_csv(
+    all_data[["year", "iso3", "country", "rate_per_usd", "source", "unit",
+              "flags", "comparable_with_previous"]].to_csv(
         NORM / "yearly_unified_panel.csv", index=False)
+    print(f"    Not comparable with previous year: "
+          f"{(~all_data['comparable_with_previous']).sum():,} rows")
     print(f"    yearly_unified_panel.csv: {len(all_data):,} rows, "
           f"{all_data['country'].nunique()} countries")
 

@@ -1,0 +1,11 @@
+{
+  "title": "forex-centuries: Long-run exchange rate, gold, silver, interest rate, and commodity price data (1 CE–present)",
+  "upload_type": "dataset",
+  "description": "<p>Historical monetary and economic data spanning twenty centuries (1 CE–present), compiled from 27 public sources with a reproducible build pipeline: exchange rates (236 countries, chain-linked across redenominations), gold, silver, interest rates, CPI, GDP per capita, commodity prices, real wages, sovereign debt, regime classifications and real effective exchange rates.</p><p>The MIT license covers the code. Each source's data keeps its own license and terms; see DATA_CARD.md in the archive and cite the underlying sources you use.</p>",
+  "creators": [{"name": "Carrone, Federico"}],
+  "license": "MIT",
+  "keywords": ["exchange rates", "gold", "silver", "interest rates", "inflation", "commodity prices", "sovereign debt", "economic history", "fat tails"],
+  "related_identifiers": [
+    {"identifier": "https://github.com/unbalancedparentheses/forex-centuries", "relation": "isSupplementTo", "scheme": "url"}
+  ]
+}

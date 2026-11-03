@@ -17,7 +17,7 @@ def load_csv(path, **kwargs):
 
 def load_yearly_panel():
     """Load the unified yearly panel (236 countries, 1500-2025).
-    Returns list of dicts with keys: year, iso3, country, rate_per_usd, source (MW/CI/GMD).
+    Returns list of dicts with keys: year, iso3, country, rate_per_usd, source, unit, flags, comparable_with_previous (MW/CI/GMD).
     """
     return load_csv(DATA / "derived/normalized/yearly_unified_panel.csv")
 

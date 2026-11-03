@@ -36,16 +36,16 @@ If you use this dataset in your research, please cite:
 ```bibtex
 @misc{forex-centuries,
   author       = {Federico Carrone},
-  title        = {forex-centuries: Twenty Centuries of Exchange Rate, Gold, Silver, Interest Rate, and Commodity Price Data (1 CE--2026)},
-  year         = {2025},
+  title        = {forex-centuries: Long-run Exchange Rate, Gold, Silver, Interest Rate, and Commodity Price Data (1 CE--present)},
+  year         = {2026},
   publisher    = {GitHub},
   url          = {https://github.com/unbalancedparentheses/forex-centuries}
 }
 ```
 
-> Federico Carrone, *forex-centuries: Twenty Centuries of Exchange Rate, Gold, Silver, Interest Rate, and Commodity Price Data (1 CE-2026)*, 2025. https://github.com/unbalancedparentheses/forex-centuries
+> Federico Carrone, *forex-centuries: Long-run Exchange Rate, Gold, Silver, Interest Rate, and Commodity Price Data (1 CE-present)*, 2026. https://github.com/unbalancedparentheses/forex-centuries
 
-Please also cite the underlying sources relevant to your work (see [Sources](#sources) below).
+Please also cite the underlying sources relevant to your work. [DATA_CARD.md](DATA_CARD.md) lists every source with its citation, license and known problems. **The MIT license covers the code only; each source's data keeps its own terms.**
 
 ## Coverage
 
@@ -491,7 +491,7 @@ Riksbank Historical Monetary Statistics, 13 Excel files across 3 volumes. Vol I 
 
 | File | Description |
 |------|-------------|
-| `yearly_unified_panel.csv` | 236 countries, 1500-2025 (MW + CI + GMD with source priority tag). Columns: `year, iso3, country, rate_per_usd, source`. Source spellings are merged by ISO3 code (e.g. "The Gambia"/"Gambia", "Korea"/"South Korea"), and GMD forecasts for the current year onward are excluded |
+| `yearly_unified_panel.csv` | 236 countries, 1500-2025 (MW + CI + GMD with source priority tag). Columns: `year, iso3, country, rate_per_usd, source, unit, flags, comparable_with_previous`. Levels are as published by each source (units can differ between sources), so compute changes only where `comparable_with_previous` is true; see the quality flags in [DATA_CARD.md](DATA_CARD.md#quality-flags-yearly-panel). Source spellings are merged by ISO3 code (e.g. "The Gambia"/"Gambia", "Korea"/"South Korea"), and GMD forecasts for the current year onward are excluded |
 | `yearly_unified_wide.csv` | Same, year x country matrix |
 | `fred_daily_normalized.csv` | 23 FRED pairs, foreign-per-USD convention |
 | `fred_daily_normalized_wide.csv` | Same, date x currency matrix |

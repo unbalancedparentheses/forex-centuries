@@ -355,3 +355,32 @@ def test_merge_keep_existing(tmp_path):
     assert "2000-01-31,IRR,1" in text        # dropped upstream, kept
     assert "2000-01-31,EUR,2.5" in text      # revised upstream, replaced
     assert "2999" not in text                # future date discarded
+
+def test_quality_flags():
+    """Source switches are checked against same-year overlap; MW unit changes
+    and gaps break comparability; levels are never altered."""
+    cand = _rows((2000, "ARG", "Argentina", 1.0, "CI"),
+                 (2001, "ARG", "Argentina", 1.1, "CI"),
+                 (2001, "ARG", "Argentina", 1e-13, "GMD"),
+                 (2002, "ARG", "Argentina", 1.2e-13, "GMD"),
+                 (2003, "ARG", "Argentina", 1.3e-13, "GMD"),
+                 (2003, "ARG", "Argentina", 1.31e-13, "CI"),
+                 (2004, "ARG", "Argentina", 1.4e-13, "CI"),
+                 (2010, "ARG", "Argentina", 5.0, "MW"),
+                 (2011, "ARG", "Argentina", 0.0006, "MW"))
+    panel = cand[~((cand["year"] == 2001) & (cand["source"] == "GMD"))]
+    panel = panel[~((panel["year"] == 2003) & (panel["source"] == "CI"))]
+    panel = build.merge_by_priority(panel)
+    units = {("ARG", 2010): "Intis", ("ARG", 2011): "New Soles"}
+    out = build.add_quality_flags(panel, cand, (units, {("ARG", 2011)})).set_index("year")
+    f = out["flags"]
+    assert f[2000] == "" and not out.loc[2000, "comparable_with_previous"]  # first obs
+    assert f[2001] == "" and out.loc[2001, "comparable_with_previous"]
+    assert f[2002] == "source_switch;source_level_mismatch"   # CI 1.1 vs GMD 1e-13 in 2001
+    assert not out.loc[2002, "comparable_with_previous"]
+    assert f[2004] == "source_switch"                          # GMD vs CI agree in 2003
+    assert out.loc[2004, "comparable_with_previous"]
+    assert f[2010] == "gap_before"                            # switch only checked for consecutive years
+    assert "redenomination" in f[2011] and "level_jump" not in f[2011]
+    assert out.loc[2011, "unit"] == "New Soles"
+    assert out.loc[2002, "rate_per_usd"] == 1.2e-13               # levels untouched
