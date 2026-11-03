@@ -83,7 +83,7 @@ def check_schema():
         "normalized/fred_daily_normalized.csv": [
             "date", "currency", "rate_per_usd"],
         "normalized/yearly_unified_panel.csv": [
-            "year", "country", "rate_per_usd", "source"],
+            "year", "iso3", "country", "rate_per_usd", "source"],
         "analysis/daily_log_returns.csv": [
             "date", "currency", "log_return"],
         "analysis/daily_volatility_stats.csv": [
@@ -144,6 +144,17 @@ def check_duplicates():
             error(f"yearly_unified_panel.csv: {dupes} duplicate (year, country) pairs")
         else:
             ok(f"yearly_unified_panel.csv: no duplicates ({len(df):,} rows)")
+        # One name per code and one code per name, so a country is never split
+        # across two columns of the wide table.
+        names = df.groupby("iso3")["country"].nunique()
+        codes = df.groupby("country")["iso3"].nunique()
+        split = sorted(names[names > 1].index) + sorted(codes[codes > 1].index)
+        if df["iso3"].isna().any():
+            error(f"yearly_unified_panel.csv: {df['iso3'].isna().sum()} rows without iso3")
+        elif split:
+            error(f"yearly_unified_panel.csv: inconsistent country/iso3 mapping: {split}")
+        else:
+            ok(f"yearly_unified_panel.csv: {len(names)} countries, one name per iso3")
 
 
 def check_missing_values():

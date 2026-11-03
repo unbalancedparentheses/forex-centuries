@@ -111,6 +111,86 @@ def build_fred_daily():
     return long
 
 
+# Source country names that differ from GMD's, mapped to ISO 3166-1 alpha-3
+# (or ISO 3166-3 for dissolved states). GMD supplies codes for everything else.
+COUNTRY_ALIASES = {
+    "Congo": "COG",              # Clio Infra: Republic of the Congo (Brazzaville)
+    "Congo, DRC": "COD",         # Clio Infra
+    "Cote d'Ivoire": "CIV",      # Clio Infra
+    "Russia": "RUS",             # Clio Infra
+    "Solomon Is.": "SLB",        # Clio Infra
+    "Swaziland": "SWZ",          # Clio Infra
+    "The Gambia": "GMB",         # Clio Infra
+    "Korea": "KOR",              # MeasuringWorth: South Korea
+    "Europe, Eurozone": "EMU",   # MeasuringWorth: euro area (World Bank code)
+}
+
+# Display names where GMD's name is non-standard or missing.
+CANONICAL_NAMES = {
+    "COD": "Democratic Republic of the Congo",
+    "CIV": "Cote d'Ivoire",
+    "RUS": "Russia",
+    "EMU": "Euro Area",
+}
+
+# Source rows known to be wrong, dropped before merging: (source, iso3, first, last).
+KNOWN_BAD_ROWS = [
+    # GMD has ~0.30/USD for Gambia 1950-56; the West African pound peg implies
+    # 1.7857 (dalasi units), which is what Clio Infra and GMD itself show from 1957.
+    ("GMD", "GMB", 1950, 1956),
+]
+
+
+def country_maps():
+    """Return (name -> iso3, iso3 -> canonical name) built from GMD plus aliases."""
+    gmd = pd.read_csv(SOURCES / "gmd" / "gmd_exchange_rates.csv",
+                      usecols=["ISO3", "countryname"]).dropna().drop_duplicates()
+    name_to_iso = dict(zip(gmd["countryname"], gmd["ISO3"]))
+    iso_to_name = dict(zip(gmd["ISO3"], gmd["countryname"]))
+    name_to_iso.update(COUNTRY_ALIASES)
+    iso_to_name.update(CANONICAL_NAMES)
+    return name_to_iso, iso_to_name
+
+
+def canonicalize_countries(df, maps=None, strict=True):
+    """Add `iso3` and replace `country` with its canonical name.
+
+    strict=True raises on unknown names so a new source spelling can't silently
+    create a duplicate country; strict=False leaves unknown names untouched.
+    """
+    name_to_iso, iso_to_name = maps or country_maps()
+    iso = df["country"].map(name_to_iso)
+    unknown = sorted(df.loc[iso.isna(), "country"].unique())
+    if unknown and strict:
+        raise ValueError(f"Unmapped country names (add to COUNTRY_ALIASES): {unknown}")
+    df = df.copy()
+    df["iso3"] = iso
+    df["country"] = iso.map(iso_to_name).fillna(df["country"])
+    return df
+
+
+def drop_known_bad(df):
+    """Remove rows listed in KNOWN_BAD_ROWS."""
+    bad = pd.Series(False, index=df.index)
+    for source, iso3, first, last in KNOWN_BAD_ROWS:
+        bad |= ((df["source"] == source) & (df["iso3"] == iso3)
+                & df["year"].between(first, last))
+    return df[~bad]
+
+
+SOURCE_PRIORITY = {"MW": 0, "CI": 1, "GMD": 2}
+
+
+def merge_by_priority(df):
+    """Keep one row per (year, iso3), preferring MW > CI > GMD."""
+    return (df.assign(priority=df["source"].map(SOURCE_PRIORITY))
+              .sort_values("priority", kind="stable")
+              .drop_duplicates(subset=["year", "iso3"], keep="first")
+              .drop(columns=["priority"])
+              .sort_values(["year", "country"])
+              .reset_index(drop=True))
+
+
 def build_yearly_panel():
     """Build unified yearly panel from MeasuringWorth + Clio Infra + GMD."""
     print("  Loading MeasuringWorth...")
@@ -130,22 +210,16 @@ def build_yearly_panel():
     gmd = gmd.rename(columns={"countryname": "country", "USDfx": "rate_per_usd"})
     gmd = gmd.dropna(subset=["year", "rate_per_usd"])
     gmd["year"] = gmd["year"].astype(int)
-    gmd = gmd[gmd["year"] <= date.today().year]
+    # GMD carries IMF forecasts for the current and future years; keep only
+    # completed years so projections never enter the panel.
+    gmd = gmd[gmd["year"] < date.today().year]
     gmd = gmd[["year", "country", "rate_per_usd"]]
     gmd["source"] = "GMD"
 
-    # Merge with priority: MW > CI > GMD
-    all_data = pd.concat([mw, ci, gmd], ignore_index=True)
-    priority = {"MW": 0, "CI": 1, "GMD": 2}
-    all_data["priority"] = all_data["source"].map(priority)
-    all_data = (all_data
-                .sort_values("priority")
-                .drop_duplicates(subset=["year", "country"], keep="first")
-                .drop(columns=["priority"])
-                .sort_values(["year", "country"])
-                .reset_index(drop=True))
+    all_data = canonicalize_countries(pd.concat([mw, ci, gmd], ignore_index=True))
+    all_data = merge_by_priority(drop_known_bad(all_data))
 
-    all_data[["year", "country", "rate_per_usd", "source"]].to_csv(
+    all_data[["year", "iso3", "country", "rate_per_usd", "source"]].to_csv(
         NORM / "yearly_unified_panel.csv", index=False)
     print(f"    yearly_unified_panel.csv: {len(all_data):,} rows, "
           f"{all_data['country'].nunique()} countries")
@@ -457,11 +531,13 @@ def _build_yearly_gold(panel):
     ci_gbp_long = ci_gbp.melt(id_vars=["year"], var_name="country", value_name="rate_per_gbp")
     ci_gbp_long = ci_gbp_long.dropna(subset=["rate_per_gbp"])
     ci_gbp_long["year"] = ci_gbp_long["year"].astype(int)
+    ci_gbp_long = canonicalize_countries(ci_gbp_long, strict=False)
 
     cpi = pd.read_csv(SOURCES / "clio_infra" / "clio_infra_inflation.csv")
     cpi_long = cpi.melt(id_vars=["year"], var_name="country", value_name="cpi_inflation_pct")
     cpi_long = cpi_long.dropna(subset=["cpi_inflation_pct"])
     cpi_long["year"] = cpi_long["year"].astype(int)
+    cpi_long = canonicalize_countries(cpi_long, strict=False).drop(columns="iso3")
 
     # Gold in local currency via USD rates
     usd_based = panel.merge(gold_usd, on="year", how="inner")

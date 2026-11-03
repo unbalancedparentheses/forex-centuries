@@ -30,32 +30,83 @@ def test_fred_skip_index_files():
     assert len(build.SKIP_FILES) == 2
 
 
+def _rows(*rows):
+    return pd.DataFrame(rows, columns=["year", "iso3", "country", "rate_per_usd", "source"])
+
+
 def test_priority_merge():
-    """MW wins over CI, CI wins over GMD for same (year, country)."""
-    mw = pd.DataFrame({"year": [2000], "country": ["Japan"], "rate_per_usd": [100.0], "source": ["MW"]})
-    ci = pd.DataFrame({"year": [2000], "country": ["Japan"], "rate_per_usd": [105.0], "source": ["CI"]})
-    gmd = pd.DataFrame({"year": [2000], "country": ["Japan"], "rate_per_usd": [110.0], "source": ["GMD"]})
+    """MW wins over CI, CI wins over GMD for the same (year, iso3)."""
+    df = _rows((2000, "JPN", "Japan", 110.0, "GMD"),
+               (2000, "JPN", "Japan", 105.0, "CI"),
+               (2000, "JPN", "Japan", 100.0, "MW"),
+               (2001, "JPN", "Japan", 111.0, "GMD"),
+               (2001, "JPN", "Japan", 106.0, "CI"))
+    out = build.merge_by_priority(df).set_index("year")
+    assert out.loc[2000, "source"] == "MW" and out.loc[2000, "rate_per_usd"] == 100.0
+    assert out.loc[2001, "source"] == "CI"
 
-    all_data = pd.concat([mw, ci, gmd], ignore_index=True)
-    priority = {"MW": 0, "CI": 1, "GMD": 2}
-    all_data["priority"] = all_data["source"].map(priority)
-    all_data = (all_data
-                .sort_values("priority")
-                .drop_duplicates(subset=["year", "country"], keep="first")
-                .drop(columns=["priority"]))
 
-    assert len(all_data) == 1
-    assert all_data.iloc[0]["source"] == "MW"
-    assert all_data.iloc[0]["rate_per_usd"] == 100.0
+def test_canonicalize_merges_aliases():
+    """Different source spellings collapse to one iso3 and one display name."""
+    maps = ({"Gambia": "GMB", "The Gambia": "GMB", "Russian Federation": "RUS",
+             "Russia": "RUS"},
+            {"GMB": "Gambia", "RUS": "Russia"})
+    df = pd.DataFrame({"country": ["The Gambia", "Gambia", "Russian Federation"]})
+    out = build.canonicalize_countries(df, maps)
+    assert list(out["iso3"]) == ["GMB", "GMB", "RUS"]
+    assert list(out["country"]) == ["Gambia", "Gambia", "Russia"]
 
-    # CI wins over GMD when no MW
-    ci_gmd = pd.concat([ci, gmd], ignore_index=True)
-    ci_gmd["priority"] = ci_gmd["source"].map(priority)
-    ci_gmd = (ci_gmd
-              .sort_values("priority")
-              .drop_duplicates(subset=["year", "country"], keep="first")
-              .drop(columns=["priority"]))
-    assert ci_gmd.iloc[0]["source"] == "CI"
+
+def test_canonicalize_strict_rejects_unknown():
+    df = pd.DataFrame({"country": ["Atlantis"]})
+    try:
+        build.canonicalize_countries(df, ({}, {}))
+    except ValueError as e:
+        assert "Atlantis" in str(e)
+    else:
+        raise AssertionError("unknown country should raise")
+    out = build.canonicalize_countries(df, ({}, {}), strict=False)
+    assert out.loc[0, "country"] == "Atlantis" and pd.isna(out.loc[0, "iso3"])
+
+
+def test_real_panel_has_no_split_countries():
+    """Every source name used by the panel maps to a code (guards new spellings)."""
+    name_to_iso, _ = build.country_maps()
+    for alias, iso in build.COUNTRY_ALIASES.items():
+        assert name_to_iso[alias] == iso
+
+
+def test_drop_known_bad():
+    df = _rows((1955, "GMB", "Gambia", 0.30, "GMD"),
+               (1955, "GMB", "Gambia", 1.79, "CI"),
+               (1957, "GMB", "Gambia", 1.79, "GMD"))
+    out = build.drop_known_bad(df)
+    assert list(zip(out["year"], out["source"])) == [(1955, "CI"), (1957, "GMD")]
+
+
+def test_load_measuringworth_fx(tmp_path):
+    """Parses the block export, drops unit labels, renames Europe."""
+    f = tmp_path / "mw.csv"
+    f.write_text(
+        '"Citation: Officer, MeasuringWorth, 2026. "\n'
+        "The table(s) present the price of one United States Dollar.\n"
+        '"Argentina, 1791 - 2026"\n'
+        '"1991","9535.5 Australes"\n'
+        '"1992","0.9906 Pesos"\n'
+        '"Europe, 1791 - 2026"\n'
+        '"1999","0.9387 Euro"\n')
+    wide = build.load_measuringworth_fx(f).set_index("year")
+    assert wide.loc[1991, "Argentina"] == 9535.5
+    assert wide.loc[1992, "Argentina"] == 0.9906
+    assert wide.loc[1999, "Europe, Eurozone"] == 0.9387
+
+
+def test_parse_mw_gold_series_strips_thousands():
+    sys.path.insert(0, str(Path(__file__).parent.parent / "scripts"))
+    import update_sources
+    raw = ('"Citation: ..."\n"Year","London Market Price"\n'
+           '"1949","8.40"\n"2010","1,224.53"\n')
+    assert update_sources.parse_mw_series(raw) == {1949: 8.4, 2010: 1224.53}
 
 
 def test_log_return_formula():

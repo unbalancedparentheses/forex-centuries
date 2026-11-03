@@ -12,8 +12,8 @@ DATA = Path(__file__).parent / "data"
 
 
 def load_yearly_panel() -> pd.DataFrame:
-    """Unified yearly panel: 243 countries, 1500-2025.
-    Columns: year, country, rate_per_usd, source (MW/CI/GMD).
+    """Unified yearly panel: 236 countries, 1500-2025.
+    Columns: year, iso3, country, rate_per_usd, source (MW/CI/GMD).
     """
     df = pd.read_csv(DATA / "derived/normalized/yearly_unified_panel.csv")
     df["year"] = df["year"].astype(int)
@@ -73,7 +73,7 @@ def load_regime_classification() -> pd.DataFrame:
 
 def load_gold_inflation(freq: str = "yearly") -> pd.DataFrame:
     """Gold inflation with purchasing power and cumulative debasement.
-    freq: 'yearly' (243 countries, 1257-2025, with CPI comparison)
+    freq: 'yearly' (236 countries, 1257-2025, with CPI comparison)
           'monthly' (174 currencies, 1940-2025, with MoM and YoY changes)
     """
     return pd.read_csv(DATA / f"derived/analysis/{freq}_gold_inflation.csv")
