@@ -113,7 +113,9 @@ Every single currency pair — across all time scales and all centuries — show
 
 **Daily (1971-2025, 23 currencies):** 3-sigma events happen **3-6x more often** than a normal distribution predicts. Even the most "stable" pair (EUR/USD, excess kurtosis 2.5) has 4x too many tail events. Pegged and managed currencies (HKD, CNY, LKR) show the **highest** kurtosis — the peg suppresses daily moves but creates catastrophic jumps when it breaks.
 
-**Yearly (1791-2025, 40 currencies):** Germany's Weimar hyperinflation produces kurtosis of 36.8 (a single year, 1923, saw a 16x log move). Latin American currencies (Mexico 82, Argentina 19, Brazil 13) show the fattest tails from repeated devaluations and redenominations. Even the UK, with 234 years of data, has excess kurtosis of 5.1.
+**Yearly (1791-2025, 40 currencies):** Germany's Weimar hyperinflation produces excess kurtosis of 56.5 (in 1924 alone the mark lost a log 16.0, a factor of ~9 million, against the dollar). Latin American currencies (Mexico 9.2, Argentina 8.7, Brazil 7.3) show fat tails from repeated devaluation crises. Even the UK, with 234 years of data, has excess kurtosis of 5.2.
+
+Yearly returns are computed on series chain-linked across redenominations (Argentina's 1992 peso = 10,000 australes, Germany's 1925 reichsmark, etc.; see `MW_REDENOMINATIONS` in `build.py`). Without this, a unit change looks like a crash: Mexico's 1993 new peso alone would push its kurtosis from 9 to 84.
 
 | Currency | Ann Vol | Excess Kurtosis | Tail Ratio |
 |----------|---------|-----------------|------------|
@@ -136,7 +138,7 @@ Three distinct regimes emerge from the data:
 - **Bretton Woods** (1944-1971): artificially suppressed vol, then explosive devaluations
 - **Free float** (1971-present): higher day-to-day vol but fewer catastrophic jumps
 
-The regime-conditional statistics quantify this: freely falling currencies have annual volatility of 225% vs 10.8% for free-floating. Pegged currencies show excess kurtosis of 133 vs 0.8 for free float — confirming that pegs suppress daily volatility but produce catastrophic jumps.
+The regime-conditional statistics quantify this: freely falling currencies have annual volatility of 138% vs 10.8% for free-floating. Pegged currencies show excess kurtosis of 160 (crawling pegs 179) vs 0.8 for free float — confirming that pegs suppress daily volatility but produce catastrophic jumps.
 
 ### Cross-currency correlations
 
@@ -170,6 +172,20 @@ Longest series:
 Daily: 13,802 dates x 23 currencies (1971-2025)
 Medieval: 13,197 Spufford (521 places) + 50,559 Metz records (29 places)
 ```
+
+## Data corrections
+
+Where a source is demonstrably wrong, the pipeline corrects it in code (never by editing source files), so every change is reviewable:
+
+| Where | Issue | Handling (`build.py` / `scripts/update_sources.py`) |
+|-------|-------|----------|
+| MeasuringWorth FX | Currency unit changes (e.g. australes to pesos, marks to reichsmarks) show up as fake crashes in returns | 36 chain-linked with official conversion factors (`MW_REDENOMINATIONS`); 5 with no single factor are left as breaks |
+| MeasuringWorth FX | Venezuela's 2008, 2018 and 2021 redenominations are not labeled | Listed explicitly in `MW_REDENOMINATIONS` |
+| MeasuringWorth FX | Germany 1941 and 1945-49 copy Italy's values; France 1941-44 copies Germany's; Colombia 2017 is `2.00` | Dropped (`MW_BAD_VALUES`); Clio Infra / GMD fill those years in the panel |
+| GMD | Gambia 1950-56 ~0.30/USD vs the 1.7857 peg | Dropped (`KNOWN_BAD_ROWS`) |
+| GMD | Values for the current and future years are IMF forecasts | Excluded from the panel |
+| All yearly sources | Same country spelled differently ("The Gambia"/"Gambia", "Korea"/"South Korea") | Merged by ISO3 code; an unknown spelling fails the build |
+| IMF mirror (codeforIATI) | Nov 2026 refresh dropped IRR, MRU, UYW history and added a 2027 date | Updater keeps observations upstream drops and discards future dates |
 
 ## Build pipeline
 

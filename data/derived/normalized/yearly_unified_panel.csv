@@ -7871,9 +7871,9 @@ year,iso3,country,rate_per_usd,source
 1941,EGY,Egypt,24.32,CI
 1941,SLV,El Salvador,1.0,GMD
 1941,FIN,Finland,49.7488,MW
-1941,FRA,France,2.502,MW
+1941,FRA,France,0.0711429,GMD
 1941,GAB,Gabon,12.09429,GMD
-1941,DEU,Germany,19.723,MW
+1941,DEU,Germany,19.723,CI
 1941,GRC,Greece,0.275834,GMD
 1941,GUM,Guam,1.0,GMD
 1941,GTM,Guatemala,1.0,GMD
@@ -7942,7 +7942,7 @@ year,iso3,country,rate_per_usd,source
 1942,ECU,Ecuador,14.39,CI
 1942,SLV,El Salvador,1.0,GMD
 1942,FIN,Finland,49.35,CI
-1942,FRA,France,1.131,MW
+1942,FRA,France,0.0711429,GMD
 1942,GAB,Gabon,12.09429,GMD
 1942,DEU,Germany,1.272806,GMD
 1942,GUM,Guam,1.0,GMD
@@ -8008,7 +8008,7 @@ year,iso3,country,rate_per_usd,source
 1943,ECU,Ecuador,14.1,CI
 1943,SLV,El Salvador,1.0,GMD
 1943,FIN,Finland,49.35,CI
-1943,FRA,France,1.111,MW
+1943,FRA,France,0.0711429,GMD
 1943,GAB,Gabon,12.09429,GMD
 1943,DEU,Germany,1.272806,GMD
 1943,GUM,Guam,1.0,GMD
@@ -8072,7 +8072,7 @@ year,iso3,country,rate_per_usd,source
 1944,ECU,Ecuador,14.03,CI
 1944,SLV,El Salvador,1.0,GMD
 1944,FIN,Finland,49.35,CI
-1944,FRA,France,1.113,MW
+1944,FRA,France,0.0711429,GMD
 1944,GAB,Gabon,12.09429,GMD
 1944,DEU,Germany,1.272806,GMD
 1944,GUM,Guam,1.0,GMD
@@ -8138,7 +8138,7 @@ year,iso3,country,rate_per_usd,source
 1945,FIN,Finland,91.423,CI
 1945,FRA,France,50.733,MW
 1945,GAB,Gabon,13.00461,GMD
-1945,DEU,Germany,1.105,MW
+1945,DEU,Germany,0.5649775,GMD
 1945,GUM,Guam,1.0,GMD
 1945,GTM,Guatemala,1.0,GMD
 1945,GIN,Guinea,13.00461,GMD
@@ -8206,7 +8206,7 @@ year,iso3,country,rate_per_usd,source
 1946,FIN,Finland,136.0,CI
 1946,FRA,France,118.92,MW
 1946,GAB,Gabon,89.41135,GMD
-1946,DEU,Germany,225.53,MW
+1946,DEU,Germany,8.947608,GMD
 1946,GUM,Guam,1.0,GMD
 1946,GTM,Guatemala,1.0,GMD
 1946,GIN,Guinea,89.41135,GMD
@@ -8274,7 +8274,7 @@ year,iso3,country,rate_per_usd,source
 1947,FIN,Finland,136.0,CI
 1947,FRA,France,118.949,MW
 1947,GAB,Gabon,77.749,GMD
-1947,DEU,Germany,269.179,MW
+1947,DEU,Germany,12.01536,GMD
 1947,GUM,Guam,1.0,GMD
 1947,GTM,Guatemala,1.0,GMD
 1947,GIN,Guinea,77.749,GMD
@@ -8342,7 +8342,7 @@ year,iso3,country,rate_per_usd,source
 1948,FIN,Finland,136.0,CI
 1948,FRA,France,308.642,MW
 1948,GAB,Gabon,158.547,GMD
-1948,DEU,Germany,574.713,MW
+1948,DEU,Germany,1.702602,GMD
 1948,GRC,Greece,0.0147322,GMD
 1948,GUM,Guam,1.0,GMD
 1948,GTM,Guatemala,1.0,GMD
@@ -8410,7 +8410,7 @@ year,iso3,country,rate_per_usd,source
 1949,FIN,Finland,167.709,CI
 1949,FRA,France,331.455,MW
 1949,GAB,Gabon,100.9212,GMD
-1949,DEU,Germany,588.582,MW
+1949,DEU,Germany,1.830425,GMD
 1949,GRC,Greece,0.0147322,GMD
 1949,GUM,Guam,1.0,GMD
 1949,GTM,Guatemala,1.0,GMD
@@ -22302,7 +22302,7 @@ year,iso3,country,rate_per_usd,source
 2017,TCD,Chad,582.0293,GMD
 2017,CHL,Chile,648.834,MW
 2017,CHN,China,6.7588,MW
-2017,COL,Colombia,2.0,MW
+2017,COL,Colombia,2951.366,GMD
 2017,COM,Comoros,436.522,GMD
 2017,COK,Cook Islands,1.407408,GMD
 2017,CRI,Costa Rica,567.5131,GMD

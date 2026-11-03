@@ -30,36 +30,170 @@ MW_FX_PATH = SOURCES / "measuringworth" / "measuringworth_exchange_rates.csv"
 MW_BLOCK_RENAMES = {"Europe": "Europe, Eurozone"}
 
 
+# MeasuringWorth cells that are wrong in the export, dropped at parse time so
+# Clio Infra / GMD fill those years in the panel: (country, first, last).
+MW_BAD_VALUES = [
+    # 1946-49 equal Italy's values exactly; 1941 equals Italy's 1941; 1945 is
+    # 1.105 against an official RM rate of ~2.5. Export misalignment.
+    ("Germany", 1941, 1941),
+    ("Germany", 1945, 1949),
+    # 1941 equals Germany's RM rate (2.50); 1942-44 ~1.1 against ~44-50 francs/USD.
+    ("France", 1941, 1944),
+    # 2.00 between 3,054 (2016) and 2,956 (2018): a typo.
+    ("Colombia", 2017, 2017),
+]
+
+
+def _parse_measuringworth_fx(path):
+    """Return ({country: {year: value}}, {country: {year: unit label}})."""
+    import csv
+    import re
+
+    title = re.compile(r"^(.*), \d{4} - \d{4}$")
+    values, units, current = {}, {}, None
+    with open(path, newline="", encoding="utf-8") as fh:
+        for row in csv.reader(fh):
+            if len(row) == 1 and (m := title.match(row[0].strip())):
+                current = MW_BLOCK_RENAMES.get(m.group(1), m.group(1))
+                values.setdefault(current, {})
+                units.setdefault(current, {})
+            elif len(row) == 2 and current is not None and row[0].strip().isdigit():
+                token, _, unit = row[1].strip().partition(" ")
+                try:
+                    values[current][int(row[0])] = float(token)
+                except ValueError:
+                    continue  # blank or non-numeric cell
+                units[current][int(row[0])] = unit.strip()
+    if not values:
+        raise ValueError(f"No MeasuringWorth country blocks found in {path}")
+    for country, first, last in MW_BAD_VALUES:
+        for year in range(first, last + 1):
+            values.get(country, {}).pop(year, None)
+            units.get(country, {}).pop(year, None)
+    return values, units
+
+
+def _wide(series):
+    wide = pd.DataFrame(series).sort_index()
+    wide.index.name = "year"
+    return wide.reset_index()
+
+
 def load_measuringworth_fx(path=MW_FX_PATH):
     """Parse the MeasuringWorth exchange-rate export into a wide table.
 
     The export has a citation line, then one block per country: a title row
     like "Argentina, 1791 - 2026" followed by rows like "1916","0.9666 Gold Pesos".
     Returns a DataFrame with a `year` column plus one column per country.
-    The unit label is dropped (values are kept as published, so redenominations
-    still appear as level shifts).
+    Values are as published, in the currency unit of each year, so
+    redenominations appear as level shifts; see load_measuringworth_units()
+    and chain_link_measuringworth().
     """
-    import csv
-    import re
+    return _wide(_parse_measuringworth_fx(path)[0])
 
-    title = re.compile(r"^(.*), \d{4} - \d{4}$")
-    series, current = {}, None
-    with open(path, newline="", encoding="utf-8") as fh:
-        for row in csv.reader(fh):
-            if len(row) == 1 and (m := title.match(row[0].strip())):
-                name = m.group(1)
-                current = series.setdefault(MW_BLOCK_RENAMES.get(name, name), {})
-            elif len(row) == 2 and current is not None and row[0].strip().isdigit():
-                token = row[1].strip().split(" ", 1)[0]
-                try:
-                    current[int(row[0])] = float(token)
-                except ValueError:
-                    pass  # blank or non-numeric cell
-    if not series:
-        raise ValueError(f"No MeasuringWorth country blocks found in {path}")
-    wide = pd.DataFrame(series).sort_index()
-    wide.index.name = "year"
-    return wide.reset_index()
+
+def load_measuringworth_units(path=MW_FX_PATH):
+    """Same shape as load_measuringworth_fx(), holding the unit label per value."""
+    return _wide(_parse_measuringworth_fx(path)[1])
+
+
+# Currency changes in the MeasuringWorth series, keyed by (country, first year
+# quoted in the new unit). Value = old units per one new unit, used to restate
+# earlier years in the new unit. None = no single conversion factor (or the
+# change falls in a gap), so the return across the change is left undefined.
+# chain_link_measuringworth() fails if MW reports a unit change not listed here.
+MW_REDENOMINATIONS = {
+    ("Argentina", 1934): 2.2727,      # paper peso m/n = 0.44 gold peso (1899 Conversion Law)
+    ("Argentina", 1970): 100,         # peso ley 18.188
+    ("Argentina", 1983): 10_000,      # peso argentino
+    ("Argentina", 1985): 1_000,       # austral
+    ("Argentina", 1992): 10_000,      # peso convertible
+    ("Argentina", 2007): 1,           # label change only
+    ("Australia", 1966): 0.5,         # 1 pound = 2 dollars
+    ("Austria", 1925): 10_000,        # schilling replaces krone
+    ("Austria", 1953): None,          # series gap 1939-52 (Reichsmark era)
+    ("Belgium", 1927): 5,             # belga = 5 francs
+    ("Belgium", 1945): 0.2,           # back to francs; series gap 1941-44
+    ("Brazil", 1948): 1,              # cruzeiro replaced mil-reis 1:1 (1942)
+    ("Brazil", 1967): 1_000,          # cruzeiro novo
+    ("Brazil", 1986): 1_000,          # cruzado
+    ("Brazil", 1989): 1_000,          # cruzado novo
+    ("Brazil", 1990): 1,              # cruzeiro replaced cruzado novo 1:1
+    ("Brazil", 1994): 1_000,          # cruzeiro real
+    ("Brazil", 1995): 2_750,          # real
+    ("Chile", 1960): 1_000,           # escudo
+    ("Chile", 1976): 1_000,           # peso
+    ("Chile", 2015): 1,               # label change only
+    ("China", 1933): None,            # tael -> silver yuan; ratio varied
+    ("China", 1981): None,            # series gap 1942-80
+    ("Finland", 1971): 100,           # new markka (1963); series gap 1942-70
+    ("France", 1960): 100,            # nouveau franc
+    # Reichsmark = 1e12 paper marks, but MW's 1924 value (4.33e11) is 10x off
+    # the stabilized 4.2e12, so the 1925 return is left undefined.
+    ("Germany", 1925): None,
+    # Deutsche mark (1948 reform, 10:1 for most claims, not uniform). MW's
+    # 1941-49 values are dropped (MW_BAD_VALUES), so the change shows at 1950.
+    ("Germany", 1950): None,
+    ("Greece", 1982): 1_000,          # 1953 drachma; series gap 1941-81
+    ("Israel", 1980): 10,             # shekel
+    ("Israel", 1986): 1_000,          # new shekel
+    ("Malaysia", 1952): 1,            # Straits -> Malayan dollar 1:1
+    ("Malaysia", 1967): 1,            # Malayan -> Malaysian dollar 1:1
+    ("Malaysia", 1976): 1,            # renamed ringgit
+    ("Mexico", 1993): 1_000,          # nuevo peso
+    ("New Zealand", 1968): 0.5,       # 1 pound = 2 dollars
+    ("Peru", 1985): 1_000,            # inti
+    ("Peru", 1991): 1_000_000,        # nuevo sol
+    ("South Africa", 1961): 0.5,      # 1 pound = 2 rand
+    # Venezuela: MW keeps the label "Bolivar(s)" across all three redenominations.
+    ("Venezuela", 2008): 1_000,       # bolivar fuerte
+    ("Venezuela", 2019): 100_000,     # bolivar soberano (Aug 2018; MW's 2018 avg is in fuertes)
+    ("Venezuela", 2022): 1_000_000,   # bolivar digital (Oct 2021)
+}
+
+
+def _unit_key(label):
+    """Normalize a unit label so spelling variants (Peso/Pesos) compare equal."""
+    words = label.lower().replace("(", " ").replace(")", " ").split()
+    return " ".join(w[:-1] if w.endswith("s") else w for w in words)
+
+
+def mw_unit_changes(units):
+    """Yield (country, year) where the unit differs from the previous quote."""
+    units = units.set_index("year")
+    for country in units.columns:
+        s = units[country].dropna()
+        keys = s.map(_unit_key)
+        for year in s.index[1:][keys.values[1:] != keys.values[:-1]]:
+            yield country, int(year)
+
+
+def chain_link_measuringworth(values=None, units=None):
+    """Restate each MW series in its latest currency unit.
+
+    Returns (linked, breaks): `linked` is the wide year x country table on a
+    continuous scale; `breaks` is a set of (country, year) whose return from
+    the previous year is undefined (no conversion factor).
+    """
+    values = (values if values is not None else load_measuringworth_fx()).set_index("year")
+    units = units if units is not None else load_measuringworth_units()
+    changes = sorted(mw_unit_changes(units))
+    missing = [c for c in changes if c not in MW_REDENOMINATIONS]
+    if missing:
+        raise ValueError(f"MeasuringWorth unit changes without a conversion entry "
+                         f"(add to MW_REDENOMINATIONS): {missing}")
+    linked = values.astype(float).copy()
+    breaks = set()
+    # Labeled changes must be listed; listed entries also cover unlabeled ones.
+    for country, year in sorted(set(changes) | set(MW_REDENOMINATIONS)):
+        if country not in linked.columns:
+            continue
+        factor = MW_REDENOMINATIONS[(country, year)]
+        if factor is None:
+            breaks.add((country, year))
+        else:
+            linked.loc[linked.index < year, country] /= factor
+    return linked, breaks
 
 
 def _round_and_write(df, path, precision_4=(), precision_6=()):
@@ -249,16 +383,25 @@ def build_log_returns(daily_long):
     daily_ret.to_csv(ANALYSIS / "daily_log_returns.csv", index=False)
     print(f"    daily_log_returns.csv: {len(daily_ret):,} rows")
 
-    # Yearly log returns use MeasuringWorth only (not the full unified panel) because
-    # MW is carefully curated for continuity — Clio Infra and GMD may have rate jumps
-    # at redenomination boundaries that produce spurious log returns.
+    # Yearly log returns use MeasuringWorth only (not the full unified panel):
+    # MW labels the currency unit of every value, so each series can be
+    # chain-linked across redenominations (MW_REDENOMINATIONS). Without this,
+    # e.g. Germany 1925 (1e12 marks = 1 reichsmark) shows a -25 log return.
+    # Returns across changes with no single conversion factor are left NaN.
     # "Europe, Eurozone" is excluded: only 26 years of data (1999-2025) and overlaps
     # with constituent countries (Germany, France, etc.) in the correlation analysis.
     print("  Computing yearly log returns...")
-    mw = load_measuringworth_fx().set_index("year")
+    mw, breaks = chain_link_measuringworth()
     if "Europe, Eurozone" in mw.columns:
         mw = mw.drop(columns=["Europe, Eurozone"])
+    mw = mw.reindex(range(mw.index.min(), mw.index.max() + 1))
+    mw.index.name = "year"
     yearly_ret = np.log(mw / mw.shift(1))
+    for country, year in breaks:
+        if country in yearly_ret.columns:
+            yearly_ret.loc[year, country] = np.nan
+    print(f"    MW currency changes: {len(MW_REDENOMINATIONS) - len(breaks)} "
+          f"chain-linked, {len(breaks)} left as breaks")
     yearly_ret.to_csv(ANALYSIS / "yearly_log_returns.csv")
     n_values = yearly_ret.count().sum()
     print(f"    yearly_log_returns.csv: {len(yearly_ret)} years, "

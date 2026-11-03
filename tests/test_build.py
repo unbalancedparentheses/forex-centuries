@@ -289,3 +289,69 @@ def test_stock_bond_correlation_formula():
     corr = eq.iloc[-20:].corr(bond.iloc[-20:])
     assert -1.0 <= corr <= 1.0
     assert abs(corr) < 0.5, f"Independent series should have low correlation, got {corr}"
+
+def test_unit_key_ignores_spelling_variants():
+    assert build._unit_key("Pesos") == build._unit_key("Peso")
+    assert build._unit_key("(New) Pesos Argentino") == build._unit_key("New Pesos Argentino")
+    assert build._unit_key("Australes") != build._unit_key("(New) Pesos Argentino")
+
+
+def _mw(values, units):
+    v = pd.DataFrame({"year": list(values), "X": list(values.values())})
+    u = pd.DataFrame({"year": list(units), "X": list(units.values())})
+    return v, u
+
+
+def test_chain_link_restates_old_units(monkeypatch):
+    monkeypatch.setattr(build, "MW_REDENOMINATIONS", {("X", 1992): 10_000})
+    v, u = _mw({1990: 5000.0, 1991: 9500.0, 1992: 1.0},
+               {1990: "Australes", 1991: "Australes", 1992: "Pesos"})
+    linked, breaks = build.chain_link_measuringworth(v, u)
+    assert linked.loc[1991, "X"] == 0.95 and linked.loc[1992, "X"] == 1.0
+    assert breaks == set()
+
+
+def test_chain_link_none_factor_is_break(monkeypatch):
+    monkeypatch.setattr(build, "MW_REDENOMINATIONS", {("X", 1925): None})
+    v, u = _mw({1924: 4e11, 1925: 4.2}, {1924: "Mark", 1925: "Reichsmark"})
+    _, breaks = build.chain_link_measuringworth(v, u)
+    assert breaks == {("X", 1925)}
+
+
+def test_chain_link_rejects_unlisted_unit_change(monkeypatch):
+    monkeypatch.setattr(build, "MW_REDENOMINATIONS", {})
+    v, u = _mw({1959: 1000.0, 1960: 1.05}, {1959: "Old Peso", 1960: "Escudos"})
+    try:
+        build.chain_link_measuringworth(v, u)
+    except ValueError as e:
+        assert "X" in str(e)
+    else:
+        raise AssertionError("unlisted unit change should raise")
+
+
+def test_mw_bad_values_dropped():
+    """The real export: Germany 1946 (a copy of Italy's value) is removed."""
+    mw = build.load_measuringworth_fx().set_index("year")
+    assert pd.isna(mw.loc[1946, "Germany"])
+    assert mw.loc[1946, "Italy"] == 225.53
+
+
+def test_real_mw_series_link_cleanly():
+    """Every labeled MW unit change has a conversion entry (build would fail)."""
+    linked, _ = build.chain_link_measuringworth()
+    assert linked.shape[1] >= 40
+
+
+def test_merge_keep_existing(tmp_path):
+    sys.path.insert(0, str(Path(__file__).parent.parent / "scripts"))
+    import update_sources
+    dest = tmp_path / "x.csv"
+    dest.write_text("Date,Currency,Rate\n2000-01-31,IRR,1\n2000-01-31,EUR,2\n")
+    new = ("Date,Currency,Rate\n2000-01-31,EUR,2.5\n2001-01-31,EUR,3\n"
+           "2999-01-31,EUR,9\n")
+    text, n, kept = update_sources.merge_keep_existing(
+        dest, new, key_cols=["Date", "Currency"], date_col="Date")
+    assert (n, kept) == (3, 1)
+    assert "2000-01-31,IRR,1" in text        # dropped upstream, kept
+    assert "2000-01-31,EUR,2.5" in text      # revised upstream, replaced
+    assert "2999" not in text                # future date discarded
