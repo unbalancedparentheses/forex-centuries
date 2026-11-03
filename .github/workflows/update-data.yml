@@ -19,13 +19,12 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
-      - uses: actions/setup-python@v6
-        with:
-          python-version: "3.12"
-          cache: pip
+      # Same pinned environment as local development (flake.nix + flake.lock),
+      # so CI and local builds produce byte-identical outputs.
+      - uses: cachix/install-nix-action@v31
 
-      - name: Install dependencies
-        run: pip install pandas openpyxl xlrd matplotlib scipy pytest pyarrow
+      - name: Build environment
+        run: nix develop -c python --version
 
       # Individual source failures (e.g. a missing FRED_API_KEY secret or a
       # site being down) are reported as warnings; the rest still update.
@@ -33,23 +32,23 @@ jobs:
         env:
           FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
         timeout-minutes: 30
-        run: python scripts/update_sources.py --all
+        run: nix develop -c python scripts/update_sources.py --all
 
       - name: Build derived data
-        run: python build.py
+        run: nix develop -c python build.py
 
       # validate.py: 0 = clean, 1 = warnings only, >=2 = errors.
       - name: Validate
         run: |
           rc=0
-          python validate.py || rc=$?
+          nix develop -c python validate.py || rc=$?
           if [ "$rc" -ge 2 ]; then exit "$rc"; fi
 
       - name: Run tests
-        run: pytest tests/ -v
+        run: nix develop -c pytest tests/ -v
 
       - name: Generate charts
-        run: python visualize.py
+        run: nix develop -c python visualize.py
 
       - name: Check for changes
         id: diff
@@ -85,7 +84,7 @@ jobs:
           if gh release view "$TAG" >/dev/null 2>&1; then
             TAG="data-${DATE}.${GITHUB_RUN_NUMBER}"
           fi
-          python scripts/export_parquet.py dist/parquet
+          nix develop -c python scripts/export_parquet.py dist/parquet
           tar -czf "forex-centuries-data-${DATE}.tar.gz" data/ charts/ DATA_CARD.md
           gh release create "$TAG" "forex-centuries-data-${DATE}.tar.gz" dist/parquet/*.parquet \
             --target "$(git rev-parse HEAD)" \
