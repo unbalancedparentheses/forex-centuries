@@ -257,6 +257,24 @@ COUNTRY_ALIASES = {
     "The Gambia": "GMB",         # Clio Infra
     "Korea": "KOR",              # MeasuringWorth: South Korea
     "Europe, Eurozone": "EMU",   # MeasuringWorth: euro area (World Bank code)
+    # Bank of Canada / Bank of England sovereign default database
+    "Bosnia & Herzegovina": "BIH",
+    "Cabo Verde": "CPV",
+    "C\u00f4te d\u2019Ivoire": "CIV",
+    "Dem. Rep. of Congo (Kinshasa)": "COD",
+    "eSwatini (Swaziland)": "SWZ",
+    "Korea, Democratic People's Republic of (North)": "PRK",
+    "Kyrgyz Republic": "KGZ",
+    "North Macedonia": "MKD",
+    "Rep. Of Congo (Brazzaville)": "COG",
+    "S\u00e3o Tom\u00e9 and Pr\u00edncipe": "STP",
+    "Slovak Republic": "SVK",
+    "St. Kitts & Nevis": "KNA",
+    "St. Lucia": "LCA",
+    "St. Vincent and the Grenadines": "VCT",
+    "Trinidad & Tobago": "TTO",
+    "USSR/Russian Federation": "RUS",
+    "West Bank & Gaza": "PSE",
 }
 
 # Display names where GMD's name is non-standard or missing.
@@ -1120,6 +1138,177 @@ def build_jst_returns():
               f"sharpe={row['mean_sharpe']:.2f}, kurtosis={row['mean_kurtosis']:.1f}")
 
 
+def _iso_name(iso3):
+    """Canonical country name for ISO3 codes (falls back to the code)."""
+    _, iso_to_name = country_maps()
+    return iso3.map(iso_to_name).fillna(iso3)
+
+
+# Non-ISO country codes used by the Trebesch files.
+TREBESCH_CODE_FIXES = {
+    "CRO": "HRV",  # Croatia (old WDI code)
+    "ROM": "ROU",  # Romania (old WDI code)
+    "SLO": "SVN",  # Slovenia
+    "CZK": "CSK",  # Czechoslovakia (ISO 3166-3)
+}
+
+
+def build_sovereign_defaults():
+    """Sovereign default / restructuring events from two Trebesch datasets.
+
+    One row per event: iso3, country, event, start, end (dates or years),
+    haircuts and restructured debt where available, and source.
+    """
+    print("  Loading Asonuma-Trebesch defaults and restructurings...")
+    src = SOURCES / "trebesch"
+    at = pd.read_excel(src / "asonuma_trebesch_defaults.xlsx",
+                       sheet_name="DATASET Defaults & Restruct.", header=5)
+    at.columns = [str(c).strip() for c in at.columns]
+    at = at.dropna(subset=["WDI code"])
+    kind = np.where(at["Post-default"] == 1, "restructuring_post_default",
+                    np.where(at["Strictly preemptive"] == 1,
+                             "restructuring_preemptive_strict",
+                             "restructuring_preemptive_weak"))
+    events_at = pd.DataFrame({
+        "iso3": at["WDI code"].str.strip(),
+        "event": kind,
+        "start": pd.to_datetime(at["Start of default or restructuring process: "
+                                   "default or announcement"]).dt.strftime("%Y-%m-%d"),
+        "end": pd.to_datetime(at["End of restructuring: completion of exchange"],
+                              errors="coerce").dt.strftime("%Y-%m-%d"),
+        "source": "Asonuma-Trebesch (2026 update)",
+    })
+
+    print("  Loading Graf von Luckner et al. haircuts since 1815...")
+    hc_path = src / "haircuts_since_1815.xlsx"
+    # Header row 12; row 13 holds column numbers "(1)", "(2)", ... -> dropped.
+    rs = pd.read_excel(hc_path, sheet_name="Individual Restructurings", header=12)
+    rs.columns = [str(c).strip() for c in rs.columns]
+    rs = rs[pd.to_numeric(rs["Year of Default"], errors="coerce").notna()]
+    events_rs = pd.DataFrame({
+        "iso3": rs["Country Code"].str.strip(),
+        "event": "restructuring",
+        "start": rs["Year of Default"].astype(int).astype(str),
+        "end": rs["Year of Restructuring"].astype("Int64").astype(str),
+        "haircut_npv": pd.to_numeric(rs["Net-Present-Value Haircut"], errors="coerce"),
+        "haircut_face": pd.to_numeric(rs["Face Value Haircut"], errors="coerce"),
+        "debt_restructured_usd_m": pd.to_numeric(
+            rs["Debt Restructured (millions, current, USD)"], errors="coerce"),
+        "spell_id": rs["Default Spell ID"],
+        "source": "Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",
+    })
+    sp = pd.read_excel(hc_path, sheet_name="Default Spells", header=12)
+    sp.columns = [str(c).strip() for c in sp.columns]
+    sp = sp[pd.to_numeric(sp["Year of Default Spell Begin"], errors="coerce").notna()]
+    events_sp = pd.DataFrame({
+        "iso3": sp["Country Code"].str.strip(),
+        "event": "default_spell",
+        "start": sp["Year of Default Spell Begin"].astype(int).astype(str),
+        "end": sp["Year of Default Spell End"].astype("Int64").astype(str),
+        "haircut_npv": pd.to_numeric(sp["Net-Present-Value Bulow-Rogoff Haircut"],
+                                     errors="coerce"),
+        "haircut_face": pd.to_numeric(sp["Face Value Bulow-Rogoff Haircut"],
+                                      errors="coerce"),
+        "spell_id": sp["Spell ID"],
+        "source": "Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",
+    })
+
+    events = pd.concat([events_at, events_rs, events_sp], ignore_index=True)
+    events["iso3"] = events["iso3"].replace(TREBESCH_CODE_FIXES)
+    events["end"] = events["end"].replace({"<NA>": "", "NaT": ""}).fillna("")
+    events.insert(1, "country", _iso_name(events["iso3"]))
+    events = events.sort_values(["iso3", "start", "event"]).reset_index(drop=True)
+    events.to_csv(ANALYSIS / "sovereign_default_events.csv", index=False)
+    print(f"    sovereign_default_events.csv: {len(events):,} events, "
+          f"{events['iso3'].nunique()} countries, "
+          f"{events['start'].str[:4].min()}-{events['start'].str[:4].max()}")
+    return events
+
+
+BOC_BOE_FIELDS = ["TOTAL", "IMF", "IBRD", "IDA", "IADB", "PARIS_CLUB", "CHINA",
+                  "OTHER_OFFICIAL_CREDITORS", "PRIVATE_CREDITORS", "FC_BANK_LOANS",
+                  "FC_BONDS", "LC_DEBT", "FISCAL_ARREARS"]
+
+
+def build_debt_in_default():
+    """Sovereign debt in default by country-year and creditor (BoC-BoE), US$ m."""
+    import io
+    import re
+
+    print("  Loading BoC-BoE sovereign default database...")
+    text = (SOURCES / "bocboe" / "bocboe_sovereign_defaults.csv").read_text(encoding="utf-8-sig")
+    body = text[text.index('"OBSERVATIONS"'):].split("\n", 1)[1]
+    raw = pd.read_csv(io.StringIO(body))
+    raw = raw[raw["DEBT_COUNTRY"] != "World"]
+    # Columns are DEBT_<FIELD>_<edition year>; strip the edition suffix.
+    rename = {}
+    for col in raw.columns:
+        m = re.fullmatch(r"DEBT_(.+)_\d{4}", col)
+        if m and m.group(1) in BOC_BOE_FIELDS:
+            rename[col] = m.group(1).lower() + "_usd_m"
+    out = raw.rename(columns={**rename, "DEBT_COUNTRY": "country",
+                              "DEBT_COUNTRY_GROUP": "country_group",
+                              "DEBT_YEAR": "year"})
+    out = canonicalize_countries(out[["country", "country_group", "year",
+                                      *rename.values()]])
+    out = out[["year", "iso3", "country", "country_group", *rename.values()]]
+    out = out.sort_values(["year", "iso3"]).reset_index(drop=True)
+    out.to_csv(ANALYSIS / "sovereign_debt_in_default.csv", index=False)
+    print(f"    sovereign_debt_in_default.csv: {len(out):,} rows, "
+          f"{out['iso3'].nunique()} countries, {out['year'].min()}-{out['year'].max()}")
+    return out
+
+
+def build_ecb_daily():
+    """ECB euro reference rates, long format: date, currency, rate_per_eur."""
+    print("  Loading ECB euro reference rates...")
+    wide = pd.read_csv(SOURCES / "ecb" / "eurofxref-hist.zip", na_values=["N/A"])
+    wide = wide.loc[:, ~wide.columns.str.startswith("Unnamed")]
+    long = (wide.melt(id_vars="Date", var_name="currency", value_name="rate_per_eur")
+                .dropna(subset=["rate_per_eur"])
+                .rename(columns={"Date": "date"})
+                .sort_values(["date", "currency"])
+                .reset_index(drop=True))
+    long.to_csv(NORM / "ecb_daily.csv", index=False)
+    print(f"    ecb_daily.csv: {len(long):,} rows, {long['currency'].nunique()} currencies, "
+          f"{long['date'].min()} to {long['date'].max()}")
+    return long
+
+
+def build_wb_inflation():
+    """World Bank Global Database of Inflation: headline CPI, annual + monthly."""
+    path = SOURCES / "wb_inflation" / "wb_inflation.xlsx"
+    print("  Loading World Bank inflation database...")
+    id_cols = ["Country Code", "IMF Country Code", "Country", "Indicator Type", "Series Name"]
+
+    def long(sheet, value_name):
+        df = pd.read_excel(path, sheet_name=sheet)
+        df = df.dropna(subset=["Country Code"])
+        df = df.drop(columns=[c for c in df.columns
+                              if str(c).startswith("Unnamed") or c in id_cols[1:]])
+        out = df.melt(id_vars="Country Code", var_name="period", value_name=value_name)
+        out = out.dropna(subset=[value_name]).rename(columns={"Country Code": "iso3"})
+        out["period"] = pd.to_numeric(out["period"], errors="coerce")
+        return out.dropna(subset=["period"])
+
+    annual = long("hcpi_a", "inflation_pct")
+    annual["year"] = annual.pop("period").astype(int)
+    annual.insert(1, "country", _iso_name(annual["iso3"]))
+    annual = annual[["year", "iso3", "country", "inflation_pct"]].sort_values(["year", "iso3"])
+    annual.to_csv(ANALYSIS / "cpi_inflation_yearly.csv", index=False)
+
+    monthly = long("hcpi_m", "cpi_index")
+    p = monthly.pop("period").astype(int)  # YYYYMM
+    monthly["year_month"] = (p // 100).astype(str) + "-" + (p % 100).astype(str).str.zfill(2)
+    monthly.insert(1, "country", _iso_name(monthly["iso3"]))
+    monthly = monthly[["year_month", "iso3", "country", "cpi_index"]].sort_values(
+        ["year_month", "iso3"])
+    monthly.to_csv(NORM / "cpi_monthly.csv", index=False)
+    print(f"    cpi_inflation_yearly.csv: {len(annual):,} rows, {annual['iso3'].nunique()} countries; "
+          f"cpi_monthly.csv: {len(monthly):,} rows")
+    return annual, monthly
+
+
 def build_stock_bond_correlation():
     """Compute rolling stock-bond return correlation from JST data.
 
@@ -1183,41 +1372,53 @@ def main():
     NORM.mkdir(parents=True, exist_ok=True)
     ANALYSIS.mkdir(parents=True, exist_ok=True)
 
-    print("[1/12] FRED daily normalization")
+    print("[1/16] FRED daily normalization")
     daily_long = build_fred_daily()
 
-    print("\n[2/12] Yearly unified panel")
+    print("\n[2/16] Yearly unified panel")
     panel = build_yearly_panel()
 
-    print("\n[3/12] Log returns")
+    print("\n[3/16] Log returns")
     daily_ret, yearly_ret = build_log_returns(daily_long)
 
-    print("\n[4/12] Volatility statistics")
+    print("\n[4/16] Volatility statistics")
     build_volatility_stats(daily_ret, yearly_ret)
 
-    print("\n[5/12] Correlation matrices")
+    print("\n[5/16] Correlation matrices")
     build_correlations(daily_ret, yearly_ret)
 
-    print("\n[6/12] Rolling volatility")
+    print("\n[6/16] Rolling volatility")
     build_rolling_volatility(daily_long)
 
-    print("\n[7/12] Regime analysis")
+    print("\n[7/16] Regime analysis")
     build_regime_analysis(yearly_ret)
 
-    print("\n[8/12] Gold inflation")
+    print("\n[8/16] Gold inflation")
     build_gold_inflation(daily_long, panel)
 
-    print("\n[9/12] Momentum analysis (Jegadeesh-Titman 1993)")
+    print("\n[9/16] Momentum analysis (Jegadeesh-Titman 1993)")
     build_momentum_analysis(daily_long)
 
-    print("\n[10/12] Sigma event frequency (Monday Morning Macro)")
+    print("\n[10/16] Sigma event frequency (Monday Morning Macro)")
     build_sigma_events(daily_ret)
 
-    print("\n[11/12] Asset class returns (Jordà et al. 2019)")
+    print("\n[11/16] Asset class returns (Jordà et al. 2019)")
     build_jst_returns()
 
-    print("\n[12/12] Stock-bond correlation (Artemis 2020)")
+    print("\n[12/16] Stock-bond correlation (Artemis 2020)")
     build_stock_bond_correlation()
+
+    print("\n[13/16] Sovereign default events (Trebesch et al.)")
+    build_sovereign_defaults()
+
+    print("\n[14/16] Sovereign debt in default (BoC-BoE)")
+    build_debt_in_default()
+
+    print("\n[15/16] ECB euro reference rates")
+    build_ecb_daily()
+
+    print("\n[16/16] World Bank inflation")
+    build_wb_inflation()
 
     print("\nDone. All derived files regenerated.")
 

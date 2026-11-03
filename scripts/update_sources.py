@@ -1239,6 +1239,71 @@ def update_riksbank_hist():
 
 
 # ---------------------------------------------------------------------------
+# Sovereign defaults, ECB reference rates, World Bank inflation
+# ---------------------------------------------------------------------------
+
+def _fetch_binary_checked(url, dest, magic, min_bytes):
+    """Download to dest only if the payload looks right (keeps the old file otherwise)."""
+    data = fetch_bytes(url, timeout=120)
+    if len(data) < min_bytes or not data.startswith(magic):
+        raise ValueError(f"unexpected payload from {url} ({len(data):,} bytes)")
+    write_atomic_bytes(dest, data)
+    print(f"  {dest.name}: {len(data) / 1024:,.0f} KB")
+
+
+XLSX_MAGIC = b"PK\x03\x04"  # xlsx and zip are both zip containers
+
+
+def update_trebesch():
+    """Sovereign default and restructuring datasets (Trebesch and coauthors).
+
+    - Asonuma & Trebesch: monthly default/restructuring spells, 1975-2025.
+    - Graf von Luckner, Meyer, Reinhart & Trebesch: haircuts since 1815.
+    """
+    dest = SOURCES / "trebesch"
+    print("Updating Trebesch sovereign default datasets...")
+    _fetch_binary_checked(
+        "https://docs.google.com/spreadsheets/d/1VtkbHoWkqBsSZh4PnjI7g5BKiR76bz1Z/export?format=xlsx",
+        dest / "asonuma_trebesch_defaults.xlsx", XLSX_MAGIC, 20_000)
+    _fetch_binary_checked(
+        "https://drive.google.com/uc?export=download&id=1Uib7PTK7jDvEaeOYgwAOMRsHxt7P-po2",
+        dest / "haircuts_since_1815.xlsx", XLSX_MAGIC, 50_000)
+
+
+# The Valet group name carries the edition year; bump it when the Bank of
+# Canada publishes a new edition (staff analytical paper each autumn).
+BOC_BOE_GROUP = "DEBT_2026"
+
+
+def update_bocboe():
+    """Bank of Canada / Bank of England sovereign default database (1960-present)."""
+    dest = SOURCES / "bocboe" / "bocboe_sovereign_defaults.csv"
+    print("Updating BoC-BoE sovereign default database...")
+    content = fetch_url(
+        f"https://www.bankofcanada.ca/valet/observations/group/{BOC_BOE_GROUP}/csv", timeout=120)
+    if '"OBSERVATIONS"' not in content or len(content) < 100_000:
+        raise ValueError("BoC-BoE response has no OBSERVATIONS section")
+    write_atomic(dest, content)
+    print(f"  {dest.name}: {len(content) / 1024:,.0f} KB")
+
+
+def update_ecb():
+    """ECB euro foreign exchange reference rates, daily since 1999."""
+    print("Updating ECB euro reference rates...")
+    _fetch_binary_checked(
+        "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-hist.zip",
+        SOURCES / "ecb" / "eurofxref-hist.zip", XLSX_MAGIC, 300_000)
+
+
+def update_wbinflation():
+    """World Bank Global Database of Inflation (Ha, Kose & Ohnsorge)."""
+    print("Updating World Bank inflation database...")
+    _fetch_binary_checked(
+        "https://thedocs.worldbank.org/en/doc/1ad246272dbbc437c74323719506aa0c-0350012021/original/Inflation-data.xlsx",
+        SOURCES / "wb_inflation" / "wb_inflation.xlsx", XLSX_MAGIC, 1_000_000)
+
+
+# ---------------------------------------------------------------------------
 # Reinhart-Rogoff data (carmenreinhart.com)
 # ---------------------------------------------------------------------------
 
@@ -1247,15 +1312,19 @@ REINHART_ROGOFF_FILES = {
     "236_data.xlsx": "rr_anchor_currency_1946_2016.xlsx",
     "238_data.xlsx": "rr_regime_classification.xlsx",
     "240_data.xlsx": "rr_capital_control_index.xlsx",
-    # Debt-to-GDP
-    "7_data.xls": "rr_external_debt_gdp.xls",
-    "18_data.xls": "rr_total_public_debt_gdp.xls",
-    "19_data.xls": "rr_domestic_public_debt_gdp.xls",
-    "20_data.xls": "rr_external_public_debt_gdp.xls",
-    # Inflation
-    "21_data.xls": "rr_inflation_annual.xls",
-    "26_data.xls": "rr_cpi_index.xls",
-    # Gold standard + crisis indicators
+    # Debt-to-GDP and inflation are each split alphabetically across four
+    # files (one sheet per country); file 20's sheet titles wrongly say
+    # "Inflation" but it holds debt-to-GDP.
+    "7_data.xls": "rr_debt_gdp_1_algeria-elsalvador.xls",
+    "18_data.xls": "rr_debt_gdp_2_finland-morocco.xls",
+    "19_data.xls": "rr_debt_gdp_3_myanmar-switzerland.xls",
+    "20_data.xls": "rr_debt_gdp_4_taiwan-zimbabwe.xls",
+    "21_data.xls": "rr_inflation_1_algeria-elsalvador.xls",
+    "26_data.xls": "rr_inflation_2_finland-morocco.xls",
+    "27_data.xls": "rr_inflation_3_myanmar-switzerland.xls",
+    "28_data.xls": "rr_inflation_4_taiwan-zimbabwe.xls",
+    # Gold standard dates; world-aggregate banking/currency/debt/inflation
+    # crisis index (BCDI); IMF de jure regime classification
     "30_data.xlsx": "rr_gold_standard_dates.xlsx",
     "49_data.xls": "rr_bcdi_crisis_index.xls",
     "29_data.xls": "rr_imf_fx_classification.xls",
@@ -1312,6 +1381,10 @@ ALL_SOURCES = [
     ("cfs", update_cfs, "Update CFS Historical Financial Statistics"),
     ("riksbank_hist", update_riksbank_hist, "Update Riksbank Historical Monetary Stats (1277-2020)"),
     ("reinhartrogoff", update_reinhartrogoff, "Update Reinhart-Rogoff datasets"),
+    ("trebesch", update_trebesch, "Update Trebesch sovereign default + haircut datasets"),
+    ("bocboe", update_bocboe, "Update BoC-BoE sovereign default database (1960-present)"),
+    ("ecb", update_ecb, "Update ECB euro reference rates (daily, 1999-present)"),
+    ("wbinflation", update_wbinflation, "Update World Bank Global Database of Inflation"),
 ]
 
 

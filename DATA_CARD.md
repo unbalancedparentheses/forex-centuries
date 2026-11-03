@@ -1,6 +1,6 @@
 # Data card: forex-centuries
 
-A compilation of long-run exchange rate, precious metal, interest rate, price, output and debt data (1 CE–present) from 27 public sources, with a reproducible pipeline (`build.py`) that turns raw source files (`data/sources/`) into normalized panels and analysis tables (`data/derived/`).
+A compilation of long-run exchange rate, precious metal, interest rate, price, output and debt data (1 CE–present) from 32 public sources, with a reproducible pipeline (`build.py`) that turns raw source files (`data/sources/`) into normalized panels and analysis tables (`data/derived/`).
 
 - **Maintainer:** Federico Carrone
 - **Updates:** weekly, via GitHub Actions (`.github/workflows/update-data.yml`). Each update is committed to `main` and published as a dated release (`data-YYYY-MM-DD`).
@@ -44,6 +44,11 @@ Terms were checked on the publishers' websites on 2026-11-03. They change over t
 | Bruegel / Darvas REER | `bruegel/` | Free distribution with attribution | Open | https://www.bruegel.org/dataset/real-effective-exchange-rates-178-countries-new-database |
 | Center for Financial Stability, Historical Financial Statistics | `cfs/` | "Restrictions exist on reproducing data for any commercial use and for noncommercial database use" | **Not redistributable** (full conditions in the CFS data notes PDF) | https://www.centerforfinancialstability.org/hfs.php |
 | MEMDB (Spufford, Metz), Rutgers | `memdb/` | Data free for non-commercial scholarly use, but the contents "may not be used as part of any other website, online database, or commercial product" | **Not redistributable** | https://memdb.libraries.rutgers.edu/about |
+| Asonuma–Trebesch defaults and restructurings | `trebesch/` | No explicit license; citation requested | Unclear | https://sites.google.com/site/christophtrebesch/data |
+| Graf von Luckner et al., haircuts since 1815 | `trebesch/` | No explicit license; citation requested | Unclear | https://sites.google.com/site/christophtrebesch/data |
+| Bank of Canada / Bank of England sovereign default database | `bocboe/` | Free use, copy and distribution with source attribution; changes must be stated | Open | https://www.bankofcanada.ca/terms/ |
+| ECB euro foreign exchange reference rates | `ecb/` | Reuse allowed; cite the ECB as source and state modifications | Open | https://www.ecb.europa.eu/services/disclaimer/html/index.en.html |
+| World Bank Global Database of Inflation | `wb_inflation/` | No explicit license; citation requested | Unclear | https://www.worldbank.org/en/research/brief/inflation-database |
 | Global Macro Database | `gmd/` | "Do not re-host or redistribute it"; exception for a paper's replication package | **Not redistributable** | https://www.globalmacrodata.com/license.html |
 
 ## Citations for the underlying sources
@@ -66,6 +71,11 @@ Terms were checked on the publishers' websites on 2026-11-03. They change over t
 - **Bruegel:** Darvas (2012), "Real effective exchange rates for 178 countries: a new database", Bruegel Working Paper 2012/06.
 - **CFS:** Center for Financial Stability, Historical Financial Statistics (ed. Kurt Schuler).
 - **MEMDB:** Spufford (1986), *Handbook of Medieval Exchange*; Metz (1990), *Geld, Währung und Preisentwicklung*; Medieval and Early Modern Data Bank, Rutgers University.
+- **Asonuma–Trebesch:** Asonuma & Trebesch (2016), "Sovereign Debt Restructurings: Preemptive or Post-Default", *JEEA* 14(1), plus their 2026 database update.
+- **Haircuts since 1815:** Graf von Luckner, Meyer, Reinhart & Trebesch (2024), "Sovereign Haircuts: 200 Years of Creditor Losses", *IMF Economic Review* 73.
+- **BoC–BoE:** Beers, Ndukwe & Berry (2026), "BoC–BoE Sovereign Default Database: What's New in 2026?", Bank of Canada Staff Analytical Paper 2026-48.
+- **ECB:** European Central Bank, euro foreign exchange reference rates.
+- **World Bank inflation:** Ha, Kose & Ohnsorge (2023), "One-Stop Source: A Global Database of Inflation", *Journal of International Money and Finance* 137.
 - **GMD:** Müller, Xu, Lehbib & Chen (2025), "The Global Macro Database", NBER Working Paper 33714.
 
 ## Composition
@@ -78,6 +88,10 @@ Source files under `data/sources/<source>/` are kept as downloaded (see the READ
 | `normalized/yearly_unified_wide.csv` | Same values, year × country | |
 | `normalized/fred_daily_normalized*.csv` | 23 daily FX pairs since 1971, foreign currency per USD | `date, currency, rate_per_usd` |
 | `analysis/*.csv` | Log returns, volatility, correlations, regimes, gold inflation, asset returns | see README |
+| `analysis/sovereign_default_events.csv` | 752 default, restructuring and default-spell events, 1823–2024, with haircuts | `iso3, country, event, start, end, haircut_npv, haircut_face, debt_restructured_usd_m, spell_id, source` |
+| `analysis/sovereign_debt_in_default.csv` | Debt in default by country-year and creditor, US$ m, 1960–2025 | `year, iso3, country, country_group, total_usd_m, ...` |
+| `normalized/ecb_daily.csv` | ECB reference rates since 1999 | `date, currency, rate_per_eur` |
+| `analysis/cpi_inflation_yearly.csv`, `normalized/cpi_monthly.csv` | World Bank headline CPI | `year/year_month, iso3, country, value` |
 
 ## How the yearly panel is built
 
@@ -112,9 +126,12 @@ Corrections applied in code (see `build.py` and the README "Data corrections" ta
 - **GMD:** Gambia 1950–56 is about 0.30/USD against the 1.7857 peg rate (dropped). Values for the current and future years are IMF forecasts (excluded).
 - **IMF mirror (codeforIATI):** the November 2026 refresh dropped IRR 1957–2024, MRU and UYW history and added a 2027-dated row. The updater keeps observations dropped upstream and discards future dates.
 
+- **Trebesch files:** old country codes (CRO, ROM, SLO, CZK) are mapped to ISO3. The "Ongoing cases" sheet of the Asonuma–Trebesch file has corrupted years (e.g. Venezuela "2026-11-17") and is not used.
+
 Known and **not** corrected:
 - The panel mixes currency units across sources within a country (see "How the yearly panel is built"). There are 150 `source_level_mismatch` rows.
 - MW's Germany 1924 value (4.33×10¹¹ marks/USD) is about 10× below the stabilized rate of 4.2×10¹².
 - Medieval and early modern series (MEMDB, Allen–Unger, Schmelzing, Maddison before 1820) are sparse and partly reconstructed. Treat tail statistics from them with caution.
 - FRED daily data is not refreshed by CI until a `FRED_API_KEY` repository secret is set.
+- BoC–BoE figures for the latest year are preliminary, and the download URL carries the edition year (`BOC_BOE_GROUP` in `scripts/update_sources.py`), so it must be bumped when a new edition appears.
 - The Riksbank API rate-limits anonymous clients. Series it does not return keep their previous values until the next run.

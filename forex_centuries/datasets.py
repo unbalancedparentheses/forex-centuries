@@ -45,6 +45,18 @@ DATASETS = {
                                "Monthly gold price in local currency, 174 currencies"),
     "asset_returns_jst": ("analysis/jst_asset_returns.csv",
                           "Equity, housing, bond and bill return statistics (JST, CC BY-NC-SA 4.0)"),
+    "sovereign_default_events": ("analysis/sovereign_default_events.csv",
+                                 "Sovereign defaults, restructurings and haircuts since 1815 "
+                                 "(Asonuma-Trebesch; Graf von Luckner, Meyer, Reinhart & Trebesch)"),
+    "sovereign_debt_in_default": ("analysis/sovereign_debt_in_default.csv",
+                                  "Sovereign debt in default by country-year and creditor, "
+                                  "US$ m, 1960-present (Bank of Canada / Bank of England)"),
+    "fx_daily_ecb": ("normalized/ecb_daily.csv",
+                     "ECB euro reference rates, ~40 currencies per EUR, daily since 1999"),
+    "cpi_inflation_yearly": ("analysis/cpi_inflation_yearly.csv",
+                             "Headline CPI inflation %, ~200 countries, 1970-present (World Bank)"),
+    "cpi_monthly": ("normalized/cpi_monthly.csv",
+                    "Headline CPI index, monthly, ~180 countries (World Bank)"),
     "stock_bond_correlation": ("analysis/stock_bond_correlation.csv",
                                "Rolling 20-year stock-bond correlation (JST, CC BY-NC-SA 4.0)"),
 }

@@ -384,3 +384,27 @@ def test_quality_flags():
     assert "redenomination" in f[2011] and "level_jump" not in f[2011]
     assert out.loc[2011, "unit"] == "New Soles"
     assert out.loc[2002, "rate_per_usd"] == 1.2e-13               # levels untouched
+
+
+def test_sovereign_defaults_real_files():
+    e = build.build_sovereign_defaults()
+    assert len(e) > 700 and e["iso3"].str.fullmatch(r"[A-Z]{3}").all()
+    assert (e["country"] != e["iso3"]).all()          # every code maps to a name
+    arg = e[(e["iso3"] == "ARG") & (e["event"] == "restructuring")]
+    assert {"1830", "1982", "2001", "2019"} <= set(arg["start"])
+    assert e["haircut_npv"].dropna().between(-0.5, 1.0).all()
+
+
+def test_debt_in_default_real_file():
+    d = build.build_debt_in_default()
+    assert d["iso3"].notna().all() and "World" not in set(d["country"])
+    assert {"total_usd_m", "private_creditors_usd_m", "china_usd_m"} <= set(d.columns)
+
+
+def test_ecb_and_inflation_real_files():
+    ecb = build.build_ecb_daily()
+    usd = ecb[ecb["currency"] == "USD"].set_index("date")["rate_per_eur"]
+    assert usd.index.min() == "1999-01-04" and usd.between(0.8, 1.7).all()
+    annual, monthly = build.build_wb_inflation()
+    assert annual["iso3"].nunique() > 150
+    assert monthly["year_month"].str.fullmatch(r"\d{4}-\d{2}").all()

@@ -14,6 +14,7 @@
           ps.pandas
           ps.openpyxl
           ps.pyarrow
+          ps.xlrd
           ps.matplotlib
           ps.scipy
           ps.pytest

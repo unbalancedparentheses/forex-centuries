@@ -2,7 +2,7 @@
 
 [![Weekly data update](https://github.com/unbalancedparentheses/forex-centuries/actions/workflows/update-data.yml/badge.svg)](https://github.com/unbalancedparentheses/forex-centuries/actions/workflows/update-data.yml) [![Last data update](https://img.shields.io/github/release-date/unbalancedparentheses/forex-centuries?label=last%20data%20update)](https://github.com/unbalancedparentheses/forex-centuries/releases/latest)
 
-The most comprehensive open-source collection of long-run financial and economic data available. 27 sources, 1,100+ files, ~240 countries, spanning twenty centuries (1 CE-2026). Exchange rates, gold, silver, interest rates, commodity prices, CPI, GDP per capita, real wages, sovereign debt, regime classifications, and real effective exchange rates — with an automated build pipeline, weekly CI updates, and reproducible analysis.
+The most comprehensive open-source collection of long-run financial and economic data available. 32 sources, 1,100+ files, ~240 countries, spanning twenty centuries (1 CE-2026). Exchange rates, gold, silver, interest rates, commodity prices, CPI, GDP per capita, real wages, sovereign debt, regime classifications, and real effective exchange rates — with an automated build pipeline, weekly CI updates, and reproducible analysis.
 
 No other free repository combines this breadth of asset classes across this depth of history. The only comparable product is [Global Financial Data](https://globalfinancialdata.com/) (commercial, institutional pricing). The closest open alternative, the [Global Macro Database](https://www.globalmacrodata.com/) (111 sources, 46 variables), covers macroeconomic aggregates but has no gold, silver, commodity prices, interest rate series spanning centuries, medieval exchange rates, daily FX, or crisis indices.
 
@@ -21,7 +21,8 @@ Related project: [fatcrash](https://github.com/unbalancedparentheses/fatcrash) �
 | **Inflation / CPI** | Consumer price indices | ~180 countries | 1500 - 2025 |
 | **Real wages** | Labourers' real wage in subsistence ratios | ~40 countries | 1820 - 2000+ |
 | **Sovereign debt** | Public debt-to-GDP ratios | 191 countries | 1800 - 2016 |
-| **FX regimes & crises** | Peg/float/fall classifications, banking/currency/debt crisis indices | ~190 countries | 1800 - 2021 |
+| **FX regimes** | De facto peg/float/freely-falling classifications (IRR) | ~190 countries | 1940 - 2021 |
+| **Crises & defaults** | Sovereign defaults, restructurings and haircuts; debt in default by creditor; world crisis index | 98-166 countries | 1800 - 2025 |
 | **Real effective exchange rates** | Trade-weighted, CPI-deflated REER | 178 countries | 1960s - 2026 |
 | **Swedish historical macro** | FX, CPI, wages, GDP, money supply, stocks, bonds | Sweden | 1277 - 2026 |
 | **Historical financial statistics** | Official/market FX, interest rates, money supply, central bank balance sheets | Various | ~1500 - 1950 |
@@ -279,7 +280,7 @@ FRED requires a free API key from [fred.stlouisfed.org](https://fred.stlouisfed.
 ```
 forex-centuries/
 ├── data/
-│   ├── sources/           # Raw data, untouched from provider (27 sources)
+│   ├── sources/           # Raw data, untouched from provider (32 sources)
 │   │   ├── maddison/      # GDP per capita, 178 countries (1 CE - 2022)
 │   │   ├── memdb/         # Medieval exchange rates (1106-1800)
 │   │   ├── allenunger/    # 973 commodity price series (1260-1914)
@@ -347,6 +348,10 @@ forex-centuries/
 | [IMF HPDD](https://data.imf.org/) | `--imfhpdd` | Sovereign debt-to-GDP, 191 countries (via DBnomics) | 1800-2015 | |
 | [CFS HFS](https://centerforfinancialstability.org/hfs.php) | `--cfs` | Exchange rates, interest rates, money supply, central bank balance sheets | ~1500-1950 | |
 | [Riksbank Hist. Monetary](https://www.riksbank.se/en-gb/statistics/historical-monetary-statistics-of-sweden/) | `--riksbank_hist` | Swedish FX, CPI, wages, GDP, money supply, stocks/bonds (Vols I-III) | 1277-2020 | |
+| [Trebesch defaults & haircuts](https://sites.google.com/site/christophtrebesch/data) | `--trebesch` | Default/restructuring spells (monthly, 1975-2025) and haircuts since 1815 | 1815-2025 | |
+| [BoC-BoE Sovereign Default Database](https://www.bankofcanada.ca/2026/10/staff-analytical-paper-2026-48/) | `--bocboe` | Debt in default by country and creditor | 1960-2025 | |
+| [ECB reference rates](https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html) | `--ecb` | ~40 currencies per EUR, daily | 1999-present | |
+| [World Bank inflation](https://www.worldbank.org/en/research/brief/inflation-database) | `--wbinflation` | Headline/core/food/energy CPI, PPI, deflator; monthly/quarterly/annual, 209 countries | 1970-present | |
 | [Reinhart-Rogoff](https://carmenreinhart.com/data/) | `--reinhartrogoff` | Regime classifications, debt/GDP, inflation, crisis indices, gold standard dates | 1800-2016 | |
 
 ### Static (committed to repo, updated manually)
@@ -378,7 +383,8 @@ forex-centuries/
 | Real wages | Labourers' real wage, ~40 countries | ~180 | 1820-2000+ | Clio Infra |
 | Swedish FX | Exchange rates from 1534 | 492 | 1534-2026 | Riksbank Hist. |
 | Sovereign debt | Debt-to-GDP, 191 countries | 215 | 1800-2015 | IMF HPDD |
-| Crisis indices | Banking/currency/debt crises | ~216 | 1800-2016 | Reinhart-Rogoff |
+| Crisis index (world aggregate) | Banking/currency/debt/inflation (BCDI) | ~210 | 1800-2010 | Reinhart-Rogoff |
+| Sovereign defaults | Default spells, restructurings, haircuts (98 countries) | 202 | 1823-2024 | Trebesch et al. |
 | FX regimes | De facto classifications | 81 | 1940-2021 | IRR |
 | CFS FX/rates | Official + market exchange rates, interest rates | ~450 | ~1500-1950 | CFS |
 
@@ -503,7 +509,7 @@ Riksbank Historical Monetary Statistics, 13 Excel files across 3 volumes. Vol I 
 
 ### `sources/reinhart_rogoff/`
 
-12 Excel files from Reinhart & Rogoff. Key files: `rr_regime_classification.xlsx` (FX regime, annual), `rr_anchor_currency_1946_2016.xlsx` (anchor currency), `rr_total_public_debt_gdp.xls` (debt/GDP), `rr_inflation_annual.xls`, `rr_bcdi_crisis_index.xls` (banking/currency/debt/inflation crisis indicator), `rr_gold_standard_dates.xlsx`. Coverage: ~1800-2016, ~70 countries.
+14 Excel files from Reinhart & Rogoff. Key files: `rr_regime_classification.xlsx` (FX regime, annual), `rr_anchor_currency_1946_2016.xlsx` (anchor currency), `rr_capital_control_index.xlsx`, `rr_gold_standard_dates.xlsx`, `rr_bcdi_crisis_index.xls` (a **world-aggregate** banking/currency/debt/inflation crisis index, not per-country). Debt-to-GDP (`rr_debt_gdp_1..4_*.xls`) and annual inflation (`rr_inflation_1..4_*.xls`) are each split alphabetically across four files, one sheet per country (~70 countries in total). Coverage ~1800-2010.
 
 ## Derived data
 
@@ -515,6 +521,8 @@ Riksbank Historical Monetary Statistics, 13 Excel files across 3 volumes. Vol I 
 | `yearly_unified_wide.csv` | Same, year x country matrix |
 | `fred_daily_normalized.csv` | 23 FRED pairs, foreign-per-USD convention |
 | `fred_daily_normalized_wide.csv` | Same, date x currency matrix |
+| `ecb_daily.csv` | ECB euro reference rates, ~40 currencies per EUR, daily since 1999 |
+| `cpi_monthly.csv` | World Bank headline CPI index, monthly, ~180 countries |
 
 ### Analysis (`data/derived/analysis/`)
 
@@ -536,6 +544,9 @@ Riksbank Historical Monetary Statistics, 13 Excel files across 3 volumes. Vol I 
 | `sigma_event_frequency.csv` | 2-5 sigma event counts vs Gaussian expected (Monday Morning Macro) |
 | `jst_asset_returns.csv` | Real returns, vol, kurtosis for equities, housing, bonds, bills (Jordà et al. 2019) |
 | `stock_bond_correlation.csv` | 20-year rolling stock-bond correlation, 18 countries (Artemis 2020) |
+| `sovereign_default_events.csv` | 752 sovereign default spells, restructurings (with NPV and face-value haircuts) and pre-emptive restructurings, 98 countries, 1823-2024 (Asonuma-Trebesch; Graf von Luckner, Meyer, Reinhart & Trebesch) |
+| `sovereign_debt_in_default.csv` | Debt in default by country-year and creditor (IMF, World Bank, Paris Club, China, bonds, ...), US$ m, 166 countries, 1960-2025 (BoC-BoE) |
+| `cpi_inflation_yearly.csv` | Headline CPI inflation, 202 countries, 1970-2024 (World Bank) |
 
 ## TODO
 
