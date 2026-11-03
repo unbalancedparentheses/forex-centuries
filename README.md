@@ -114,7 +114,7 @@ Every single currency pair — across all time scales and all centuries — show
 
 **Daily (1971-2025, 23 currencies):** 3-sigma events happen **3-6x more often** than a normal distribution predicts. Even the most "stable" pair (EUR/USD, excess kurtosis 2.5) has 4x too many tail events. Pegged and managed currencies (HKD, CNY, LKR) show the **highest** kurtosis — the peg suppresses daily moves but creates catastrophic jumps when it breaks.
 
-**Yearly (1791-2025, 40 currencies):** Germany's Weimar hyperinflation produces excess kurtosis of 56.5 (in 1924 alone the mark lost a log 16.0, a factor of ~9 million, against the dollar). Latin American currencies (Mexico 9.2, Argentina 8.7, Brazil 7.3) show fat tails from repeated devaluation crises. Even the UK, with 234 years of data, has excess kurtosis of 5.2.
+**Yearly (1791-2025, 40 currencies):** Germany's Weimar hyperinflation produces excess kurtosis of 56.5 (in 1924 alone the mark lost a log 16.0, a factor of ~9 million, against the dollar). Latin American currencies (Mexico 9.2, Argentina 9.7, Brazil 7.3) show fat tails from repeated devaluation crises. Even the UK, with 234 years of data, has excess kurtosis of 5.2.
 
 Yearly returns are computed on series chain-linked across redenominations (Argentina's 1992 peso = 10,000 australes, Germany's 1925 reichsmark, etc.; see `MW_REDENOMINATIONS` in `build.py`). Without this, a unit change looks like a crash: Mexico's 1993 new peso alone would push its kurtosis from 9 to 84.
 

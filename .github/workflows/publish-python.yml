@@ -18,7 +18,9 @@ jobs:
         run: |
           VERSION=$(python -c "import forex_centuries as f; print(f.__version__)")
           test "py-v${VERSION}" = "${GITHUB_REF_NAME}"
-      - run: pip install build && python -m build
+      # -P: don't put the checkout on sys.path, or `-m build` would import
+      # this repository's build.py (the data pipeline) instead of PyPA build.
+      - run: pip install build && python -P -m build
       - uses: actions/upload-artifact@v4
         with:
           name: dist

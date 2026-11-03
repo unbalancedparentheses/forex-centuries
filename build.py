@@ -103,7 +103,7 @@ def load_measuringworth_units(path=MW_FX_PATH):
 # change falls in a gap), so the return across the change is left undefined.
 # chain_link_measuringworth() fails if MW reports a unit change not listed here.
 MW_REDENOMINATIONS = {
-    ("Argentina", 1934): 2.2727,      # paper peso m/n = 0.44 gold peso (1899 Conversion Law)
+    ("Argentina", 1934): 0.44,        # 1 paper peso m/n = 0.44 gold peso (1899 Conversion Law)
     ("Argentina", 1970): 100,         # peso ley 18.188
     ("Argentina", 1983): 10_000,      # peso argentino
     ("Argentina", 1985): 1_000,       # austral

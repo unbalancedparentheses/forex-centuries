@@ -408,3 +408,15 @@ def test_ecb_and_inflation_real_files():
     annual, monthly = build.build_wb_inflation()
     assert annual["iso3"].nunique() > 150
     assert monthly["year_month"].str.fullmatch(r"\d{4}-\d{2}").all()
+
+
+def test_redenomination_factors_direction():
+    """Factors are old units per new unit: a correct factor leaves only the
+    real market move across the change (regression: Argentina 1934 was
+    entered inverted, producing a spurious +1.6 log return)."""
+    linked, _ = build.chain_link_measuringworth()
+    ret = np.log(linked / linked.shift(1))
+    assert abs(ret.loc[1934, "Argentina"]) < 0.1      # gold -> paper peso
+    assert abs(ret.loc[1966, "Australia"]) < 0.1      # pound -> dollar
+    assert abs(ret.loc[1960, "France"]) < 0.1         # nouveau franc
+    assert abs(ret.loc[1993, "Mexico"]) < 0.2         # nuevo peso
