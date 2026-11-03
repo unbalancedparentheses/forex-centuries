@@ -61,8 +61,16 @@ jobs:
           fi
 
       - name: Commit updated data
+        id: commit
         if: steps.diff.outputs.changed == 'true'
         run: |
+          # If main moved during this run (e.g. a code push), these outputs were
+          # built from outdated code: skip, and let the next run rebuild.
+          git fetch -q origin main
+          if [ "$(git rev-parse origin/main)" != "$GITHUB_SHA" ]; then
+            echo "::warning title=Data update skipped::main changed during the run; the next run will rebuild from the new code."
+            exit 0
+          fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           # Keep the citation version in step with the dated release (Zenodo
@@ -72,10 +80,11 @@ jobs:
           git add CITATION.cff
           git commit -m "Weekly data update $(date -u +%Y-%m-%d)"
           git push
+          echo "pushed=true" >> "$GITHUB_OUTPUT"
 
       # Parquet files are what `forex_centuries.load(name)` downloads.
       - name: Create release
-        if: steps.diff.outputs.changed == 'true'
+        if: steps.commit.outputs.pushed == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
