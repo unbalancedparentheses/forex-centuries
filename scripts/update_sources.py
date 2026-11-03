@@ -152,13 +152,17 @@ FRED_SERIES = {
 }
 
 
+class SourceSkipped(Exception):
+    """A source could not run (e.g. missing credentials); others continue."""
+
+
 def update_fred():
     """Update all 25 FRED daily CSV files."""
     api_key = os.environ.get("FRED_API_KEY")
     if not api_key:
-        print("ERROR: FRED_API_KEY environment variable not set.")
-        print("Get a free key at https://fred.stlouisfed.org/docs/api/api_key.html")
-        sys.exit(1)
+        raise SourceSkipped(
+            "FRED_API_KEY not set; get a free key at "
+            "https://fred.stlouisfed.org/docs/api/api_key.html")
 
     dest_dir = SOURCES / "fred" / "daily"
     print(f"Updating {len(FRED_SERIES)} FRED series...")
@@ -1262,11 +1266,27 @@ def main():
         parser.print_help()
         sys.exit(1)
 
+    # One failing source must not block the others: run each, then report.
+    # In GitHub Actions, problems are surfaced as ::warning:: annotations.
+    problems = []
     for name, func, _ in ALL_SOURCES:
         if flags[name] or args.all:
-            func()
+            try:
+                func()
+            except SourceSkipped as e:
+                problems.append((name, f"skipped: {e}"))
+            except Exception as e:  # noqa: BLE001 - report and continue
+                problems.append((name, f"failed: {type(e).__name__}: {e}"))
 
-    print("\nDone.")
+    gha = os.environ.get("GITHUB_ACTIONS") == "true"
+    for name, msg in problems:
+        print(f"::warning title=update_sources {name}::{msg}" if gha
+              else f"WARNING {name}: {msg}")
+    print(f"\nDone. {len(problems)} source(s) with problems.")
+    # Exit non-zero only when nothing at all could be updated.
+    ran = sum(1 for n, _, _ in ALL_SOURCES if flags[n] or args.all)
+    if problems and len(problems) == ran:
+        sys.exit(1)
 
 
 if __name__ == "__main__":

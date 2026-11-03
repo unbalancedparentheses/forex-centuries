@@ -17,9 +17,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.12"
           cache: pip
@@ -27,6 +27,8 @@ jobs:
       - name: Install dependencies
         run: pip install pandas openpyxl xlrd matplotlib scipy pytest
 
+      # Individual source failures (e.g. a missing FRED_API_KEY secret or a
+      # site being down) are reported as warnings; the rest still update.
       - name: Update sources
         env:
           FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
@@ -36,12 +38,12 @@ jobs:
       - name: Build derived data
         run: python build.py
 
+      # validate.py: 0 = clean, 1 = warnings only, >=2 = errors.
       - name: Validate
         run: |
-          python validate.py
-          rc=$?
-          if [ $rc -ge 2 ]; then exit $rc; fi
-          exit 0
+          rc=0
+          python validate.py || rc=$?
+          if [ "$rc" -ge 2 ]; then exit "$rc"; fi
 
       - name: Run tests
         run: pytest tests/ -v
@@ -52,21 +54,31 @@ jobs:
       - name: Check for changes
         id: diff
         run: |
-          if git diff --quiet data/ charts/; then
+          git add -A data/ charts/
+          if git diff --cached --quiet; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
           else
             echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
+
+      - name: Commit updated data
+        if: steps.diff.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Weekly data update $(date -u +%Y-%m-%d)"
+          git push
 
       - name: Create release
         if: steps.diff.outputs.changed == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          DATE=$(date +%Y-%m-%d)
+          DATE=$(date -u +%Y-%m-%d)
           TAG="data-${DATE}"
           tar -czf "forex-centuries-data-${DATE}.tar.gz" data/ charts/
           gh release create "$TAG" "forex-centuries-data-${DATE}.tar.gz" \
+            --target "$(git rev-parse HEAD)" \
             --title "Data update ${DATE}" \
-            --notes "Automated weekly data refresh ($(date +%Y-%m-%d))" \
+            --notes "Automated weekly data refresh (${DATE})" \
             || echo "Release ${TAG} already exists, skipping."

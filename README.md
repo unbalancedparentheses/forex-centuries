@@ -1,5 +1,7 @@
 # forex-centuries
 
+[![Weekly data update](https://github.com/unbalancedparentheses/forex-centuries/actions/workflows/update-data.yml/badge.svg)](https://github.com/unbalancedparentheses/forex-centuries/actions/workflows/update-data.yml) [![Last data update](https://img.shields.io/github/release-date/unbalancedparentheses/forex-centuries?label=last%20data%20update)](https://github.com/unbalancedparentheses/forex-centuries/releases/latest)
+
 The most comprehensive open-source collection of long-run financial and economic data available. 27 sources, 1,100+ files, ~240 countries, spanning twenty centuries (1 CE-2026). Exchange rates, gold, silver, interest rates, commodity prices, CPI, GDP per capita, real wages, sovereign debt, regime classifications, and real effective exchange rates — with an automated build pipeline, weekly CI updates, and reproducible analysis.
 
 No other free repository combines this breadth of asset classes across this depth of history. The only comparable product is [Global Financial Data](https://globalfinancialdata.com/) (commercial, institutional pricing). The closest open alternative, the [Global Macro Database](https://www.globalmacrodata.com/) (111 sources, 46 variables), covers macroeconomic aggregates but has no gold, silver, commodity prices, interest rate series spanning centuries, medieval exchange rates, daily FX, or crisis indices.
