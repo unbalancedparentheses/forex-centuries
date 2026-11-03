@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "forex-centuries"
+dynamic = ["version"]
+description = "Load long-run exchange rate, gold and macro-financial history (1 CE-present) as pandas DataFrames"
+readme = "forex_centuries/README.md"
+license = "MIT"
+authors = [{ name = "Federico Carrone" }]
+requires-python = ">=3.9"
+dependencies = ["pandas>=1.5", "pyarrow>=10"]
+keywords = ["exchange rates", "economic history", "gold", "finance", "dataset"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering",
+]
+
+[project.urls]
+Homepage = "https://github.com/unbalancedparentheses/forex-centuries"
+"Data card" = "https://github.com/unbalancedparentheses/forex-centuries/blob/main/DATA_CARD.md"
+
+[tool.setuptools]
+packages = ["forex_centuries"]
+
+[tool.setuptools.dynamic]
+version = { attr = "forex_centuries.__version__" }

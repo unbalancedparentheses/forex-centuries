@@ -25,7 +25,7 @@ jobs:
           cache: pip
 
       - name: Install dependencies
-        run: pip install pandas openpyxl xlrd matplotlib scipy pytest
+        run: pip install pandas openpyxl xlrd matplotlib scipy pytest pyarrow
 
       # Individual source failures (e.g. a missing FRED_API_KEY secret or a
       # site being down) are reported as warnings; the rest still update.
@@ -74,6 +74,7 @@ jobs:
           git commit -m "Weekly data update $(date -u +%Y-%m-%d)"
           git push
 
+      # Parquet files are what `forex_centuries.load(name)` downloads.
       - name: Create release
         if: steps.diff.outputs.changed == 'true'
         env:
@@ -81,9 +82,12 @@ jobs:
         run: |
           DATE=$(date -u +%Y-%m-%d)
           TAG="data-${DATE}"
-          tar -czf "forex-centuries-data-${DATE}.tar.gz" data/ charts/
-          gh release create "$TAG" "forex-centuries-data-${DATE}.tar.gz" \
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            TAG="data-${DATE}.${GITHUB_RUN_NUMBER}"
+          fi
+          python scripts/export_parquet.py dist/parquet
+          tar -czf "forex-centuries-data-${DATE}.tar.gz" data/ charts/ DATA_CARD.md
+          gh release create "$TAG" "forex-centuries-data-${DATE}.tar.gz" dist/parquet/*.parquet \
             --target "$(git rev-parse HEAD)" \
-            --title "Data update ${DATE}" \
-            --notes "Automated weekly data refresh (${DATE})" \
-            || echo "Release ${TAG} already exists, skipping."
+            --title "Data update ${TAG#data-}" \
+            --notes "Automated weekly data refresh (${DATE}). Load with \`pip install forex-centuries\` and \`forex_centuries.load(name, version=\"${TAG}\")\`. Each source keeps its own license: see DATA_CARD.md."

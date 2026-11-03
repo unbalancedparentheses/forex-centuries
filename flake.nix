@@ -13,6 +13,7 @@
         python = pkgs.python3.withPackages (ps: [
           ps.pandas
           ps.openpyxl
+          ps.pyarrow
           ps.matplotlib
           ps.scipy
           ps.pytest

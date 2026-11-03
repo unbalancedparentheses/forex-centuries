@@ -1,0 +1,38 @@
+name: Publish Python package
+
+# Push a tag like py-v0.1.0 (matching forex_centuries.__version__) to publish.
+# Uses PyPI trusted publishing: no token is stored in the repository.
+on:
+  push:
+    tags: ["py-v*"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - name: Check tag matches package version
+        run: |
+          VERSION=$(python -c "import forex_centuries as f; print(f.__version__)")
+          test "py-v${VERSION}" = "${GITHUB_REF_NAME}"
+      - run: pip install build && python -m build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    environment: pypi
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+      - uses: pypa/gh-action-pypi-publish@release/v1

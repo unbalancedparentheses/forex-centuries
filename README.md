@@ -150,6 +150,26 @@ The data strongly supports modeling FX returns with fat-tailed distributions (st
 
 ## Quickstart
 
+### Python package (no clone needed)
+
+```bash
+pip install forex-centuries
+```
+
+```python
+import forex_centuries as fc
+
+fc.list_datasets()                                       # 20 datasets with descriptions
+panel = fc.load("fx_yearly")                             # yearly FX vs USD + quality flags
+daily = fc.load("fx_daily")                              # daily FX since 1971
+returns = fc.load("fx_yearly_log_returns")               # chain-linked across redenominations
+pinned = fc.load("fx_yearly", version="data-2026-11-03") # reproducible: pin a release
+```
+
+Each weekly release attaches one Parquet file per dataset; the package downloads them on first use and caches them in `~/.cache/forex-centuries`.
+
+### From the repository
+
 ```bash
 # 1. Install dependencies
 nix develop                      # Nix flake (recommended)
