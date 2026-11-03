@@ -5845,7 +5845,7 @@ year,country,rate_per_usd,source
 1916,Honduras,1.48,GMD
 1916,Hong Kong,1.953,MW
 1916,Iceland,0.036902,GMD
-1916,India,3.0714,GMD
+1916,India,3.04,MW
 1916,Iran,11.97277,GMD
 1916,Ireland,0.2661925,GMD
 1916,Italy,6.55,MW
@@ -5916,7 +5916,7 @@ year,country,rate_per_usd,source
 1917,Honduras,2.1,GMD
 1917,Hong Kong,1.5604,MW
 1917,Iceland,0.032403,GMD
-1917,India,2.7797,GMD
+1917,India,2.92,MW
 1917,Iran,12.12151,GMD
 1917,Ireland,0.2667517,GMD
 1917,Italy,7.509,MW
@@ -5986,7 +5986,7 @@ year,country,rate_per_usd,source
 1918,Honduras,1.91,GMD
 1918,Hong Kong,1.2733,MW
 1918,Iceland,0.034702,GMD
-1918,India,2.7208,GMD
+1918,India,2.72,MW
 1918,Iran,12.27209,GMD
 1918,Ireland,0.2667517,GMD
 1918,Italy,7.862,MW
@@ -6057,7 +6057,7 @@ year,country,rate_per_usd,source
 1919,Haiti,5.0,GMD
 1919,Honduras,1.98,GMD
 1919,Iceland,0.045903,GMD
-1919,India,2.4073182,CI
+1919,India,2.48,MW
 1919,Iran,12.42454,GMD
 1919,Ireland,0.2866226,GMD
 1919,Italy,8.796,MW
@@ -6137,7 +6137,7 @@ year,country,rate_per_usd,source
 1920,Honduras,1.99,GMD
 1920,Hungary,5.70899,GMD
 1920,Iceland,0.073166,GMD
-1920,India,2.5987526,CI
+1920,India,2.57,MW
 1920,Iran,12.57889,GMD
 1920,Ireland,0.346923,GMD
 1920,Italy,20.121,MW
@@ -6219,7 +6219,7 @@ year,country,rate_per_usd,source
 1921,Hong Kong,1.9126,MW
 1921,Hungary,454.5454545,CI
 1921,Iceland,0.064503,GMD
-1921,India,3.8774719,CI
+1921,India,3.81,MW
 1921,Iran,12.73515,GMD
 1921,Iraq,0.2863,GMD
 1921,Ireland,0.3298021,GMD
@@ -18595,6 +18595,7 @@ year,country,rate_per_usd,source
 1999,Estonia,14.67758,CI
 1999,Eswatini,6.109484,GMD
 1999,Ethiopia,7.94225,CI
+1999,"Europe, Eurozone",0.9387,MW
 1999,Falkland Islands,0.6181616,GMD
 1999,Faroe Islands,7.3988,GMD
 1999,Fiji,1.969625,CI
@@ -18824,6 +18825,7 @@ year,country,rate_per_usd,source
 2000,Estonia,16.96864,CI
 2000,Eswatini,6.939828,GMD
 2000,Ethiopia,8.217258,CI
+2000,"Europe, Eurozone",1.0832,MW
 2000,Falkland Islands,0.660066,GMD
 2000,Faroe Islands,8.0205,GMD
 2000,Fiji,2.128625,CI
@@ -19054,6 +19056,7 @@ year,country,rate_per_usd,source
 2001,Estonia,17.47807,CI
 2001,Eswatini,8.609181,GMD
 2001,Ethiopia,8.457492,CI
+2001,"Europe, Eurozone",1.1171,MW
 2001,Falkland Islands,0.6944926,GMD
 2001,Faroe Islands,8.4095,GMD
 2001,Fiji,2.276633,CI
@@ -19284,6 +19287,7 @@ year,country,rate_per_usd,source
 2002,Estonia,16.61179,CI
 2002,Eswatini,10.54075,GMD
 2002,Ethiopia,8.56775,CI
+2002,"Europe, Eurozone",1.0578,MW
 2002,Falkland Islands,0.6654245,GMD
 2002,Faroe Islands,7.0822,GMD
 2002,Fiji,2.186692,CI
@@ -19514,6 +19518,7 @@ year,country,rate_per_usd,source
 2003,Estonia,13.85641,CI
 2003,Eswatini,7.564749,GMD
 2003,Ethiopia,8.599683,CI
+2003,"Europe, Eurozone",0.8833,MW
 2003,Falkland Islands,0.6118827,GMD
 2003,Faroe Islands,5.9576,GMD
 2003,Fiji,1.8956,CI
@@ -19744,6 +19749,7 @@ year,country,rate_per_usd,source
 2004,Estonia,12.59556,CI
 2004,Eswatini,6.459693,GMD
 2004,Ethiopia,8.635583,CI
+2004,"Europe, Eurozone",0.804,MW
 2004,Falkland Islands,0.5457026,GMD
 2004,Faroe Islands,5.4676,GMD
 2004,Fiji,1.73295,CI
@@ -19975,6 +19981,7 @@ year,country,rate_per_usd,source
 2005,Estonia,12.58379,CI
 2005,Eswatini,6.359328,GMD
 2005,Ethiopia,8.666442,CI
+2005,"Europe, Eurozone",0.8033,MW
 2005,Falkland Islands,0.5497224,GMD
 2005,Faroe Islands,6.3241,GMD
 2005,Fiji,1.690967,CI
@@ -20207,6 +20214,7 @@ year,country,rate_per_usd,source
 2006,Estonia,12.46548,CI
 2006,Eswatini,6.771549,GMD
 2006,Ethiopia,8.698616,CI
+2006,"Europe, Eurozone",0.796,MW
 2006,Falkland Islands,0.5427998,GMD
 2006,Faroe Islands,5.6614,GMD
 2006,Fiji,1.731183,CI
@@ -20439,6 +20447,7 @@ year,country,rate_per_usd,source
 2007,Estonia,11.43385,CI
 2007,Eswatini,7.045365,GMD
 2007,Ethiopia,8.96595,CI
+2007,"Europe, Eurozone",0.7293,MW
 2007,Falkland Islands,0.4994755,GMD
 2007,Faroe Islands,5.0753,GMD
 2007,Fiji,1.610283,CI
@@ -20671,6 +20680,7 @@ year,country,rate_per_usd,source
 2008,Estonia,10.69444,CI
 2008,Eswatini,8.261223,GMD
 2008,Ethiopia,9.599742,CI
+2008,"Europe, Eurozone",0.6791,MW
 2008,Falkland Islands,0.5394325,GMD
 2008,Faroe Islands,5.2849,GMD
 2008,Fiji,1.593708,CI
@@ -20904,6 +20914,7 @@ year,country,rate_per_usd,source
 2009,Estonia,11.25743,CI
 2009,Eswatini,8.473674,GMD
 2009,Ethiopia,11.7776,CI
+2009,"Europe, Eurozone",0.7176,MW
 2009,Falkland Islands,0.6382436,GMD
 2009,Faroe Islands,5.1901,GMD
 2009,Fiji,1.955708,CI
@@ -21136,6 +21147,7 @@ year,country,rate_per_usd,source
 2010,Estonia,11.80685,CI
 2010,Eswatini,7.321222,GMD
 2010,Ethiopia,14.40959,CI
+2010,"Europe, Eurozone",0.7178,MW
 2010,Falkland Islands,0.6471654,GMD
 2010,Faroe Islands,5.6133,GMD
 2010,Fiji,1.918308,CI
@@ -21368,6 +21380,7 @@ year,country,rate_per_usd,source
 2011,Estonia,0.7193553,CI
 2011,Eswatini,7.261132,GMD
 2011,Ethiopia,16.89923,CI
+2011,"Europe, Eurozone",0.7178,MW
 2011,Falkland Islands,0.6235969,GMD
 2011,Faroe Islands,5.7456,GMD
 2011,Fiji,1.793194,CI
@@ -21600,6 +21613,7 @@ year,country,rate_per_usd,source
 2012,Estonia,0.7782936,CI
 2012,Eswatini,8.209969,GMD
 2012,Ethiopia,17.70476,CI
+2012,"Europe, Eurozone",0.7776,MW
 2012,Falkland Islands,0.6311139,GMD
 2012,Faroe Islands,5.6591,GMD
 2012,Fiji,1.789894,CI
@@ -21832,6 +21846,7 @@ year,country,rate_per_usd,source
 2013,Estonia,0.7531592,CI
 2013,Eswatini,9.655056,GMD
 2013,Ethiopia,18.62663,GMD
+2013,"Europe, Eurozone",0.7529,MW
 2013,Falkland Islands,0.6392636,GMD
 2013,Faroe Islands,5.4127,GMD
 2013,Fiji,1.841388,CI
@@ -22061,6 +22076,7 @@ year,country,rate_per_usd,source
 2014,Estonia,0.753941,GMD
 2014,Eswatini,10.85266,GMD
 2014,Ethiopia,19.58579,GMD
+2014,"Europe, Eurozone",0.752,MW
 2014,Falkland Islands,0.6069066,GMD
 2014,Faroe Islands,6.1214,GMD
 2014,Fiji,1.887345,GMD
@@ -22286,6 +22302,7 @@ year,country,rate_per_usd,source
 2015,Estonia,0.901896,GMD
 2015,Eswatini,12.75893,GMD
 2015,Ethiopia,20.57685,GMD
+2015,"Europe, Eurozone",0.9009,MW
 2015,Falkland Islands,0.6541078,GMD
 2015,Faroe Islands,6.83,GMD
 2015,Fiji,2.09763,GMD
@@ -22511,6 +22528,7 @@ year,country,rate_per_usd,source
 2016,Estonia,0.90389,GMD
 2016,Eswatini,14.70961,GMD
 2016,Ethiopia,21.73155,GMD
+2016,"Europe, Eurozone",0.9039,MW
 2016,Falkland Islands,0.7380074,GMD
 2016,Faroe Islands,7.0528,GMD
 2016,Fiji,2.094696,GMD
@@ -22736,6 +22754,7 @@ year,country,rate_per_usd,source
 2017,Estonia,0.887039,GMD
 2017,Eswatini,13.3238,GMD
 2017,Ethiopia,23.8661,GMD
+2017,"Europe, Eurozone",0.887,MW
 2017,Falkland Islands,0.7762769,GMD
 2017,Faroe Islands,6.2077,GMD
 2017,Fiji,2.066875,GMD
@@ -22961,6 +22980,7 @@ year,country,rate_per_usd,source
 2018,Estonia,0.847582,GMD
 2018,Eswatini,13.23393,GMD
 2018,Ethiopia,27.42939,GMD
+2018,"Europe, Eurozone",0.8468,MW
 2018,Falkland Islands,0.7490075,GMD
 2018,Faroe Islands,6.5194,GMD
 2018,Fiji,2.08738,GMD
@@ -23186,6 +23206,7 @@ year,country,rate_per_usd,source
 2019,Estonia,0.893409,GMD
 2019,Eswatini,14.44843,GMD
 2019,Ethiopia,29.06975,GMD
+2019,"Europe, Eurozone",0.89,MW
 2019,Falkland Islands,0.7836376,GMD
 2019,Faroe Islands,6.6759,GMD
 2019,Fiji,2.160393,GMD
@@ -23411,6 +23432,7 @@ year,country,rate_per_usd,source
 2020,Estonia,0.876828,GMD
 2020,Eswatini,16.4591,GMD
 2020,Ethiopia,34.92717,GMD
+2020,"Europe, Eurozone",0.88,MW
 2020,Falkland Islands,0.7788768,GMD
 2020,Faroe Islands,6.0576,GMD
 2020,Fiji,2.168805,GMD
@@ -23636,6 +23658,7 @@ year,country,rate_per_usd,source
 2021,Estonia,0.845982,GMD
 2021,Eswatini,14.77868,GMD
 2021,Ethiopia,43.73378,GMD
+2021,"Europe, Eurozone",0.88,MW
 2021,Falkland Islands,0.726797,GMD
 2021,Faroe Islands,6.5612,GMD
 2021,Fiji,2.070633,GMD
@@ -23861,6 +23884,7 @@ year,country,rate_per_usd,source
 2022,Estonia,0.951774,GMD
 2022,Eswatini,16.35585,GMD
 2022,Ethiopia,51.75621,GMD
+2022,"Europe, Eurozone",0.9509,MW
 2022,Falkland Islands,0.8090615,GMD
 2022,Faroe Islands,6.9722,GMD
 2022,Fiji,2.201407,GMD
@@ -24086,6 +24110,7 @@ year,country,rate_per_usd,source
 2023,Estonia,0.925053,GMD
 2023,Eswatini,18.45024,GMD
 2023,Ethiopia,54.60095,GMD
+2023,"Europe, Eurozone",0.9248,MW
 2023,Falkland Islands,0.8042464,GMD
 2023,Faroe Islands,6.7447,GMD
 2023,Fiji,2.250125,GMD
@@ -24307,6 +24332,7 @@ year,country,rate_per_usd,source
 2024,Estonia,0.924128,GMD
 2024,Eswatini,18.32866,GMD
 2024,Ethiopia,125.9644,GMD
+2024,"Europe, Eurozone",0.9246,MW
 2024,Falkland Islands,0.7821054,GMD
 2024,Faroe Islands,7.1429,GMD
 2024,Fiji,2.2683,GMD
@@ -24519,6 +24545,7 @@ year,country,rate_per_usd,source
 2025,Estonia,0.94554,GMD
 2025,Eswatini,19.17945,GMD
 2025,Ethiopia,129.9166,GMD
+2025,"Europe, Eurozone",0.8866,MW
 2025,Fiji,2.328893,GMD
 2025,Finland,0.94554,GMD
 2025,France,0.94554,GMD
@@ -24655,3 +24682,190 @@ year,country,rate_per_usd,source
 2025,Vietnam,24421.24,GMD
 2025,Yemen,2221.112,GMD
 2025,Zambia,25.74868,GMD
+2026,Albania,91.96022,GMD
+2026,Algeria,152.0161,GMD
+2026,Andorra,0.9249882,GMD
+2026,Angola,1170.313,GMD
+2026,Antigua and Barbuda,2.700078,GMD
+2026,Argentina,998.25,GMD
+2026,Armenia,436.6089,GMD
+2026,Aruba,1.790091,GMD
+2026,Australia,1.5454,GMD
+2026,Austria,0.94554,GMD
+2026,Azerbaijan,1.699989,GMD
+2026,Bahamas,1.0,GMD
+2026,Bahrain,0.3760011,GMD
+2026,Bangladesh,121.2299,GMD
+2026,Barbados,2.0,GMD
+2026,Belarus,3.45051,GMD
+2026,Belgium,0.94554,GMD
+2026,Belize,2.000277,GMD
+2026,Benin,611.7528,GMD
+2026,Bhutan,83.67027,GMD
+2026,Bolivia,6.860049,GMD
+2026,Bosnia and Herzegovina,1.808692,GMD
+2026,Botswana,14.04255,GMD
+2026,Brazil,5.7882,GMD
+2026,Brunei,1.319591,GMD
+2026,Bulgaria,1.85686,GMD
+2026,Burkina Faso,606.6226,GMD
+2026,Burundi,8319.136,GMD
+2026,Cambodia,4115.309,GMD
+2026,Cameroon,595.7532,GMD
+2026,Canada,1.4027,GMD
+2026,Cape Verde,101.9733,GMD
+2026,Central African Republic,606.5966,GMD
+2026,Chad,606.6116,GMD
+2026,Chile,973.9299,GMD
+2026,China,7.2333,GMD
+2026,Colombia,4484.941,GMD
+2026,Comoros,447.3763,GMD
+2026,Congo DR,3204.37,GMD
+2026,Costa Rica,523.2623,GMD
+2026,Croatia,0.94554,GMD
+2026,Cyprus,0.9082209,GMD
+2026,Czech Republic,24.019,GMD
+2026,Denmark,7.0818,GMD
+2026,Djibouti,177.7219,GMD
+2026,Dominica,2.699239,GMD
+2026,Dominican Republic,61.25565,GMD
+2026,Ecuador,1.0,GMD
+2026,Egypt,54.89406,GMD
+2026,El Salvador,1.0,GMD
+2026,Equatorial Guinea,610.9796,GMD
+2026,Estonia,0.94554,GMD
+2026,Eswatini,19.65457,GMD
+2026,Ethiopia,143.865,GMD
+2026,Fiji,2.353546,GMD
+2026,Finland,0.94554,GMD
+2026,France,0.94554,GMD
+2026,Gabon,595.7467,GMD
+2026,Gambia,67.38784,GMD
+2026,Georgia,2.774986,GMD
+2026,Germany,0.94554,GMD
+2026,Ghana,16.53024,GMD
+2026,Greece,0.94554,GMD
+2026,Grenada,2.700257,GMD
+2026,Guatemala,7.82658,GMD
+2026,Guinea,10410.14,GMD
+2026,Guinea-Bissau,606.5006,GMD
+2026,Guyana,208.5027,GMD
+2026,Haiti,155.5068,GMD
+2026,Honduras,26.08069,GMD
+2026,Hong Kong,7.811002,GMD
+2026,Hungary,387.77,GMD
+2026,Iceland,139.0,GMD
+2026,India,84.41673,GMD
+2026,Indonesia,15782.0,GMD
+2026,Iran,688965.0,GMD
+2026,Iraq,1299.999,GMD
+2026,Ireland,0.94554,GMD
+2026,Israel,3.748,GMD
+2026,Italy,0.94554,GMD
+2026,Ivory Coast,595.7504,GMD
+2026,Jamaica,163.7008,GMD
+2026,Japan,155.83,GMD
+2026,Jordan,0.7090043,GMD
+2026,Kazakhstan,497.5645,GMD
+2026,Kenya,170.2634,GMD
+2026,Kiribati,1.501425,GMD
+2026,Kosovo,0.92479,GMD
+2026,Kuwait,0.3072051,GMD
+2026,Kyrgyzstan,90.58865,GMD
+2026,Laos,36508.62,GMD
+2026,Latvia,0.94554,GMD
+2026,Lesotho,20.60409,GMD
+2026,Liberia,1.0,GMD
+2026,Libya,4.823993,GMD
+2026,Lithuania,0.94554,GMD
+2026,Luxembourg,0.94554,GMD
+2026,Macau,7.892809,GMD
+2026,Macedonia,55.90914,GMD
+2026,Madagascar,4946.758,GMD
+2026,Malawi,2393.991,GMD
+2026,Malaysia,4.403136,GMD
+2026,Maldives,15.41012,GMD
+2026,Mali,595.7515,GMD
+2026,Malta,0.9082174,GMD
+2026,Marshall Islands,1.0,GMD
+2026,Mauritania,40.47431,GMD
+2026,Mauritius,47.64982,GMD
+2026,Mexico,20.41051,GMD
+2026,Micronesia,1.0,GMD
+2026,Moldova,18.42079,GMD
+2026,Mongolia,3697.972,GMD
+2026,Montenegro,0.9081752,GMD
+2026,Morocco,9.692818,GMD
+2026,Mozambique,66.83556,GMD
+2026,Myanmar,2646.941,GMD
+2026,Namibia,19.29861,GMD
+2026,Nauru,1.494681,GMD
+2026,Nepal,134.3717,GMD
+2026,Netherlands,0.94554,GMD
+2026,New Zealand,1.70126,GMD
+2026,Nicaragua,36.59338,GMD
+2026,Niger,595.7438,GMD
+2026,Nigeria,1766.951,GMD
+2026,Norway,11.164,GMD
+2026,Oman,0.3844989,GMD
+2026,Palau,1.0,GMD
+2026,Panama,1.0,GMD
+2026,Papua New Guinea,4.249411,GMD
+2026,Paraguay,7826.939,GMD
+2026,Peru,3.80745,GMD
+2026,Philippines,57.00001,GMD
+2026,Poland,4.122,GMD
+2026,Portugal,0.94554,GMD
+2026,Puerto Rico,1.0,GMD
+2026,Qatar,3.640002,GMD
+2026,Republic of the Congo,610.9631,GMD
+2026,Romania,4.7329,GMD
+2026,Russian Federation,99.14999,GMD
+2026,Rwanda,1536.496,GMD
+2026,Saint Kitts and Nevis,2.701158,GMD
+2026,Saint Lucia,2.700142,GMD
+2026,Samoa,2.779619,GMD
+2026,San Marino,0.9245887,GMD
+2026,Sao Tome and Principe,22.64706,GMD
+2026,Saudi Arabia,3.749998,GMD
+2026,Senegal,595.7451,GMD
+2026,Serbia,108.8293,GMD
+2026,Seychelles,14.98507,GMD
+2026,Sierra Leone,29434.13,GMD
+2026,Singapore,1.3196,GMD
+2026,Slovakia,0.94554,GMD
+2026,Slovenia,0.94554,GMD
+2026,Solomon Islands,8.375129,GMD
+2026,Somalia,1.0,GMD
+2026,South Africa,18.2125,GMD
+2026,South Korea,1406.4,GMD
+2026,South Sudan,5984.208,GMD
+2026,Spain,0.94554,GMD
+2026,St-Vincent,2.699617,GMD
+2026,Sudan,5995.626,GMD
+2026,Suriname,40.10923,GMD
+2026,Sweden,10.984,GMD
+2026,Switzerland,0.8892,GMD
+2026,Taiwan,31.58038,GMD
+2026,Tajikistan,11.53318,GMD
+2026,Tanzania,2748.602,GMD
+2026,Thailand,35.02322,GMD
+2026,Timor-Leste,1.0,GMD
+2026,Togo,606.6227,GMD
+2026,Tonga,2.421849,GMD
+2026,Trinidad and Tobago,6.750218,GMD
+2026,Tunisia,3.399757,GMD
+2026,Turkey,34.3305,GMD
+2026,Turkmenistan,3.49999,GMD
+2026,Tuvalu,1.493976,GMD
+2026,Uganda,3861.566,GMD
+2026,Ukraine,46.83956,GMD
+2026,United Arab Emirates,3.672498,GMD
+2026,United Kingdom,0.78684,GMD
+2026,United States,1.0,GMD
+2026,Uruguay,42.13906,GMD
+2026,Uzbekistan,13744.77,GMD
+2026,Vanuatu,114.8055,GMD
+2026,Vietnam,24761.9,GMD
+2026,Yemen,2504.459,GMD
+2026,Zambia,24.75119,GMD

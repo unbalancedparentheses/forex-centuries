@@ -219,7 +219,8 @@ def check_cross_source_consistency():
         warn("Cannot check: source files missing")
         return
 
-    mw = pd.read_csv(mw_path).melt(
+    from build import load_measuringworth_fx
+    mw = load_measuringworth_fx(mw_path).melt(
         id_vars=["year"], var_name="country", value_name="mw_rate")
     mw = mw.dropna(subset=["mw_rate"])
 

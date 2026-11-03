@@ -24,6 +24,44 @@ INVERT = {"GBP", "EUR", "AUD", "NZD"}
 SKIP_FILES = {"fred_usd_broad_index.csv", "fred_usd_major_index.csv"}
 
 
+MW_FX_PATH = SOURCES / "measuringworth" / "measuringworth_exchange_rates.csv"
+
+# MeasuringWorth block titles whose name differs from the historical column name.
+MW_BLOCK_RENAMES = {"Europe": "Europe, Eurozone"}
+
+
+def load_measuringworth_fx(path=MW_FX_PATH):
+    """Parse the MeasuringWorth exchange-rate export into a wide table.
+
+    The export has a citation line, then one block per country: a title row
+    like "Argentina, 1791 - 2026" followed by rows like "1916","0.9666 Gold Pesos".
+    Returns a DataFrame with a `year` column plus one column per country.
+    The unit label is dropped (values are kept as published, so redenominations
+    still appear as level shifts).
+    """
+    import csv
+    import re
+
+    title = re.compile(r"^(.*), \d{4} - \d{4}$")
+    series, current = {}, None
+    with open(path, newline="", encoding="utf-8") as fh:
+        for row in csv.reader(fh):
+            if len(row) == 1 and (m := title.match(row[0].strip())):
+                name = m.group(1)
+                current = series.setdefault(MW_BLOCK_RENAMES.get(name, name), {})
+            elif len(row) == 2 and current is not None and row[0].strip().isdigit():
+                token = row[1].strip().split(" ", 1)[0]
+                try:
+                    current[int(row[0])] = float(token)
+                except ValueError:
+                    pass  # blank or non-numeric cell
+    if not series:
+        raise ValueError(f"No MeasuringWorth country blocks found in {path}")
+    wide = pd.DataFrame(series).sort_index()
+    wide.index.name = "year"
+    return wide.reset_index()
+
+
 def _round_and_write(df, path, precision_4=(), precision_6=()):
     """Round specified columns and write CSV."""
     for c in precision_4:
@@ -76,7 +114,7 @@ def build_fred_daily():
 def build_yearly_panel():
     """Build unified yearly panel from MeasuringWorth + Clio Infra + GMD."""
     print("  Loading MeasuringWorth...")
-    mw = pd.read_csv(SOURCES / "measuringworth" / "measuringworth_exchange_rates.csv")
+    mw = load_measuringworth_fx()
     mw = mw.melt(id_vars=["year"], var_name="country", value_name="rate_per_usd")
     mw = mw.dropna(subset=["rate_per_usd"])
     mw["source"] = "MW"
@@ -143,8 +181,7 @@ def build_log_returns(daily_long):
     # "Europe, Eurozone" is excluded: only 26 years of data (1999-2025) and overlaps
     # with constituent countries (Germany, France, etc.) in the correlation analysis.
     print("  Computing yearly log returns...")
-    mw = pd.read_csv(SOURCES / "measuringworth" / "measuringworth_exchange_rates.csv")
-    mw = mw.set_index("year")
+    mw = load_measuringworth_fx().set_index("year")
     if "Europe, Eurozone" in mw.columns:
         mw = mw.drop(columns=["Europe, Eurozone"])
     yearly_ret = np.log(mw / mw.shift(1))
@@ -716,18 +753,15 @@ def build_jst_returns():
             returns = series[col].values
             years = series["year"].values
 
-            # Real returns (deflate by CPI)
-            cpi = group.set_index("year")["cpi"].reindex(series["year"].values)
-            inflation = cpi.pct_change().values
-            if asset == "bills":
-                # bill_rate is already a rate, not total return
-                real_returns = returns - inflation[1:]
-                returns_clean = returns[1:]
-                years_clean = years[1:]
-            else:
-                real_returns = returns - inflation
-                returns_clean = returns
-                years_clean = years
+            # Real returns: deflate by same-year CPI inflation (exact Fisher).
+            # Inflation is computed on the full CPI series before aligning, so
+            # gaps in the return series don't produce multi-year changes.
+            # bill_rate is a nominal annual rate, so it is deflated the same way.
+            cpi = group.set_index("year")["cpi"].sort_index()
+            inflation = cpi.pct_change().reindex(years).values
+            real_returns = (1 + returns) / (1 + inflation) - 1
+            returns_clean = returns
+            years_clean = years
 
             # Drop NaN
             mask = np.isfinite(real_returns) & np.isfinite(returns_clean)

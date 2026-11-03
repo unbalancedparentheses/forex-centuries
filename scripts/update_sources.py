@@ -462,6 +462,67 @@ MW_COUNTRIES = [
 ]
 
 
+# MeasuringWorth gold series: (export param, start year, [(column, first, last)]).
+# The London series is quoted in GBP through 1949 and in USD from 1950, so it
+# is split into two columns. Column names are what build.py expects.
+MW_GOLD_SERIES = [
+    ("British", 1257, [("british_official_gbp", None, None)]),
+    ("london", 1718, [("london_market_gbp", None, 1949),
+                      ("london_market_usd", 1950, None)]),
+    ("us", 1786, [("us_official_usd", None, None)]),
+    ("newyork", 1791, [("new_york_market_usd", None, None)]),
+    ("goldsilver", 1687, [("gold_silver_ratio", None, None)]),
+]
+MW_GOLD_COLUMNS = [col for _, _, cols in MW_GOLD_SERIES for col, _, _ in cols]
+
+
+def parse_mw_series(raw):
+    """Parse a single-series MeasuringWorth export into {year: float}.
+
+    Skips the citation preamble and strips thousands separators ("1,224.53").
+    """
+    out = {}
+    for row in csv.reader(io.StringIO(raw)):
+        if len(row) < 2 or not row[0].strip().isdigit():
+            continue
+        cell = row[1].strip().replace(",", "")
+        if cell:
+            out[int(row[0])] = float(cell)
+    return out
+
+
+def update_measuringworth_gold(year):
+    """Fetch each gold series separately (different start years) and merge on year."""
+    data = {}  # year -> {column: value}
+    for param, start_year, columns in MW_GOLD_SERIES:
+        url = (
+            f"https://www.measuringworth.com/datasets/gold/export.php"
+            f"?year_source={start_year}&year_result={year}&{param}=on"
+        )
+        try:
+            series = parse_mw_series(fetch_url(url))
+        except Exception as e:
+            print(f"  ERROR gold/{param}: {e}")
+            return  # keep the existing file rather than writing a partial one
+        if len(series) < 10:
+            print(f"  ERROR gold/{param}: only {len(series)} rows, keeping existing file")
+            return
+        for yr, val in series.items():
+            for col, first, last in columns:
+                if (first is None or yr >= first) and (last is None or yr <= last):
+                    data.setdefault(yr, {})[col] = val
+        print(f"  gold/{param}: {len(series)} years ({start_year}-{year})")
+
+    buf = io.StringIO()
+    writer = csv.writer(buf, lineterminator="\n")
+    writer.writerow(["year"] + MW_GOLD_COLUMNS)
+    for yr in sorted(data):
+        writer.writerow([yr] + [data[yr].get(c, "") for c in MW_GOLD_COLUMNS])
+    dest = SOURCES / "measuringworth" / "measuringworth_gold_prices.csv"
+    write_atomic(dest, buf.getvalue())
+    print(f"  measuringworth_gold_prices.csv: {len(data):,} rows")
+
+
 def update_measuringworth():
     """Update MeasuringWorth exchange rates and gold prices."""
     print("Updating MeasuringWorth datasets...")
@@ -484,59 +545,7 @@ def update_measuringworth():
     except Exception as e:
         print(f"  ERROR exchange rates: {e}")
 
-    # Gold prices — each series has a different start year, so we fetch them
-    # separately and merge on year.
-    # Series: (param, start_year)
-    gold_series = [
-        ("British", 1257),   # British official GBP
-        ("london", 1718),    # London market GBP + USD
-        ("us", 1786),        # US official USD
-        ("newyork", 1791),   # New York market USD
-        ("goldsilver", 1687),  # Gold/silver ratio
-    ]
-    gold_data = {}  # year -> {col: val}
-    all_columns = []
-    for param, start_year in gold_series:
-        series_url = (
-            f"https://www.measuringworth.com/datasets/gold/export.php"
-            f"?year_source={start_year}&year_result={year}&{param}=on"
-        )
-        try:
-            raw = fetch_url(series_url)
-            reader = csv.reader(io.StringIO(raw))
-            # Skip preamble lines until we find the header starting with "Year"
-            header = None
-            for row in reader:
-                if row and row[0].strip().strip('"').lower() == "year":
-                    header = [c.strip().strip('"') for c in row]
-                    break
-            if not header or len(header) < 2:
-                print(f"  SKIP gold/{param}: no valid header")
-                continue
-            # Use short column names based on param
-            col_name = f"{param}_price"
-            all_columns.append(col_name)
-            for row in reader:
-                if not row or not row[0].strip().strip('"').isdigit():
-                    continue
-                yr = row[0].strip().strip('"')
-                if yr not in gold_data:
-                    gold_data[yr] = {}
-                if len(row) > 1 and row[1].strip().strip('"'):
-                    gold_data[yr][col_name] = row[1].strip().strip('"')
-            print(f"  gold/{param}: fetched ({start_year}-{year})")
-        except Exception as e:
-            print(f"  ERROR gold/{param}: {e}")
-
-    if gold_data:
-        dest = SOURCES / "measuringworth" / "measuringworth_gold_prices.csv"
-        lines = ["year," + ",".join(all_columns)]
-        for yr in sorted(gold_data.keys(), key=int):
-            vals = [gold_data[yr].get(c, "") for c in all_columns]
-            lines.append(f"{yr},{','.join(vals)}")
-        content = "\n".join(lines) + "\n"
-        write_atomic(dest, content)
-        print(f"  measuringworth_gold_prices.csv: {len(gold_data):,} rows")
+    update_measuringworth_gold(year)
 
     # US CPI (1774-present)
     url = (
