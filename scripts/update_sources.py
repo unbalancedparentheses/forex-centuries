@@ -204,6 +204,43 @@ def update_fred():
 # IMF
 # ---------------------------------------------------------------------------
 
+def merge_keep_existing(dest, content, key_cols, date_col=None):
+    """Merge freshly downloaded CSV `content` into the file at `dest`.
+
+    New rows replace existing rows with the same key (upstream revisions);
+    existing rows whose key is absent upstream are kept, because mirrors
+    sometimes drop history (e.g. the IMF mirror lost IRR 1957-2024 in Nov
+    2026). Rows dated in the future are discarded. Returns (text, n_rows,
+    n_kept_from_existing).
+    """
+    today = datetime.now().strftime("%Y-%m-%d")
+
+    def read(text):
+        reader = csv.DictReader(io.StringIO(text))
+        rows = {}
+        for row in reader:
+            if date_col and row[date_col] > today:
+                continue
+            rows[tuple(row[c] for c in key_cols)] = row
+        return reader.fieldnames, rows
+
+    header, new = read(content)
+    kept = 0
+    if Path(dest).exists():
+        old_header, old = read(Path(dest).read_text())
+        if old_header == header:
+            for key, row in old.items():
+                if key not in new:
+                    new[key] = row
+                    kept += 1
+    buf = io.StringIO()
+    writer = csv.DictWriter(buf, fieldnames=header, lineterminator="\n")
+    writer.writeheader()
+    for key in sorted(new):
+        writer.writerow(new[key])
+    return buf.getvalue(), len(new), kept
+
+
 def update_imf():
     """Update IMF exchange rates from codeforIATI GitHub."""
     url = "https://codeforiati.org/imf-exchangerates/imf_exchangerates.csv"
@@ -211,9 +248,11 @@ def update_imf():
 
     print("Updating IMF exchange rates...")
     content = fetch_url(url)
-    rows = validate_csv(content, expected_columns=["Date", "Rate", "Currency"], min_rows=100)
+    validate_csv(content, expected_columns=["Date", "Rate", "Currency"], min_rows=100)
+    content, rows, kept = merge_keep_existing(
+        dest, content, key_cols=["Date", "Currency", "Frequency", "Country code"], date_col="Date")
     write_atomic(dest, content)
-    print(f"  imf_exchange_rates.csv: {rows:,} rows")
+    print(f"  imf_exchange_rates.csv: {rows:,} rows ({kept:,} kept from previous file)")
     print("IMF update complete.")
 
 
@@ -290,50 +329,71 @@ RIKSBANK_SERIES = [
 
 
 def update_riksbank():
-    """Update Riksbank exchange rates via API."""
+    """Update Riksbank exchange rates via API.
+
+    Series that fail to download keep their existing rows, so a rate-limited
+    run can never shrink the file.
+    """
     dest = SOURCES / "riksbank" / "riksbank_exchange_rates.csv"
 
+    existing = {}  # series_id -> [csv rows]
+    if dest.exists():
+        with open(dest, newline="") as fh:
+            for row in csv.DictReader(fh):
+                existing.setdefault(row["series_id"], []).append(
+                    f"{row['date']},{row['series_id']},{row['value']}")
+
     print(f"Updating {len(RIKSBANK_SERIES)} Riksbank series...")
-    all_rows = []
+    rows_by_series = dict(existing)
     errors = 0
+    # Stay well inside the workflow's 30-minute step timeout; series not
+    # reached keep their existing rows and are retried next week.
+    deadline = time.monotonic() + 20 * 60
 
     for series_id in RIKSBANK_SERIES:
+        if time.monotonic() > deadline:
+            print(f"  {series_id}: time budget exhausted; keeping existing rows")
+            errors += 1
+            continue
         url = (
             f"https://api.riksbank.se/swea/v1/Observations/{series_id}"
             f"/1900-01-01/{datetime.now().strftime('%Y-%m-%d')}"
         )
-        try:
-            raw = fetch_url(url, timeout=60)
-            observations = json.loads(raw)
-            for obs in observations:
-                date = obs.get("date", "")[:10]
-                value = obs.get("value")
-                if date and value is not None:
-                    all_rows.append(f"{date},{series_id},{value}")
-            print(f"  {series_id}: {len(observations):,} observations")
-        except urllib.error.HTTPError as e:
-            if e.code == 404:
-                print(f"  SKIP {series_id}: not found (discontinued)")
-            else:
-                print(f"  ERROR {series_id}: HTTP {e.code}")
+        for attempt in range(4):
+            # Anonymous limit is 5 calls/min; stay under it.
+            time.sleep(13 if attempt == 0 else 60 * attempt)
+            try:
+                observations = json.loads(fetch_url(url, timeout=60))
+            except urllib.error.HTTPError as e:
+                if e.code == 429 and attempt < 3:
+                    print(f"  {series_id}: HTTP 429, retrying")
+                    continue
+                if e.code == 404:
+                    print(f"  SKIP {series_id}: not found (discontinued)")
+                else:
+                    print(f"  ERROR {series_id}: HTTP {e.code}; keeping existing rows")
+                    errors += 1
+                break
+            except Exception as e:
+                print(f"  ERROR {series_id}: {e}; keeping existing rows")
                 errors += 1
-        except Exception as e:
-            print(f"  ERROR {series_id}: {e}")
-            errors += 1
-        # Rate limit: 5 calls/min without API key
-        time.sleep(3)
+                break
+            rows = [f"{o['date'][:10]},{series_id},{o['value']}"
+                    for o in observations
+                    if o.get("date") and o.get("value") is not None]
+            if rows:
+                rows_by_series[series_id] = rows
+            print(f"  {series_id}: {len(rows):,} observations")
+            break
 
+    all_rows = sorted(r for rows in rows_by_series.values() for r in rows)
     if all_rows:
-        all_rows.sort()
         content = "date,series_id,value\n" + "\n".join(all_rows) + "\n"
         write_atomic(dest, content)
-        print(f"  riksbank_exchange_rates.csv: {len(all_rows):,} rows total")
-    else:
-        print("  WARNING: no data fetched, keeping existing file")
-
+        print(f"  riksbank_exchange_rates.csv: {len(all_rows):,} rows, "
+              f"{len(rows_by_series)} series")
     if errors:
-        print(f"  ({errors} series had errors)")
-    print("Riksbank update complete.")
+        raise RuntimeError(f"{errors} Riksbank series failed (existing rows kept)")
 
 
 # ---------------------------------------------------------------------------
@@ -1073,8 +1133,9 @@ def update_imfhpdd():
             if offset >= num_found:
                 break
         except Exception as e:
-            print(f"  ERROR fetching offset {offset}: {e}")
-            break
+            # A partial download must not replace the complete file.
+            raise RuntimeError(f"IMF HPDD failed at offset {offset}: {e}; "
+                               "keeping existing file") from e
 
     if all_rows:
         all_rows.sort(key=lambda r: (r[0], r[1], r[2]))
