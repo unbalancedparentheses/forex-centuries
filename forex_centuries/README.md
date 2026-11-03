@@ -8,7 +8,7 @@ import forex_centuries as fc
 fc.list_datasets()                 # name -> description
 panel = fc.load("fx_yearly")       # yearly FX vs USD with quality flags
 daily = fc.load("fx_daily")
-pinned = fc.load("fx_yearly", version="data-2026-11-03")  # reproducible
+pinned = fc.load("fx_yearly", version="data-2026-11-03.38")  # reproducible
 ```
 
 Files are downloaded from the GitHub release assets on first use and cached under `~/.cache/forex-centuries` (set `FOREX_CENTURIES_CACHE` to change this). The latest-release lookup is cached for a day.

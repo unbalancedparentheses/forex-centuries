@@ -6,6 +6,7 @@ import shutil
 import tempfile
 import time
 import urllib.error
+import urllib.parse
 import urllib.request
 from pathlib import Path
 
@@ -35,14 +36,29 @@ def _get(url, timeout=60):
     return urllib.request.urlopen(req, timeout=timeout)
 
 
+def _resolve_latest_tag():
+    """Read the tag from github.com's /releases/latest redirect.
+
+    The website redirect is not subject to the REST API's 60 requests/hour
+    limit for unauthenticated clients, which shared networks hit quickly.
+    """
+    req = urllib.request.Request(f"https://github.com/{REPO}/releases/latest",
+                                 headers={"User-Agent": _USER_AGENT}, method="HEAD")
+    with urllib.request.urlopen(req, timeout=30) as resp:
+        final = resp.geturl()
+    marker = "/releases/tag/"
+    if marker not in final:
+        raise LookupError(f"no published release found ({final})")
+    return urllib.parse.unquote(final.split(marker, 1)[1])
+
+
 def latest_version(refresh=False):
     """Tag of the latest data release (cached for a day; falls back to cache offline)."""
     marker = cache_dir() / "latest.json"
     if not refresh and marker.exists() and time.time() - marker.stat().st_mtime < _LATEST_TTL:
         return json.loads(marker.read_text())["tag"]
     try:
-        with _get(f"https://api.github.com/repos/{REPO}/releases/latest", timeout=30) as resp:
-            tag = json.load(resp)["tag_name"]
+        tag = _resolve_latest_tag()
     except Exception:
         if marker.exists():  # offline or rate-limited: use the last known release
             return json.loads(marker.read_text())["tag"]

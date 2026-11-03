@@ -42,7 +42,7 @@ def test_latest_version_falls_back_to_cache_offline(tmp_path, monkeypatch):
 
     def offline(*a, **k):
         raise OSError("offline")
-    monkeypatch.setattr("forex_centuries.loader._get", offline)
+    monkeypatch.setattr("forex_centuries.loader._resolve_latest_tag", offline)
     assert fc.latest_version(refresh=True) == "data-2000-01-01"
 
 

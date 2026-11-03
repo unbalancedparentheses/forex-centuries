@@ -3,7 +3,7 @@
     >>> import forex_centuries as fc
     >>> fc.list_datasets()
     >>> df = fc.load("fx_yearly")
-    >>> df = fc.load("fx_daily", version="data-2026-11-03")   # pin a release
+    >>> df = fc.load("fx_daily", version="data-2026-11-03.38")   # pin a release
 
 Data is downloaded once from the GitHub release assets and cached under
 ~/.cache/forex-centuries (override with FOREX_CENTURIES_CACHE). Each source

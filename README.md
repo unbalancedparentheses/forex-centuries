@@ -164,7 +164,7 @@ fc.list_datasets()                                       # 20 datasets with desc
 panel = fc.load("fx_yearly")                             # yearly FX vs USD + quality flags
 daily = fc.load("fx_daily")                              # daily FX since 1971
 returns = fc.load("fx_yearly_log_returns")               # chain-linked across redenominations
-pinned = fc.load("fx_yearly", version="data-2026-11-03") # reproducible: pin a release
+pinned = fc.load("fx_yearly", version="data-2026-11-03.38") # reproducible: pin a release
 ```
 
 Each weekly release attaches one Parquet file per dataset; the package downloads them on first use and caches them in `~/.cache/forex-centuries`.
