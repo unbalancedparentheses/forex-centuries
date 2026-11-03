@@ -1,23 +1,23 @@
 iso3,country,event,start,end,source,haircut_npv,haircut_face,debt_restructured_usd_m,spell_id
 AGO,Angola,restructuring_post_default,2018-03-01,2020-06-01,Asonuma-Trebesch (2026 update),,,,
-ALB,Albania,restructuring,1991,1995,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.804,0.547984,501.0,ALB_1991-1995
+ALB,Albania,restructuring,1991,1995,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.804,0.547984,501,ALB_1991-1995
 ALB,Albania,restructuring_post_default,1991-11-01,1995-08-31,Asonuma-Trebesch (2026 update),,,,
 ARG,Argentina,default_spell,1830,1893,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.7389116,0.373,,ARG_1830-1893
 ARG,Argentina,restructuring,1830,1857,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.7119298,0.373,12.04268,ARG_1830-1893
-ARG,Argentina,restructuring,1891,1891,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.0739303,0.0,128.1792,ARG_1830-1893
-ARG,Argentina,restructuring,1892,1893,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.1159076,0.0,216.5169,ARG_1830-1893
+ARG,Argentina,restructuring,1891,1891,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.0739303,0,128.1792,ARG_1830-1893
+ARG,Argentina,restructuring,1892,1893,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.1159076,0,216.5169,ARG_1830-1893
 ARG,Argentina,default_spell,1982,1993,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.631618,0.0954137,,ARG_1982-1993
-ARG,Argentina,restructuring,1982,1985,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.303,0.0,9900.0,ARG_1982-1993
+ARG,Argentina,restructuring,1982,1985,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.303,0,9900,ARG_1982-1993
 ARG,Argentina,restructuring_post_default,1982-07-01,1985-08-27,Asonuma-Trebesch (2026 update),,,,
-ARG,Argentina,restructuring,1985,1987,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.217,0.0,29515.0,ARG_1982-1993
+ARG,Argentina,restructuring,1985,1987,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.217,0,29515,ARG_1982-1993
 ARG,Argentina,restructuring_preemptive_weak,1985-08-01,1987-08-21,Asonuma-Trebesch (2026 update),,,,
-ARG,Argentina,restructuring,1988,1993,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.325,0.0954137,28476.0,ARG_1982-1993
+ARG,Argentina,restructuring,1988,1993,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.325,0.0954137,28476,ARG_1982-1993
 ARG,Argentina,restructuring_post_default,1988-01-01,1993-04-07,Asonuma-Trebesch (2026 update),,,,
 ARG,Argentina,default_spell,2001,2005,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.5530101,0.2119346,,ARG_2001-2005
-ARG,Argentina,restructuring,2001,2005,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.768,0.2943269,60572.0,ARG_2001-2005
+ARG,Argentina,restructuring,2001,2005,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.768,0.2943269,60572,ARG_2001-2005
 ARG,Argentina,restructuring_post_default,2001-11-01,2005-06-10,Asonuma-Trebesch (2026 update),,,,
-ARG,Argentina,default_spell,2019,2020,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.2452635,0.0,,ARG_2019-2020
-ARG,Argentina,restructuring,2019,2020,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.346,0.0,66240.48,ARG_2019-2020
+ARG,Argentina,default_spell,2019,2020,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.2452635,0,,ARG_2019-2020
+ARG,Argentina,restructuring,2019,2020,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.346,0,66240.48,ARG_2019-2020
 ARG,Argentina,restructuring_post_default,2019-12-01,2020-09-04,Asonuma-Trebesch (2026 update),,,,
 ATG,Antigua and Barbuda,restructuring_post_default,2008-12-01,2012-03-01,Asonuma-Trebesch (2026 update),,,,
 ATG,Antigua and Barbuda,restructuring_post_default,2010-01-01,2012-12-01,Asonuma-Trebesch (2026 update),,,,
@@ -25,24 +25,24 @@ AUT,Austria,default_spell,1914,1923,"Graf von Luckner, Meyer, Reinhart & Trebesc
 AUT,Austria,restructuring,1914,1923,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.83,0.586,9.418473,AUT_1914-1923
 AUT,Austria,default_spell,1938,1952,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.4340794,0.203,,AUT_1938-1952
 AUT,Austria,restructuring,1938,1952,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.4340794,0.203,82.11337,AUT_1938-1952
-BGR,Bulgaria,default_spell,1915,1926,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.0181269,0.0,,BGR_1915-1926
-BGR,Bulgaria,restructuring,1915,1926,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.4704901,0.0,13.82182,BGR_1915-1926
+BGR,Bulgaria,default_spell,1915,1926,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.0181269,0,,BGR_1915-1926
+BGR,Bulgaria,restructuring,1915,1926,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.4704901,0,13.82182,BGR_1915-1926
 BGR,Bulgaria,default_spell,1932,1954,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.1292108,0.1317067,,BGR_1932-1954
 BGR,Bulgaria,restructuring,1932,1954,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.9081942,0.925737,21.0079,BGR_1932-1954
 BGR,Bulgaria,default_spell,1990,1994,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.563,0.3112521,,BGR_1990-1994
-BGR,Bulgaria,restructuring,1990,1994,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.563,0.3112521,7910.0,BGR_1990-1994
+BGR,Bulgaria,restructuring,1990,1994,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.563,0.3112521,7910,BGR_1990-1994
 BGR,Bulgaria,restructuring_post_default,1990-03-01,1994-06-29,Asonuma-Trebesch (2026 update),,,,
 BIH,Bosnia and Herzegovina,default_spell,1992,1997,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.896,0.6923077,,BIH_1992-1997
-BIH,Bosnia and Herzegovina,restructuring,1992,1997,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.896,0.6923077,1300.0,BIH_1992-1997
+BIH,Bosnia and Herzegovina,restructuring,1992,1997,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.896,0.6923077,1300,BIH_1992-1997
 BIH,Bosnia and Herzegovina,restructuring_post_default,1992-06-01,1997-12-09,Asonuma-Trebesch (2026 update),,,,
-BLZ,Belize,default_spell,2006,2007,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.2140936,0.0,,BLZ_2006-2007
-BLZ,Belize,restructuring,2006,2007,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.237,0.0,516.0634,BLZ_2006-2007
+BLZ,Belize,default_spell,2006,2007,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.2140936,0,,BLZ_2006-2007
+BLZ,Belize,restructuring,2006,2007,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.237,0,516.0634,BLZ_2006-2007
 BLZ,Belize,restructuring_preemptive_weak,2006-08-02,2007-02-20,Asonuma-Trebesch (2026 update),,,,
 BLZ,Belize,default_spell,2012,2013,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.315,0.1,,BLZ_2012-2013
 BLZ,Belize,restructuring,2012,2013,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.315,0.1,586.3,BLZ_2012-2013
 BLZ,Belize,restructuring_preemptive_strict,2012-08-31,2013-03-01,Asonuma-Trebesch (2026 update),,,,
-BLZ,Belize,default_spell,2016,2017,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.1237441,0.0,,BLZ_2016-2017
-BLZ,Belize,restructuring,2016,2017,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.126,0.0,526.5,BLZ_2016-2017
+BLZ,Belize,default_spell,2016,2017,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.1237441,0,,BLZ_2016-2017
+BLZ,Belize,restructuring,2016,2017,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.126,0,526.5,BLZ_2016-2017
 BLZ,Belize,restructuring_preemptive_weak,2016-11-01,2017-03-12,Asonuma-Trebesch (2026 update),,,,
 BLZ,Belize,default_spell,2020,2021,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.0337713,0.3773329,,BLZ_2020-2021
 BLZ,Belize,restructuring,2020,2020,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.034,-0.05,526.5,BLZ_2020-2021
@@ -53,99 +53,99 @@ BOL,Bolivia,restructuring,1875,1880,"Graf von Luckner, Meyer, Reinhart & Trebesc
 BOL,Bolivia,default_spell,1931,1957,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.4873109,0.4224582,,BOL_1931-1957
 BOL,Bolivia,restructuring,1931,1957,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.8628274,0.748,209.7155,BOL_1931-1957
 BOL,Bolivia,default_spell,1980,1993,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.7536915,0.7030469,,BOL_1980-1993
-BOL,Bolivia,restructuring,1980,1988,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.927,0.8598943,473.0,BOL_1980-1993
+BOL,Bolivia,restructuring,1980,1988,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.927,0.8598943,473,BOL_1980-1993
 BOL,Bolivia,restructuring_post_default,1980-09-01,1988-03-17,Asonuma-Trebesch (2026 update),,,,
-BOL,Bolivia,restructuring,1988,1993,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.765,0.6778947,171.0,BOL_1980-1993
+BOL,Bolivia,restructuring,1988,1993,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.765,0.6778947,171,BOL_1980-1993
 BOL,Bolivia,restructuring_post_default,1988-04-01,1993-04-01,Asonuma-Trebesch (2026 update),,,,
-BRA,Brazil,default_spell,1830,1851,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.04,0.0,,BRA_1830-1851
-BRA,Brazil,restructuring,1830,1851,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.04,0.0,21.34146,BRA_1830-1851
-BRA,Brazil,default_spell,1898,1898,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.0519639,0.0,,BRA_1898-1898
-BRA,Brazil,restructuring,1898,1898,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.0597648,0.0,179.8706,BRA_1898-1898
-BRA,Brazil,default_spell,1914,1914,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.0383985,0.0,,BRA_1914-1914
-BRA,Brazil,restructuring,1914,1914,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.0437879,0.0,445.4092,BRA_1914-1914
+BRA,Brazil,default_spell,1830,1851,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.04,0,,BRA_1830-1851
+BRA,Brazil,restructuring,1830,1851,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.04,0,21.34146,BRA_1830-1851
+BRA,Brazil,default_spell,1898,1898,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.0519639,0,,BRA_1898-1898
+BRA,Brazil,restructuring,1898,1898,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.0597648,0,179.8706,BRA_1898-1898
+BRA,Brazil,default_spell,1914,1914,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.0383985,0,,BRA_1914-1914
+BRA,Brazil,restructuring,1914,1914,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.0437879,0,445.4092,BRA_1914-1914
 BRA,Brazil,default_spell,1931,1943,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.0994763,0.0825477,,BRA_1931-1943
 BRA,Brazil,restructuring,1931,1943,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.4613048,0.382801,809.3884,BRA_1931-1943
 BRA,Brazil,default_spell,1982,1994,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.4694219,0.0910176,,BRA_1982-1994
-BRA,Brazil,restructuring,1982,1983,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",-0.098,0.0,4452.0,BRA_1982-1994
+BRA,Brazil,restructuring,1982,1983,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",-0.098,0,4452,BRA_1982-1994
 BRA,Brazil,restructuring_preemptive_weak,1982-12-01,1983-02-25,Asonuma-Trebesch (2026 update),,,,
-BRA,Brazil,restructuring,1983,1984,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.017,0.0,4846.0,BRA_1982-1994
+BRA,Brazil,restructuring,1983,1984,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.017,0,4846,BRA_1982-1994
 BRA,Brazil,restructuring_preemptive_weak,1983-01-01,1984-01-27,Asonuma-Trebesch (2026 update),,,,
-BRA,Brazil,restructuring,1984,1986,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.192,0.0,6671.0,BRA_1982-1994
+BRA,Brazil,restructuring,1984,1986,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.192,0,6671,BRA_1982-1994
 BRA,Brazil,restructuring_preemptive_weak,1984-06-01,1986-09-05,Asonuma-Trebesch (2026 update),,,,
-BRA,Brazil,restructuring,1986,1988,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.184,0.0,62100.0,BRA_1982-1994
+BRA,Brazil,restructuring,1986,1988,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.184,0,62100,BRA_1982-1994
 BRA,Brazil,restructuring_post_default,1986-09-01,1988-11-11,Asonuma-Trebesch (2026 update),,,,
-BRA,Brazil,restructuring,1989,1994,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.293,0.0910176,43257.0,BRA_1982-1994
+BRA,Brazil,restructuring,1989,1994,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.293,0.0910176,43257,BRA_1982-1994
 BRA,Brazil,restructuring_post_default,1989-06-01,1992-11-20,Asonuma-Trebesch (2026 update),,,,
 BRA,Brazil,restructuring_post_default,1989-06-01,1994-04-15,Asonuma-Trebesch (2026 update),,,,
 BRB,Barbados,default_spell,2018,2019,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.237,0.22,,BRB_2018-2019
-BRB,Barbados,restructuring,2018,2019,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.237,0.22,632.0,BRB_2018-2019
+BRB,Barbados,restructuring,2018,2019,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.237,0.22,632,BRB_2018-2019
 BRB,Barbados,restructuring_post_default,2018-06-01,2019-12-11,Asonuma-Trebesch (2026 update),,,,
 CHL,Chile,default_spell,1827,1842,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.451985,0.077,,CHL_1827-1842
 CHL,Chile,restructuring,1827,1842,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.451985,0.077,8.282068,CHL_1827-1842
-CHL,Chile,default_spell,1879,1884,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.8,0.0,,CHL_1879-1884
-CHL,Chile,restructuring,1879,1884,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.8,0.0,33.34688,CHL_1879-1884
-CHL,Chile,default_spell,1931,1948,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.6023865,0.0,,CHL_1931-1948
-CHL,Chile,restructuring,1931,1935,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.4790851,0.0,562.6097,CHL_1931-1948
-CHL,Chile,restructuring,1931,1948,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.7586922,0.0,198.4126,CHL_1931-1948
-CHL,Chile,default_spell,1983,1987,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.2444662,0.0,,CHL_1983-1987
-CHL,Chile,restructuring,1983,1984,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.084,0.0,1160.0,CHL_1983-1987
+CHL,Chile,default_spell,1879,1884,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.8,0,,CHL_1879-1884
+CHL,Chile,restructuring,1879,1884,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.8,0,33.34688,CHL_1879-1884
+CHL,Chile,default_spell,1931,1948,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.6023865,0,,CHL_1931-1948
+CHL,Chile,restructuring,1931,1935,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.4790851,0,562.6097,CHL_1931-1948
+CHL,Chile,restructuring,1931,1948,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.7586922,0,198.4126,CHL_1931-1948
+CHL,Chile,default_spell,1983,1987,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.2444662,0,,CHL_1983-1987
+CHL,Chile,restructuring,1983,1984,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.084,0,1160,CHL_1983-1987
 CHL,Chile,restructuring_preemptive_weak,1983-01-01,1983-11-01,Asonuma-Trebesch (2026 update),,,,
 CHL,Chile,restructuring_preemptive_weak,1983-01-01,1984-01-25,Asonuma-Trebesch (2026 update),,,,
-CHL,Chile,restructuring,1984,1986,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.317,0.0,6007.0,CHL_1983-1987
+CHL,Chile,restructuring,1984,1986,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.317,0,6007,CHL_1983-1987
 CHL,Chile,restructuring_preemptive_weak,1984-08-01,1986-04-14,Asonuma-Trebesch (2026 update),,,,
-CHL,Chile,restructuring,1986,1987,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.143,0.0,5901.0,CHL_1983-1987
+CHL,Chile,restructuring,1986,1987,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.143,0,5901,CHL_1983-1987
 CHL,Chile,restructuring_preemptive_strict,1986-10-01,1987-06-17,Asonuma-Trebesch (2026 update),,,,
-CHL,Chile,default_spell,1990,1990,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.1695825,0.0,,CHL_1990-1990
-CHL,Chile,restructuring,1990,1990,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.17,0.0,6494.0,CHL_1990-1990
+CHL,Chile,default_spell,1990,1990,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.1695825,0,,CHL_1990-1990
+CHL,Chile,restructuring,1990,1990,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.17,0,6494,CHL_1990-1990
 CHL,Chile,restructuring_preemptive_strict,1990-04-01,1990-12-12,Asonuma-Trebesch (2026 update),,,,
-CHN,China,default_spell,1921,1937,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.0,0.0298644,,CHN_1921-1937
-CHN,China,restructuring,1921,1937,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.0,0.25652,194.6061,CHN_1921-1937
-CHN,China,default_spell,1939,1939,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",1.0,1.0,,CHN_1939-1939
-CHN,China,restructuring,1939,1939,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",1.0,1.0,329.8892,CHN_1939-1939
+CHN,China,default_spell,1921,1937,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0,0.0298644,,CHN_1921-1937
+CHN,China,restructuring,1921,1937,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0,0.25652,194.6061,CHN_1921-1937
+CHN,China,default_spell,1939,1939,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",1,1,,CHN_1939-1939
+CHN,China,restructuring,1939,1939,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",1,1,329.8892,CHN_1939-1939
 CIV,Cote d'Ivoire,default_spell,1983,2012,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.8435062,0.6937011,,CIV_1983-2012
 CIV,Cote d'Ivoire,restructuring,1983,1998,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.628,0.6020675,6461.8,CIV_1983-2012
 CIV,Cote d'Ivoire,restructuring_post_default,1983-06-01,1998-03-01,Asonuma-Trebesch (2026 update),,,,
-CIV,Cote d'Ivoire,restructuring,2000,2010,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.552,0.2,2940.0,CIV_1983-2012
+CIV,Cote d'Ivoire,restructuring,2000,2010,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.552,0.2,2940,CIV_1983-2012
 CIV,Cote d'Ivoire,restructuring_post_default,2000-03-01,2010-04-16,Asonuma-Trebesch (2026 update),,,,
 CIV,Cote d'Ivoire,restructuring,2011,2012,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.0609771,0.0378429,2710.749,CIV_1983-2012
 CIV,Cote d'Ivoire,restructuring_post_default,2011-01-31,2012-11-12,Asonuma-Trebesch (2026 update),,,,
 CMR,Cameroon,default_spell,1985,2003,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.855,0.855,,CMR_1985-2003
-CMR,Cameroon,restructuring,1985,2003,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.855,0.855,796.0,CMR_1985-2003
+CMR,Cameroon,restructuring,1985,2003,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.855,0.855,796,CMR_1985-2003
 CMR,Cameroon,restructuring_post_default,1985-06-01,2003-08-01,Asonuma-Trebesch (2026 update),,,,
-COD,Democratic Republic of the Congo,default_spell,1975,1989,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.3433532,0.0,,COD_1975-1989
-COD,Democratic Republic of the Congo,restructuring,1975,1980,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.296,0.0,402.0,COD_1975-1989
+COD,Democratic Republic of the Congo,default_spell,1975,1989,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.3433532,0,,COD_1975-1989
+COD,Democratic Republic of the Congo,restructuring,1975,1980,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.296,0,402,COD_1975-1989
 COD,Democratic Republic of the Congo,restructuring_post_default,1975-06-01,1980-04-12,Asonuma-Trebesch (2026 update),,,,
-COD,Democratic Republic of the Congo,restructuring,1982,1983,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.382,0.0,58.0,COD_1975-1989
+COD,Democratic Republic of the Congo,restructuring,1982,1983,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.382,0,58,COD_1975-1989
 COD,Democratic Republic of the Congo,restructuring_post_default,1982-04-01,1983-01-29,Asonuma-Trebesch (2026 update),,,,
-COD,Democratic Republic of the Congo,restructuring,1983,1984,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.301,0.0,64.0,COD_1975-1989
+COD,Democratic Republic of the Congo,restructuring,1983,1984,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.301,0,64,COD_1975-1989
 COD,Democratic Republic of the Congo,restructuring_post_default,1983-02-01,1984-06-01,Asonuma-Trebesch (2026 update),,,,
-COD,Democratic Republic of the Congo,restructuring,1984,1985,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.37,0.0,61.0,COD_1975-1989
+COD,Democratic Republic of the Congo,restructuring,1984,1985,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.37,0,61,COD_1975-1989
 COD,Democratic Republic of the Congo,restructuring_post_default,1984-09-01,1985-05-01,Asonuma-Trebesch (2026 update),,,,
-COD,Democratic Republic of the Congo,restructuring,1985,1986,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.354,0.0,65.0,COD_1975-1989
+COD,Democratic Republic of the Congo,restructuring,1985,1986,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.354,0,65,COD_1975-1989
 COD,Democratic Republic of the Congo,restructuring_post_default,1985-06-01,1986-05-01,Asonuma-Trebesch (2026 update),,,,
-COD,Democratic Republic of the Congo,restructuring,1986,1987,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.268,0.0,61.0,COD_1975-1989
+COD,Democratic Republic of the Congo,restructuring,1986,1987,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.268,0,61,COD_1975-1989
 COD,Democratic Republic of the Congo,restructuring_post_default,1986-06-01,1987-05-20,Asonuma-Trebesch (2026 update),,,,
-COD,Democratic Republic of the Congo,restructuring,1987,1989,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.506,0.0,61.0,COD_1975-1989
+COD,Democratic Republic of the Congo,restructuring,1987,1989,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.506,0,61,COD_1975-1989
 COD,Democratic Republic of the Congo,restructuring_post_default,1987-06-01,1989-06-01,Asonuma-Trebesch (2026 update),,,,
 COD,Democratic Republic of the Congo,restructuring_post_default,2017-12-01,2021-03-01,Asonuma-Trebesch (2026 update),,,,
 COD,Democratic Republic of the Congo,restructuring_post_default,2017-12-02,2022-03-01,Asonuma-Trebesch (2026 update),,,,
 COD,Democratic Republic of the Congo,restructuring_post_default,2018-04-01,2020-04-01,Asonuma-Trebesch (2026 update),,,,
 COD,Democratic Republic of the Congo,restructuring_post_default,2018-04-01,2020-09-01,Asonuma-Trebesch (2026 update),,,,
 COG,Republic of the Congo,default_spell,1983,2007,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.7863168,0.6389919,,COG_1983-2007
-COG,Republic of the Congo,restructuring,1983,1988,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.422584,0.0,217.0,COG_1983-2007
+COG,Republic of the Congo,restructuring,1983,1988,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.422584,0,217,COG_1983-2007
 COG,Republic of the Congo,restructuring_post_default,1983-06-01,1988-02-27,Asonuma-Trebesch (2026 update),,,,
-COG,Republic of the Congo,restructuring,1988,2007,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.908,0.7619048,2100.0,COG_1983-2007
+COG,Republic of the Congo,restructuring,1988,2007,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.908,0.7619048,2100,COG_1983-2007
 COG,Republic of the Congo,restructuring_post_default,1988-03-01,2007-12-14,Asonuma-Trebesch (2026 update),,,,
-COL,Colombia,default_spell,1826,1845,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.9663315,0.0,,COL_1826-1845
-COL,Colombia,restructuring,1826,1845,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.9663315,0.0,37.58706,COL_1826-1845
-COL,Colombia,default_spell,1853,1861,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.6681479,0.0,,COL_1853-1861
-COL,Colombia,restructuring,1853,1861,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.668148,0.0,33.27439,COL_1853-1861
+COL,Colombia,default_spell,1826,1845,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.9663315,0,,COL_1826-1845
+COL,Colombia,restructuring,1826,1845,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.9663315,0,37.58706,COL_1826-1845
+COL,Colombia,default_spell,1853,1861,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.6681479,0,,COL_1853-1861
+COL,Colombia,restructuring,1853,1861,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.668148,0,33.27439,COL_1853-1861
 COL,Colombia,default_spell,1872,1872,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.7720344,0.6775194,,COL_1872-1872
 COL,Colombia,restructuring,1872,1872,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.793093,0.696,36.2133,COL_1872-1872
 COL,Colombia,default_spell,1880,1896,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.5734588,0.3326632,,COL_1880-1896
 COL,Colombia,restructuring,1880,1896,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.8688162,0.504,25.01671,COL_1880-1896
-COL,Colombia,default_spell,1900,1905,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.0965641,0.0,,COL_1900-1905
-COL,Colombia,restructuring,1900,1905,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.0965641,0.0,13.9668,COL_1900-1905
+COL,Colombia,default_spell,1900,1905,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.0965641,0,,COL_1900-1905
+COL,Colombia,restructuring,1900,1905,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.0965641,0,13.9668,COL_1900-1905
 COL,Colombia,default_spell,1931,1941,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.0870785,0.0154086,,COL_1931-1941
 COL,Colombia,restructuring,1931,1941,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.6531835,0.115581,59.43089,COL_1931-1941
 CRI,Costa Rica,default_spell,1828,1840,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.5336233,0.538,,CRI_1828-1840
@@ -157,60 +157,60 @@ CRI,Costa Rica,restructuring,1895,1897,"Graf von Luckner, Meyer, Reinhart & Treb
 CRI,Costa Rica,default_spell,1901,1910,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.2720572,0.448,,CRI_1901-1910
 CRI,Costa Rica,restructuring,1901,1910,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.2720572,0.448,11.73408,CRI_1901-1910
 CRI,Costa Rica,default_spell,1932,1952,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.9114712,0.410395,,CRI_1932-1952
-CRI,Costa Rica,restructuring,1932,1933,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.2820887,0.0,13.36653,CRI_1932-1952
+CRI,Costa Rica,restructuring,1932,1933,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.2820887,0,13.36653,CRI_1932-1952
 CRI,Costa Rica,restructuring,1935,1935,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.2785751,0.084,8.761179,CRI_1932-1952
 CRI,Costa Rica,restructuring,1936,1937,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.4555191,0.5,0.3315266,CRI_1932-1952
 CRI,Costa Rica,restructuring,1936,1952,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.8404003,0.350667,14.38482,CRI_1932-1952
 CRI,Costa Rica,default_spell,1981,1998,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.8610721,0.4703757,,CRI_1981-1998
-CRI,Costa Rica,restructuring,1981,1983,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.394,0.0,609.0,CRI_1981-1998
+CRI,Costa Rica,restructuring,1981,1983,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.394,0,609,CRI_1981-1998
 CRI,Costa Rica,restructuring_post_default,1981-07-15,1983-09-10,Asonuma-Trebesch (2026 update),,,,
-CRI,Costa Rica,restructuring,1984,1985,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.356,0.0,440.0,CRI_1981-1998
+CRI,Costa Rica,restructuring,1984,1985,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.356,0,440,CRI_1981-1998
 CRI,Costa Rica,restructuring_post_default,1984-10-01,1985-05-27,Asonuma-Trebesch (2026 update),,,,
-CRI,Costa Rica,restructuring,1986,1990,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.719,0.4703757,1384.0,CRI_1981-1998
+CRI,Costa Rica,restructuring,1986,1990,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.719,0.4703757,1384,CRI_1981-1998
 CRI,Costa Rica,restructuring_post_default,1986-05-01,1990-05-21,Asonuma-Trebesch (2026 update),,,,
-CSK,Czechoslovakia,default_spell,1939,1946,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.0199566,0.0,,CZK_1939-1946
-CSK,Czechoslovakia,restructuring,1939,1946,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.5020524,0.0,12.28049,CZK_1939-1946
+CSK,Czechoslovakia,default_spell,1939,1946,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.0199566,0,,CZK_1939-1946
+CSK,Czechoslovakia,restructuring,1939,1946,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.5020524,0,12.28049,CZK_1939-1946
 CSK,Czechoslovakia,default_spell,1952,1964,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.9285138,0.910889,,CZK_1952-1964
 CSK,Czechoslovakia,restructuring,1952,1964,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.9285138,0.910889,24.81707,CZK_1952-1964
 CUB,Cuba,default_spell,1933,1938,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.0845389,0.0852718,,CUB_1933-1938
 CUB,Cuba,restructuring,1933,1938,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.1962982,0.198,39.9187,CUB_1933-1938
-CUB,Cuba,default_spell,1960,1960,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",1.0,1.0,,CUB_1960-1960
-CUB,Cuba,restructuring,1960,1960,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",1.0,1.0,52.29799,CUB_1960-1960
-CUB,Cuba,default_spell,1983,1985,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.8390979,0.0,,CUB_1983-1985
-CUB,Cuba,restructuring,1983,1983,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.429,0.0,130.0,CUB_1983-1985
+CUB,Cuba,default_spell,1960,1960,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",1,1,,CUB_1960-1960
+CUB,Cuba,restructuring,1960,1960,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",1,1,52.29799,CUB_1960-1960
+CUB,Cuba,default_spell,1983,1985,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.8390979,0,,CUB_1983-1985
+CUB,Cuba,restructuring,1983,1983,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.429,0,130,CUB_1983-1985
 CUB,Cuba,restructuring_post_default,1983-09-01,1983-12-30,Asonuma-Trebesch (2026 update),,,,
-CUB,Cuba,restructuring,1984,1984,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.442,0.0,103.0,CUB_1983-1985
+CUB,Cuba,restructuring,1984,1984,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.442,0,103,CUB_1983-1985
 CUB,Cuba,restructuring_post_default,1984-01-01,1984-12-24,Asonuma-Trebesch (2026 update),,,,
-CUB,Cuba,restructuring,1985,1985,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.495,0.0,90.0,CUB_1983-1985
+CUB,Cuba,restructuring,1985,1985,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.495,0,90,CUB_1983-1985
 CUB,Cuba,restructuring_post_default,1985-01-01,1985-09-19,Asonuma-Trebesch (2026 update),,,,
 DEU,Germany,default_spell,1938,1953,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.5198665,0.198,,DEU_1938-1953
-DEU,Germany,restructuring,1938,1938,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.2396487,0.0,135.2845,DEU_1938-1953
+DEU,Germany,restructuring,1938,1938,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.2396487,0,135.2845,DEU_1938-1953
 DEU,Germany,restructuring,1939,1953,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.5172857,0.198,972.0325,DEU_1938-1953
 DMA,Dominica,default_spell,2003,2004,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.54,0.1499307,,DMA_2003-2004
 DMA,Dominica,restructuring,2003,2004,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.54,0.1499307,144.2,DMA_2003-2004
 DMA,Dominica,restructuring_preemptive_weak,2003-07-01,2004-06-15,Asonuma-Trebesch (2026 update),,,,
-DOM,Dominican Republic,default_spell,1872,1872,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",1.0,1.0,,DOM_1872-1872
-DOM,Dominican Republic,restructuring,1872,1872,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",1.0,1.0,8.338189,DOM_1872-1872
-DOM,Dominican Republic,default_spell,1892,1893,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.5400924,0.0,,DOM_1892-1893
-DOM,Dominican Republic,restructuring,1892,1893,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.5400924,0.0,7.098916,DOM_1892-1893
+DOM,Dominican Republic,default_spell,1872,1872,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",1,1,,DOM_1872-1872
+DOM,Dominican Republic,restructuring,1872,1872,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",1,1,8.338189,DOM_1872-1872
+DOM,Dominican Republic,default_spell,1892,1893,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.5400924,0,,DOM_1892-1893
+DOM,Dominican Republic,restructuring,1892,1893,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.5400924,0,7.098916,DOM_1892-1893
 DOM,Dominican Republic,default_spell,1896,1908,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.5426878,0.5,,DOM_1896-1908
-DOM,Dominican Republic,restructuring,1896,1897,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.3235371,0.0,13.49413,DOM_1896-1908
+DOM,Dominican Republic,restructuring,1896,1897,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.3235371,0,13.49413,DOM_1896-1908
 DOM,Dominican Republic,restructuring,1899,1908,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.3239656,0.5,22.27258,DOM_1896-1908
-DOM,Dominican Republic,default_spell,1931,1934,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.0262287,0.0,,DOM_1931-1934
-DOM,Dominican Republic,restructuring,1931,1934,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.3448525,0.0,16.26694,DOM_1931-1934
+DOM,Dominican Republic,default_spell,1931,1934,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.0262287,0,,DOM_1931-1934
+DOM,Dominican Republic,restructuring,1931,1934,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.3448525,0,16.26694,DOM_1931-1934
 DOM,Dominican Republic,default_spell,1982,1994,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.752005,0.3965041,,DOM_1982-1994
-DOM,Dominican Republic,restructuring,1982,1986,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.499,0.0,823.0,DOM_1982-1994
+DOM,Dominican Republic,restructuring,1982,1986,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.499,0,823,DOM_1982-1994
 DOM,Dominican Republic,restructuring_post_default,1982-06-01,1986-02-24,Asonuma-Trebesch (2026 update),,,,
-DOM,Dominican Republic,restructuring,1987,1994,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.505,0.3965041,1087.0,DOM_1982-1994
+DOM,Dominican Republic,restructuring,1987,1994,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.505,0.3965041,1087,DOM_1982-1994
 DOM,Dominican Republic,restructuring_post_default,1987-06-01,1994-08-30,Asonuma-Trebesch (2026 update),,,,
-DOM,Dominican Republic,default_spell,2004,2005,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.0165184,0.0,,DOM_2004-2005
-DOM,Dominican Republic,restructuring,2004,2005,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.047,0.0,1100.0,DOM_2004-2005
+DOM,Dominican Republic,default_spell,2004,2005,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.0165184,0,,DOM_2004-2005
+DOM,Dominican Republic,restructuring,2004,2005,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.047,0,1100,DOM_2004-2005
 DOM,Dominican Republic,restructuring_preemptive_strict,2004-04-01,2005-05-11,Asonuma-Trebesch (2026 update),,,,
 DOM,Dominican Republic,restructuring_post_default,2004-08-01,2005-10-18,Asonuma-Trebesch (2026 update),,,,
-DZA,Algeria,default_spell,1990,1996,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.301555,0.0,,DZA_1990-1996
-DZA,Algeria,restructuring,1990,1992,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.087,0.0,1457.0,DZA_1990-1996
+DZA,Algeria,default_spell,1990,1996,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.301555,0,,DZA_1990-1996
+DZA,Algeria,restructuring,1990,1992,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.087,0,1457,DZA_1990-1996
 DZA,Algeria,restructuring_preemptive_strict,1990-10-01,1992-03-01,Asonuma-Trebesch (2026 update),,,,
-DZA,Algeria,restructuring,1993,1996,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.235,0.0,3200.0,DZA_1990-1996
+DZA,Algeria,restructuring,1993,1996,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.235,0,3200,DZA_1990-1996
 DZA,Algeria,restructuring_post_default,1993-12-01,1996-07-17,Asonuma-Trebesch (2026 update),,,,
 ECU,Ecuador,default_spell,1826,1855,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.7069155,0.261,,ECU_1826-1855
 ECU,Ecuador,restructuring,1826,1855,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.7069155,0.261,18.12105,ECU_1826-1855
@@ -222,70 +222,70 @@ ECU,Ecuador,default_spell,1907,1955,"Graf von Luckner, Meyer, Reinhart & Trebesc
 ECU,Ecuador,restructuring,1907,1908,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.0343843,0.01,11.4248,ECU_1907-1955
 ECU,Ecuador,restructuring,1909,1955,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.7843388,0.713,7.307927,ECU_1907-1955
 ECU,Ecuador,default_spell,1982,1995,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.4809061,0.141241,,ECU_1982-1995
-ECU,Ecuador,restructuring,1982,1983,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.063,0.0,970.0,ECU_1982-1995
+ECU,Ecuador,restructuring,1982,1983,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.063,0,970,ECU_1982-1995
 ECU,Ecuador,restructuring_preemptive_weak,1982-10-08,1983-10-14,Asonuma-Trebesch (2026 update),,,,
-ECU,Ecuador,restructuring,1983,1984,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.057,0.0,350.0,ECU_1982-1995
+ECU,Ecuador,restructuring,1983,1984,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.057,0,350,ECU_1982-1995
 ECU,Ecuador,restructuring_preemptive_weak,1983-12-01,1984-08-09,Asonuma-Trebesch (2026 update),,,,
-ECU,Ecuador,restructuring,1984,1985,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.154,0.0,4224.0,ECU_1982-1995
+ECU,Ecuador,restructuring,1984,1985,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.154,0,4224,ECU_1982-1995
 ECU,Ecuador,restructuring_preemptive_weak,1984-08-01,1985-12-11,Asonuma-Trebesch (2026 update),,,,
-ECU,Ecuador,restructuring,1986,1995,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.422,0.1636193,7170.0,ECU_1982-1995
+ECU,Ecuador,restructuring,1986,1995,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.422,0.1636193,7170,ECU_1982-1995
 ECU,Ecuador,restructuring_post_default,1986-08-01,1995-02-28,Asonuma-Trebesch (2026 update),,,,
 ECU,Ecuador,default_spell,1999,2000,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.2434547,0.2154069,,ECU_1999-2000
 ECU,Ecuador,restructuring,1999,2000,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.383,0.3388755,6699.541,ECU_1999-2000
 ECU,Ecuador,restructuring_post_default,1999-01-28,2000-08-23,Asonuma-Trebesch (2026 update),,,,
 ECU,Ecuador,default_spell,2008,2009,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.2887856,0.2927798,,ECU_2008-2009
-ECU,Ecuador,restructuring,2008,2009,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.677,0.6863636,3190.0,ECU_2008-2009
+ECU,Ecuador,restructuring,2008,2009,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.677,0.6863636,3190,ECU_2008-2009
 ECU,Ecuador,restructuring_post_default,2008-11-14,2009-06-03,Asonuma-Trebesch (2026 update),,,,
 ECU,Ecuador,default_spell,2020,2020,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.3796455,0.1382204,,ECU_2020-2020
-ECU,Ecuador,restructuring,2020,2020,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.412,0.15,18380.0,ECU_2020-2020
+ECU,Ecuador,restructuring,2020,2020,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.412,0.15,18380,ECU_2020-2020
 ECU,Ecuador,restructuring_preemptive_strict,2020-03-24,2020-08-31,Asonuma-Trebesch (2026 update),,,,
-EGY,Egypt,default_spell,1876,1880,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.305694,0.0,,EGY_1876-1880
-EGY,Egypt,restructuring,1876,1876,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.1469825,0.0,273.9309,EGY_1876-1880
-EGY,Egypt,restructuring,1876,1880,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.170398,0.0,409.4954,EGY_1876-1880
-EGY,Egypt,restructuring,1877,1877,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.3407329,0.0,30.32294,EGY_1876-1880
+EGY,Egypt,default_spell,1876,1880,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.305694,0,,EGY_1876-1880
+EGY,Egypt,restructuring,1876,1876,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.1469825,0,273.9309,EGY_1876-1880
+EGY,Egypt,restructuring,1876,1880,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.170398,0,409.4954,EGY_1876-1880
+EGY,Egypt,restructuring,1877,1877,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.3407329,0,30.32294,EGY_1876-1880
 ESP,Spain,default_spell,1823,1867,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.6487731,0.4186667,,ESP_1823-1867
-ESP,Spain,restructuring,1823,1823,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",1.0,1.0,106.075,ESP_1823-1867
-ESP,Spain,restructuring,1823,1834,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.3499349,0.0,197.2815,ESP_1823-1867
+ESP,Spain,restructuring,1823,1823,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",1,1,106.075,ESP_1823-1867
+ESP,Spain,restructuring,1823,1834,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.3499349,0,197.2815,ESP_1823-1867
 ESP,Spain,restructuring,1836,1867,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.1895575,0.128,524.2836,ESP_1823-1867
 ESP,Spain,default_spell,1872,1882,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.2076319,0.294736,,ESP_1872-1882
 ESP,Spain,restructuring,1872,1882,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.3839348,0.545,912.0439,ESP_1872-1882
 ETH,Ethiopia,default_spell,1990,1996,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.7644749,0.7644749,,ETH_1990-1996
-ETH,Ethiopia,restructuring,1990,1996,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.92,0.92,226.0,ETH_1990-1996
+ETH,Ethiopia,restructuring,1990,1996,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.92,0.92,226,ETH_1990-1996
 ETH,Ethiopia,restructuring_post_default,1990-06-01,1996-01-16,Asonuma-Trebesch (2026 update),,,,
-FIN,Finland,default_spell,1940,1945,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.0003784,0.0,,FIN_1940-1945
-FIN,Finland,restructuring,1940,1945,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.036814,0.0,2.365967,FIN_1940-1945
-GAB,Gabon,default_spell,1986,1994,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.0554234,0.0,,GAB_1986-1994
-GAB,Gabon,restructuring,1986,1987,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.079,0.0,39.0,GAB_1986-1994
+FIN,Finland,default_spell,1940,1945,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.0003784,0,,FIN_1940-1945
+FIN,Finland,restructuring,1940,1945,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.036814,0,2.365967,FIN_1940-1945
+GAB,Gabon,default_spell,1986,1994,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.0554234,0,,GAB_1986-1994
+GAB,Gabon,restructuring,1986,1987,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.079,0,39,GAB_1986-1994
 GAB,Gabon,restructuring_post_default,1986-09-15,1987-12-01,Asonuma-Trebesch (2026 update),,,,
-GAB,Gabon,restructuring,1989,1994,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.162,0.0,187.0,GAB_1986-1994
+GAB,Gabon,restructuring,1989,1994,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.162,0,187,GAB_1986-1994
 GAB,Gabon,restructuring_post_default,1989-06-01,1994-05-16,Asonuma-Trebesch (2026 update),,,,
 GHA,Ghana,default_spell,2022,2024,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.4539,0.304,,GHA_2022-2024
-GHA,Ghana,restructuring,2022,2024,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.4539,0.304,13064.0,GHA_2022-2024
-GIN,Guinea,default_spell,1985,1988,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.1425083,0.0,,GIN_1985-1988
-GIN,Guinea,restructuring,1985,1988,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.261,0.0,43.0,GIN_1985-1988
+GHA,Ghana,restructuring,2022,2024,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.4539,0.304,13064,GHA_2022-2024
+GIN,Guinea,default_spell,1985,1988,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.1425083,0,,GIN_1985-1988
+GIN,Guinea,restructuring,1985,1988,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.261,0,43,GIN_1985-1988
 GIN,Guinea,restructuring_post_default,1985-06-01,1988-04-20,Asonuma-Trebesch (2026 update),,,,
 GIN,Guinea,default_spell,1991,1998,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.87,0.87,,GIN_1991-1998
-GIN,Guinea,restructuring,1991,1998,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.87,0.87,130.0,GIN_1991-1998
+GIN,Guinea,restructuring,1991,1998,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.87,0.87,130,GIN_1991-1998
 GIN,Guinea,restructuring_post_default,1991-06-01,1998-12-01,Asonuma-Trebesch (2026 update),,,,
-GMB,Gambia,default_spell,1984,1988,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.493,0.0,,GMB_1984-1988
-GMB,Gambia,restructuring,1984,1988,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.493,0.0,19.0,GMB_1984-1988
+GMB,Gambia,default_spell,1984,1988,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.493,0,,GMB_1984-1988
+GMB,Gambia,restructuring,1984,1988,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.493,0,19,GMB_1984-1988
 GMB,Gambia,restructuring_post_default,1984-06-01,1988-02-15,Asonuma-Trebesch (2026 update),,,,
-GRC,Greece,default_spell,1827,1878,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.9823596,1.0,,GRC_1827-1878
-GRC,Greece,restructuring,1827,1878,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.9823596,1.0,59.00915,GRC_1827-1878
+GRC,Greece,default_spell,1827,1878,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.9823596,1,,GRC_1827-1878
+GRC,Greece,restructuring,1827,1878,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.9823596,1,59.00915,GRC_1827-1878
 GRC,Greece,default_spell,1893,1898,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.3231706,0.114,,GRC_1893-1898
 GRC,Greece,restructuring,1893,1898,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.3231706,0.114,115.4103,GRC_1893-1898
 GRC,Greece,default_spell,1932,1964,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.8509447,0.4943689,,GRC_1932-1964
 GRC,Greece,restructuring,1932,1935,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.4287573,0.106,9.550474,GRC_1932-1964
 GRC,Greece,restructuring,1932,1964,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.8492576,0.492966,189.7127,GRC_1932-1964
 GRC,Greece,default_spell,2011,2012,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.646,0.535,,GRC_2011-2012
-GRC,Greece,restructuring,2011,2012,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.646,0.535,261410.0,GRC_2011-2012
+GRC,Greece,restructuring,2011,2012,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.646,0.535,261410,GRC_2011-2012
 GRC,Greece,restructuring_preemptive_strict,2011-07-01,2012-03-13,Asonuma-Trebesch (2026 update),,,,
 GRC,Greece,restructuring_post_default,2022-11-01,2024-10-01,Asonuma-Trebesch (2026 update),,,,
-GRD,Grenada,default_spell,2004,2005,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.3358913,0.0,,GRD_2004-2005
-GRD,Grenada,restructuring,2004,2005,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.339,0.0,209.708,GRD_2004-2005
+GRD,Grenada,default_spell,2004,2005,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.3358913,0,,GRD_2004-2005
+GRD,Grenada,restructuring,2004,2005,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.339,0,209.708,GRD_2004-2005
 GRD,Grenada,restructuring_preemptive_weak,2004-10-01,2005-11-16,Asonuma-Trebesch (2026 update),,,,
 GRD,Grenada,default_spell,2013,2015,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.42,0.432,,GRD_2013-2015
-GRD,Grenada,restructuring,2013,2015,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.42,0.432,247.0,GRD_2013-2015
+GRD,Grenada,restructuring,2013,2015,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.42,0.432,247,GRD_2013-2015
 GRD,Grenada,restructuring_post_default,2013-03-08,2015-11-12,Asonuma-Trebesch (2026 update),,,,
 GTM,Guatemala,default_spell,1828,1856,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.5663568,0.438,,GTM_1828-1856
 GTM,Guatemala,restructuring,1828,1856,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.5663568,0.438,0.8346884,GTM_1828-1856
@@ -293,9 +293,9 @@ GTM,Guatemala,default_spell,1876,1888,"Graf von Luckner, Meyer, Reinhart & Trebe
 GTM,Guatemala,restructuring,1876,1888,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.5579125,0.116,4.259259,GTM_1876-1888
 GTM,Guatemala,default_spell,1894,1895,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.1776865,0.1056165,,GTM_1894-1895
 GTM,Guatemala,restructuring,1894,1895,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.4205937,0.25,4.336043,GTM_1894-1895
-GTM,Guatemala,default_spell,1898,1913,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.2809564,0.0,,GTM_1898-1913
-GTM,Guatemala,restructuring,1898,1898,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.218507,0.0,7.461495,GTM_1898-1913
-GTM,Guatemala,restructuring,1899,1913,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.2089042,0.0,7.364386,GTM_1898-1913
+GTM,Guatemala,default_spell,1898,1913,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.2809564,0,,GTM_1898-1913
+GTM,Guatemala,restructuring,1898,1898,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.218507,0,7.461495,GTM_1898-1913
+GTM,Guatemala,restructuring,1899,1913,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.2089042,0,7.364386,GTM_1898-1913
 GTM,Guatemala,default_spell,1932,1936,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.1874272,0.0520753,,GTM_1932-1936
 GTM,Guatemala,restructuring,1932,1936,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.4343807,0.1206897,6.555555,GTM_1932-1936
 GUY,Guyana,default_spell,1982,1999,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.9785465,0.978534,,GUY_1982-1999
@@ -308,83 +308,83 @@ HND,Honduras,restructuring,1828,1867,"Graf von Luckner, Meyer, Reinhart & Trebes
 HND,Honduras,default_spell,1873,1925,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.9985116,0.96,,HND_1873-1925
 HND,Honduras,restructuring,1873,1925,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.9985116,0.96,26.02337,HND_1873-1925
 HND,Honduras,default_spell,1981,2001,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.6552736,0.1132938,,HND_1981-2001
-HND,Honduras,restructuring,1981,1989,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.732,0.0,132.0,HND_1981-2001
+HND,Honduras,restructuring,1981,1989,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.732,0,132,HND_1981-2001
 HND,Honduras,restructuring_post_default,1981-06-01,1989-10-01,Asonuma-Trebesch (2026 update),,,,
-HND,Honduras,restructuring,1990,2001,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.82,0.82,13.0,HND_1981-2001
+HND,Honduras,restructuring,1990,2001,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.82,0.82,13,HND_1981-2001
 HND,Honduras,restructuring_post_default,1990-06-01,2001-08-01,Asonuma-Trebesch (2026 update),,,,
 HRV,Croatia,restructuring_post_default,1991-12-01,1996-07-31,Asonuma-Trebesch (2026 update),,,,
-HRV,Croatia,default_spell,1992,1996,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.11,0.0,,HRV_1992-1996
-HRV,Croatia,restructuring,1992,1996,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.11,0.0,857.8,HRV_1992-1996
+HRV,Croatia,default_spell,1992,1996,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.11,0,,HRV_1992-1996
+HRV,Croatia,restructuring,1992,1996,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.11,0,857.8,HRV_1992-1996
 HUN,Hungary,default_spell,1934,1937,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.000158,4.05e-05,,HUN_1934-1937
 HUN,Hungary,restructuring,1934,1937,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.5583148,0.143,44.59034,HUN_1934-1937
 HUN,Hungary,default_spell,1942,1968,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.5622722,0.532429,,HUN_1942-1968
 HUN,Hungary,restructuring,1942,1968,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.5622721,0.532429,17.33875,HUN_1942-1968
 IRQ,Iraq,default_spell,1986,2006,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.894,0.815415,,IRQ_1986-2006
-IRQ,Iraq,restructuring,1986,2006,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.894,0.815415,17710.0,IRQ_1986-2006
+IRQ,Iraq,restructuring,1986,2006,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.894,0.815415,17710,IRQ_1986-2006
 IRQ,Iraq,restructuring_post_default,1986-09-01,2006-01-01,Asonuma-Trebesch (2026 update),,,,
 ITA,Italy,default_spell,1940,1947,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.8573447,0.05,,ITA_1940-1947
 ITA,Italy,restructuring,1940,1947,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.8573448,0.05,30.79257,ITA_1940-1947
-JAM,Jamaica,default_spell,1977,1990,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.7061453,0.0,,JAM_1977-1990
-JAM,Jamaica,restructuring,1977,1978,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.022,0.0,63.0,JAM_1977-1990
+JAM,Jamaica,default_spell,1977,1990,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.7061453,0,,JAM_1977-1990
+JAM,Jamaica,restructuring,1977,1978,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.022,0,63,JAM_1977-1990
 JAM,Jamaica,restructuring_preemptive_strict,1977-06-01,1978-09-01,Asonuma-Trebesch (2026 update),,,,
-JAM,Jamaica,restructuring,1978,1979,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.035,0.0,149.0,JAM_1977-1990
+JAM,Jamaica,restructuring,1978,1979,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.035,0,149,JAM_1977-1990
 JAM,Jamaica,restructuring_preemptive_strict,1978-05-01,1979-04-01,Asonuma-Trebesch (2026 update),,,,
-JAM,Jamaica,restructuring,1980,1981,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.152,0.0,89.0,JAM_1977-1990
+JAM,Jamaica,restructuring,1980,1981,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.152,0,89,JAM_1977-1990
 JAM,Jamaica,restructuring_preemptive_strict,1980-03-01,1981-06-20,Asonuma-Trebesch (2026 update),,,,
-JAM,Jamaica,restructuring,1983,1984,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.181,0.0,165.0,JAM_1977-1990
+JAM,Jamaica,restructuring,1983,1984,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.181,0,165,JAM_1977-1990
 JAM,Jamaica,restructuring_preemptive_strict,1983-06-01,1984-06-01,Asonuma-Trebesch (2026 update),,,,
-JAM,Jamaica,restructuring,1984,1985,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.317,0.0,369.0,JAM_1977-1990
+JAM,Jamaica,restructuring,1984,1985,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.317,0,369,JAM_1977-1990
 JAM,Jamaica,restructuring_preemptive_strict,1984-07-01,1985-09-01,Asonuma-Trebesch (2026 update),,,,
-JAM,Jamaica,restructuring,1986,1987,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.328,0.0,285.0,JAM_1977-1990
+JAM,Jamaica,restructuring,1986,1987,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.328,0,285,JAM_1977-1990
 JAM,Jamaica,restructuring_preemptive_weak,1986-09-01,1987-05-07,Asonuma-Trebesch (2026 update),,,,
-JAM,Jamaica,restructuring,1987,1990,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.44,0.0,332.0,JAM_1977-1990
+JAM,Jamaica,restructuring,1987,1990,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.44,0,332,JAM_1977-1990
 JAM,Jamaica,restructuring_post_default,1987-06-01,1990-06-26,Asonuma-Trebesch (2026 update),,,,
 JOR,Jordan,default_spell,1989,1993,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.3324361,0.1747926,,JOR_1989-1993
-JOR,Jordan,restructuring,1989,1993,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.546,0.287083,1289.0,JOR_1989-1993
+JOR,Jordan,restructuring,1989,1993,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.546,0.287083,1289,JOR_1989-1993
 JOR,Jordan,restructuring_post_default,1989-02-01,1993-12-23,Asonuma-Trebesch (2026 update),,,,
 JPN,Japan,default_spell,1941,1952,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.027757,0.0002447,,JPN_1941-1952
 JPN,Japan,restructuring,1941,1952,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.2677674,0.0023605,163.7772,JPN_1941-1952
 KEN,Kenya,default_spell,1992,1998,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.1506682,0.0760822,,KEN_1992-1998
-KEN,Kenya,restructuring,1992,1998,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.457,0.2307692,91.0,KEN_1992-1998
+KEN,Kenya,restructuring,1992,1998,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.457,0.2307692,91,KEN_1992-1998
 KEN,Kenya,restructuring_post_default,1992-01-01,1998-06-02,Asonuma-Trebesch (2026 update),,,,
 KNA,Saint Kitts and Nevis,default_spell,2011,2012,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.62875,0.3175,,KNA_2011-2012
 KNA,Saint Kitts and Nevis,restructuring,2011,2012,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.62875,0.3175,146.71,KNA_2011-2012
 KNA,Saint Kitts and Nevis,restructuring_preemptive_weak,2011-06-01,2012-04-01,Asonuma-Trebesch (2026 update),,,,
-LBR,Liberia,default_spell,1874,1898,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.8615688,0.0,,LBR_1874-1898
-LBR,Liberia,restructuring,1874,1898,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.8615688,0.0,1.280375,LBR_1874-1898
-LBR,Liberia,default_spell,1914,1923,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.1560584,0.0,,LBR_1914-1923
-LBR,Liberia,restructuring,1914,1923,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.1560584,0.0,1.487127,LBR_1914-1923
-LBR,Liberia,default_spell,1932,1935,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.4004189,0.0,,LBR_1932-1935
-LBR,Liberia,restructuring,1932,1935,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.4004189,0.0,2.210027,LBR_1932-1935
+LBR,Liberia,default_spell,1874,1898,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.8615688,0,,LBR_1874-1898
+LBR,Liberia,restructuring,1874,1898,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.8615688,0,1.280375,LBR_1874-1898
+LBR,Liberia,default_spell,1914,1923,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.1560584,0,,LBR_1914-1923
+LBR,Liberia,restructuring,1914,1923,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.1560584,0,1.487127,LBR_1914-1923
+LBR,Liberia,default_spell,1932,1935,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.4004189,0,,LBR_1932-1935
+LBR,Liberia,restructuring,1932,1935,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.4004189,0,2.210027,LBR_1932-1935
 LBR,Liberia,default_spell,1980,2009,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.9722772,0.97,,LBR_1980-2009
-LBR,Liberia,restructuring,1980,1982,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.357,0.0,30.0,LBR_1980-2009
+LBR,Liberia,restructuring,1980,1982,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.357,0,30,LBR_1980-2009
 LBR,Liberia,restructuring,1980,2009,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.97,0.97,1277.8,LBR_1980-2009
 LBR,Liberia,restructuring_post_default,1980-11-01,1982-12-01,Asonuma-Trebesch (2026 update),,,,
 LKA,Sri Lanka,restructuring_post_default,2022-04-01,2024-12-01,Asonuma-Trebesch (2026 update),,,,
-LTU,Lithuania,default_spell,1940,1940,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",1.0,1.0,,LTU_1940-1940
-LTU,Lithuania,restructuring,1940,1940,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",1.0,1.0,7.621048,LTU_1940-1940
-LVA,Latvia,default_spell,1936,1940,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",1.0,1.0,,LVA_1936-1940
-LVA,Latvia,restructuring,1936,1940,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",1.0,1.0,8.837173,LVA_1936-1940
-MAR,Morocco,default_spell,1983,1990,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.4209983,0.0,,MAR_1983-1990
-MAR,Morocco,restructuring,1983,1986,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.235,0.0,538.0,MAR_1983-1990
+LTU,Lithuania,default_spell,1940,1940,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",1,1,,LTU_1940-1940
+LTU,Lithuania,restructuring,1940,1940,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",1,1,7.621048,LTU_1940-1940
+LVA,Latvia,default_spell,1936,1940,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",1,1,,LVA_1936-1940
+LVA,Latvia,restructuring,1936,1940,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",1,1,8.837173,LVA_1936-1940
+MAR,Morocco,default_spell,1983,1990,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.4209983,0,,MAR_1983-1990
+MAR,Morocco,restructuring,1983,1986,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.235,0,538,MAR_1983-1990
 MAR,Morocco,restructuring_post_default,1983-08-25,1986-02-01,Asonuma-Trebesch (2026 update),,,,
-MAR,Morocco,restructuring,1985,1987,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.213,0.0,2444.0,MAR_1983-1990
+MAR,Morocco,restructuring,1985,1987,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.213,0,2444,MAR_1983-1990
 MAR,Morocco,restructuring_preemptive_weak,1985-10-22,1987-09-23,Asonuma-Trebesch (2026 update),,,,
-MAR,Morocco,restructuring,1989,1990,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.403,0.0,3200.0,MAR_1983-1990
+MAR,Morocco,restructuring,1989,1990,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.403,0,3200,MAR_1983-1990
 MAR,Morocco,restructuring_preemptive_weak,1989-02-01,1990-09-01,Asonuma-Trebesch (2026 update),,,,
 MDA,Moldova,default_spell,2001,2004,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.6675671,0.5633188,,MDA_2001-2004
 MDA,Moldova,restructuring,2001,2004,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.563,0.5633188,114.5,MDA_2001-2004
 MDA,Moldova,restructuring_post_default,2001-06-01,2004-06-17,Asonuma-Trebesch (2026 update),,,,
-MDA,Moldova,restructuring,2002,2002,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.369,0.0,39.7,MDA_2001-2004
+MDA,Moldova,restructuring,2002,2002,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.369,0,39.7,MDA_2001-2004
 MDA,Moldova,restructuring_preemptive_strict,2002-06-12,2002-10-29,Asonuma-Trebesch (2026 update),,,,
-MDG,Madagascar,default_spell,1981,1990,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.6068556,0.0,,MDG_1981-1990
-MDG,Madagascar,restructuring,1981,1981,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.19,0.0,147.0,MDG_1981-1990
+MDG,Madagascar,default_spell,1981,1990,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.6068556,0,,MDG_1981-1990
+MDG,Madagascar,restructuring,1981,1981,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.19,0,147,MDG_1981-1990
 MDG,Madagascar,restructuring_post_default,1981-05-01,1981-11-01,Asonuma-Trebesch (2026 update),,,,
-MDG,Madagascar,restructuring,1982,1984,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.413,0.0,195.0,MDG_1981-1990
+MDG,Madagascar,restructuring,1982,1984,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.413,0,195,MDG_1981-1990
 MDG,Madagascar,restructuring_post_default,1982-06-01,1984-10-25,Asonuma-Trebesch (2026 update),,,,
-MDG,Madagascar,restructuring,1985,1987,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.137,0.0,60.0,MDG_1981-1990
+MDG,Madagascar,restructuring,1985,1987,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.137,0,60,MDG_1981-1990
 MDG,Madagascar,restructuring_post_default,1985-06-01,1987-06-15,Asonuma-Trebesch (2026 update),,,,
-MDG,Madagascar,restructuring,1987,1990,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.527,0.0,49.0,MDG_1981-1990
+MDG,Madagascar,restructuring,1987,1990,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.527,0,49,MDG_1981-1990
 MDG,Madagascar,restructuring_post_default,1987-06-01,1990-04-10,Asonuma-Trebesch (2026 update),,,,
 MEX,Mexico,default_spell,1827,1850,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.9054952,0.3808914,,MEX_1827-1850
 MEX,Mexico,restructuring,1827,1831,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.2045792,0.051,35.29167,MEX_1827-1850
@@ -392,108 +392,108 @@ MEX,Mexico,restructuring,1833,1842,"Graf von Luckner, Meyer, Reinhart & Trebesch
 MEX,Mexico,restructuring,1844,1850,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.8133935,0.345,60.25632,MEX_1827-1850
 MEX,Mexico,default_spell,1854,1886,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.8935339,0.7432908,,MEX_1854-1886
 MEX,Mexico,restructuring,1854,1864,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.1556292,-0.148,27.42378,MEX_1854-1886
-MEX,Mexico,restructuring,1865,1865,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",1.0,1.0,213.617,MEX_1854-1886
+MEX,Mexico,restructuring,1865,1865,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",1,1,213.617,MEX_1854-1886
 MEX,Mexico,restructuring,1867,1886,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.8326396,0.631,114.5772,MEX_1854-1886
-MEX,Mexico,default_spell,1899,1899,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.0682581,0.0,,MEX_1899-1899
-MEX,Mexico,restructuring,1899,1899,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.1468228,0.0,98.34858,MEX_1899-1899
-MEX,Mexico,default_spell,1914,1925,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.1617935,0.0,,MEX_1914-1925
-MEX,Mexico,restructuring,1914,1922,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.2775972,0.0,492.5736,MEX_1914-1925
-MEX,Mexico,restructuring,1924,1925,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.3433166,0.0,724.068,MEX_1914-1925
+MEX,Mexico,default_spell,1899,1899,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.0682581,0,,MEX_1899-1899
+MEX,Mexico,restructuring,1899,1899,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.1468228,0,98.34858,MEX_1899-1899
+MEX,Mexico,default_spell,1914,1925,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.1617935,0,,MEX_1914-1925
+MEX,Mexico,restructuring,1914,1922,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.2775972,0,492.5736,MEX_1914-1925
+MEX,Mexico,restructuring,1924,1925,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.3433166,0,724.068,MEX_1914-1925
 MEX,Mexico,default_spell,1928,1942,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.3305342,0.2525061,,MEX_1928-1942
 MEX,Mexico,restructuring,1928,1942,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.9467655,0.723266,607.9895,MEX_1928-1942
 MEX,Mexico,default_spell,1982,1990,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.453389,0.1467936,,MEX_1982-1990
-MEX,Mexico,restructuring,1982,1983,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",-0.002,0.0,18800.0,MEX_1982-1990
+MEX,Mexico,restructuring,1982,1983,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",-0.002,0,18800,MEX_1982-1990
 MEX,Mexico,restructuring_preemptive_weak,1982-08-01,1983-08-27,Asonuma-Trebesch (2026 update),,,,
-MEX,Mexico,restructuring,1984,1985,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.022,0.0,28600.0,MEX_1982-1990
+MEX,Mexico,restructuring,1984,1985,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.022,0,28600,MEX_1982-1990
 MEX,Mexico,restructuring_preemptive_weak,1984-05-01,1985-03-29,Asonuma-Trebesch (2026 update),,,,
 MEX,Mexico,restructuring_preemptive_weak,1984-05-01,1985-08-29,Asonuma-Trebesch (2026 update),,,,
-MEX,Mexico,restructuring,1986,1987,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.181,0.0,52300.0,MEX_1982-1990
+MEX,Mexico,restructuring,1986,1987,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.181,0,52300,MEX_1982-1990
 MEX,Mexico,restructuring_preemptive_weak,1986-09-02,1987-03-01,Asonuma-Trebesch (2026 update),,,,
-MEX,Mexico,restructuring,1987,1988,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.563,0.3,3671.0,MEX_1982-1990
+MEX,Mexico,restructuring,1987,1988,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.563,0.3,3671,MEX_1982-1990
 MEX,Mexico,restructuring_preemptive_strict,1987-08-01,1988-03-01,Asonuma-Trebesch (2026 update),,,,
-MEX,Mexico,restructuring,1988,1990,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.305,0.1308471,54300.0,MEX_1982-1990
+MEX,Mexico,restructuring,1988,1990,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.305,0.1308471,54300,MEX_1982-1990
 MEX,Mexico,restructuring_preemptive_weak,1988-12-01,1990-02-04,Asonuma-Trebesch (2026 update),,,,
-MKD,Macedonia,default_spell,1992,1997,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.346,0.0,,MKD_1992-1997
-MKD,Macedonia,restructuring,1992,1997,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.346,0.0,228.7,MKD_1992-1997
+MKD,Macedonia,default_spell,1992,1997,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.346,0,,MKD_1992-1997
+MKD,Macedonia,restructuring,1992,1997,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.346,0,228.7,MKD_1992-1997
 MKD,Macedonia,restructuring_post_default,1992-05-01,1997-03-26,Asonuma-Trebesch (2026 update),,,,
-MNG,Mongolia,default_spell,2017,2017,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",-0.0196853,0.0,,MNG_2017-2017
-MNG,Mongolia,restructuring,2017,2017,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",-0.096,0.0,475.989,MNG_2017-2017
+MNG,Mongolia,default_spell,2017,2017,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",-0.0196853,0,,MNG_2017-2017
+MNG,Mongolia,restructuring,2017,2017,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",-0.096,0,475.989,MNG_2017-2017
 MNG,Mongolia,restructuring_preemptive_strict,2017-02-20,2017-03-09,Asonuma-Trebesch (2026 update),,,,
 MOZ,Mozambique,default_spell,1983,2007,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.2329413,0.2329413,,MOZ_1983-2007
-MOZ,Mozambique,restructuring,1983,1991,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.9,0.9,124.0,MOZ_1983-2007
+MOZ,Mozambique,restructuring,1983,1991,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.9,0.9,124,MOZ_1983-2007
 MOZ,Mozambique,restructuring_post_default,1983-06-01,1991-12-27,Asonuma-Trebesch (2026 update),,,,
 MOZ,Mozambique,restructuring_preemptive_strict,2015-06-01,2016-04-06,Asonuma-Trebesch (2026 update),,,,
 MOZ,Mozambique,default_spell,2016,2023,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.094557,-0.025328,,MOZ_2016-2019
 MOZ,Mozambique,default_spell,2016,2023,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.708,0.726,,MOZ_2016-2023
-MOZ,Mozambique,restructuring,2016,2016,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",-0.069,-0.042,697.0,MOZ_2016-2019
+MOZ,Mozambique,restructuring,2016,2016,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",-0.069,-0.042,697,MOZ_2016-2019
 MOZ,Mozambique,restructuring_post_default,2016-10-01,2019-09-01,Asonuma-Trebesch (2026 update),,,,
 MOZ,Mozambique,restructuring_post_default,2016-10-01,2023-10-01,Asonuma-Trebesch (2026 update),,,,
 MOZ,Mozambique,restructuring_post_default,2016-10-01,2024-07-01,Asonuma-Trebesch (2026 update),,,,
 MOZ,Mozambique,restructuring,2017,2019,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.153,0.016,726.524,MOZ_2016-2019
-MOZ,Mozambique,restructuring,2017,2023,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.708,0.726,822.0,MOZ_2016-2023
+MOZ,Mozambique,restructuring,2017,2023,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.708,0.726,822,MOZ_2016-2023
 MRT,Mauritania,default_spell,1992,1996,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.9,0.9,,MRT_1992-1996
-MRT,Mauritania,restructuring,1992,1996,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.9,0.9,53.0,MRT_1992-1996
+MRT,Mauritania,restructuring,1992,1996,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.9,0.9,53,MRT_1992-1996
 MRT,Mauritania,restructuring_post_default,1992-06-01,1996-08-01,Asonuma-Trebesch (2026 update),,,,
-MWI,Malawi,default_spell,1982,1983,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.1777638,0.0,,MWI_1982-1983
-MWI,Malawi,restructuring,1982,1983,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.285,0.0,57.0,MWI_1982-1983
+MWI,Malawi,default_spell,1982,1983,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.1777638,0,,MWI_1982-1983
+MWI,Malawi,restructuring,1982,1983,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.285,0,57,MWI_1982-1983
 MWI,Malawi,restructuring_preemptive_weak,1982-07-12,1983-03-06,Asonuma-Trebesch (2026 update),,,,
-MWI,Malawi,default_spell,1987,1988,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.214083,0.0,,MWI_1987-1988
-MWI,Malawi,restructuring,1987,1988,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.392,0.0,35.0,MWI_1987-1988
+MWI,Malawi,default_spell,1987,1988,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.214083,0,,MWI_1987-1988
+MWI,Malawi,restructuring,1987,1988,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.392,0,35,MWI_1987-1988
 MWI,Malawi,restructuring_post_default,1987-08-01,1988-10-04,Asonuma-Trebesch (2026 update),,,,
 NER,Niger,default_spell,1983,1991,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.8905686,0.82,,NER_1983-1991
-NER,Niger,restructuring,1983,1984,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.374,0.0,27.0,NER_1983-1991
+NER,Niger,restructuring,1983,1984,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.374,0,27,NER_1983-1991
 NER,Niger,restructuring_preemptive_weak,1983-06-01,1984-03-09,Asonuma-Trebesch (2026 update),,,,
-NER,Niger,restructuring,1984,1986,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.458,0.0,52.0,NER_1983-1991
+NER,Niger,restructuring,1984,1986,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.458,0,52,NER_1983-1991
 NER,Niger,restructuring_preemptive_weak,1984-06-01,1986-04-01,Asonuma-Trebesch (2026 update),,,,
-NER,Niger,restructuring,1986,1991,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.82,0.82,111.0,NER_1983-1991
+NER,Niger,restructuring,1986,1991,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.82,0.82,111,NER_1983-1991
 NER,Niger,restructuring_post_default,1986-06-01,1991-03-08,Asonuma-Trebesch (2026 update),,,,
 NER,Niger,restructuring_post_default,2023-12-01,2025-06-01,Asonuma-Trebesch (2026 update),,,,
 NGA,Nigeria,default_spell,1982,1991,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.3565655,0.1458606,,NGA_1982-1991
-NGA,Nigeria,restructuring,1982,1983,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.012,0.0,1350.0,NGA_1982-1991
+NGA,Nigeria,restructuring,1982,1983,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.012,0,1350,NGA_1982-1991
 NGA,Nigeria,restructuring_post_default,1982-08-01,1983-09-01,Asonuma-Trebesch (2026 update),,,,
 NGA,Nigeria,restructuring_post_default,1982-08-01,1983-07-01,Asonuma-Trebesch (2026 update),,,,
-NGA,Nigeria,restructuring,1983,1984,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",-0.028,0.0,925.0,NGA_1982-1991
+NGA,Nigeria,restructuring,1983,1984,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",-0.028,0,925,NGA_1982-1991
 NGA,Nigeria,restructuring_post_default,1983-10-01,1984-04-01,Asonuma-Trebesch (2026 update),,,,
-NGA,Nigeria,restructuring,1986,1987,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.193,0.0,4249.0,NGA_1982-1991
+NGA,Nigeria,restructuring,1986,1987,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.193,0,4249,NGA_1982-1991
 NGA,Nigeria,restructuring_post_default,1986-01-01,1987-11-23,Asonuma-Trebesch (2026 update),,,,
-NGA,Nigeria,restructuring,1987,1988,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.415,0.0,1213.0,NGA_1982-1991
+NGA,Nigeria,restructuring,1987,1988,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.415,0,1213,NGA_1982-1991
 NGA,Nigeria,restructuring_post_default,1987-10-01,1988-01-01,Asonuma-Trebesch (2026 update),,,,
-NGA,Nigeria,restructuring,1988,1989,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.301,0.0,5829.0,NGA_1982-1991
+NGA,Nigeria,restructuring,1988,1989,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.301,0,5829,NGA_1982-1991
 NGA,Nigeria,restructuring_post_default,1988-03-01,1989-06-01,Asonuma-Trebesch (2026 update),,,,
-NGA,Nigeria,restructuring,1989,1991,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.401,0.345742,5883.0,NGA_1982-1991
+NGA,Nigeria,restructuring,1989,1991,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.401,0.345742,5883,NGA_1982-1991
 NGA,Nigeria,restructuring_post_default,1989-06-01,1991-12-20,Asonuma-Trebesch (2026 update),,,,
 NIC,Nicaragua,default_spell,1828,1874,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.8567946,0.963,,NIC_1828-1874
 NIC,Nicaragua,restructuring,1828,1874,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.8567946,0.963,0.1135953,NIC_1828-1874
 NIC,Nicaragua,default_spell,1894,1895,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.0535714,0.054,,NIC_1894-1895
 NIC,Nicaragua,restructuring,1894,1895,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.0535714,0.054,1.474255,NIC_1894-1895
-NIC,Nicaragua,default_spell,1911,1917,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.0810311,0.0,,NIC_1911-1917
-NIC,Nicaragua,restructuring,1911,1912,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.1549385,0.0,1.20822,NIC_1911-1917
-NIC,Nicaragua,restructuring,1914,1917,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.0632142,0.0,5.284553,NIC_1911-1917
-NIC,Nicaragua,default_spell,1932,1937,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.3929936,0.0,,NIC_1932-1937
-NIC,Nicaragua,restructuring,1932,1937,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.3929936,0.0,2.072042,NIC_1932-1937
+NIC,Nicaragua,default_spell,1911,1917,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.0810311,0,,NIC_1911-1917
+NIC,Nicaragua,restructuring,1911,1912,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.1549385,0,1.20822,NIC_1911-1917
+NIC,Nicaragua,restructuring,1914,1917,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.0632142,0,5.284553,NIC_1911-1917
+NIC,Nicaragua,default_spell,1932,1937,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.3929936,0,,NIC_1932-1937
+NIC,Nicaragua,restructuring,1932,1937,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.3929936,0,2.072042,NIC_1932-1937
 NIC,Nicaragua,default_spell,1978,2007,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.9915784,0.9854814,,NIC_1978-2007
-NIC,Nicaragua,restructuring,1978,1980,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.261,0.0,582.0,NIC_1978-2007
+NIC,Nicaragua,restructuring,1978,1980,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.261,0,582,NIC_1978-2007
 NIC,Nicaragua,restructuring_post_default,1978-09-01,1980-12-01,Asonuma-Trebesch (2026 update),,,,
-NIC,Nicaragua,restructuring,1979,2007,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.955,0.955,1400.0,NIC_1978-2007
-NIC,Nicaragua,restructuring,1981,1981,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.485,0.0,192.0,NIC_1978-2007
+NIC,Nicaragua,restructuring,1979,2007,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.955,0.955,1400,NIC_1978-2007
+NIC,Nicaragua,restructuring,1981,1981,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.485,0,192,NIC_1978-2007
 NIC,Nicaragua,restructuring_preemptive_strict,1981-06-01,1981-12-01,Asonuma-Trebesch (2026 update),,,,
-NIC,Nicaragua,restructuring,1982,1982,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.563,0.0,100.0,NIC_1978-2007
+NIC,Nicaragua,restructuring,1982,1982,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.563,0,100,NIC_1978-2007
 NIC,Nicaragua,restructuring_preemptive_strict,1982-06-01,1982-03-01,Asonuma-Trebesch (2026 update),,,,
-NIC,Nicaragua,restructuring,1983,1984,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.417,0.0,145.0,NIC_1978-2007
+NIC,Nicaragua,restructuring,1983,1984,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.417,0,145,NIC_1978-2007
 NIC,Nicaragua,restructuring_post_default,1983-03-01,1984-02-01,Asonuma-Trebesch (2026 update),,,,
-NIC,Nicaragua,restructuring,1985,1995,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.92,0.92,1100.0,NIC_1978-2007
+NIC,Nicaragua,restructuring,1985,1995,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.92,0.92,1100,NIC_1978-2007
 NIC,Nicaragua,restructuring_post_default,1985-04-01,1995-11-01,Asonuma-Trebesch (2026 update),,,,
-PAK,Pakistan,default_spell,1998,1999,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.0956242,0.0,,PAK_1998-1999
-PAK,Pakistan,restructuring,1998,1999,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.116,0.0,777.2,PAK_1998-1999
+PAK,Pakistan,default_spell,1998,1999,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.0956242,0,,PAK_1998-1999
+PAK,Pakistan,restructuring,1998,1999,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.116,0,777.2,PAK_1998-1999
 PAK,Pakistan,restructuring_post_default,1998-07-01,1999-12-12,Asonuma-Trebesch (2026 update),,,,
-PAK,Pakistan,restructuring,1999,1999,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.116,0.0,777.2,PAK_1998-1999
+PAK,Pakistan,restructuring,1999,1999,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.116,0,777.2,PAK_1998-1999
 PAK,Pakistan,restructuring_preemptive_strict,1999-01-30,1999-12-13,Asonuma-Trebesch (2026 update),,,,
 PAN,Panama,default_spell,1932,1940,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.0082635,0.0018731,,PAN_1932-1940
 PAN,Panama,restructuring,1932,1940,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.1676473,0.038,15.97177,PAN_1932-1940
 PAN,Panama,default_spell,1984,1996,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.3696029,0.0067454,,PAN_1984-1996
-PAN,Panama,restructuring,1984,1985,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.12,0.0,579.0,PAN_1984-1996
+PAN,Panama,restructuring,1984,1985,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.12,0,579,PAN_1984-1996
 PAN,Panama,restructuring_preemptive_weak,1984-11-01,1985-10-01,Asonuma-Trebesch (2026 update),,,,
-PAN,Panama,restructuring,1987,1996,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.349,0.0067454,3936.0,PAN_1984-1996
+PAN,Panama,restructuring,1987,1996,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.349,0.0067454,3936,PAN_1984-1996
 PAN,Panama,restructuring_post_default,1987-03-01,1994-08-01,Asonuma-Trebesch (2026 update),,,,
 PAN,Panama,restructuring_post_default,1987-03-01,1996-04-17,Asonuma-Trebesch (2026 update),,,,
 PER,Peru,default_spell,1825,1849,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.3023847,0.148,,PER_1825-1849
@@ -504,250 +504,250 @@ PER,Peru,default_spell,1931,1951,"Graf von Luckner, Meyer, Reinhart & Trebesch (
 PER,Peru,restructuring,1931,1938,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.4215127,0.057,4.227642,PER_1931-1951
 PER,Peru,restructuring,1931,1947,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.9184501,0.49,83.10129,PER_1931-1951
 PER,Peru,restructuring,1931,1951,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.6055704,0.444878,67.17954,PER_1931-1951
-PER,Peru,default_spell,1976,1980,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",-0.0296642,0.0,,PER_1976-1980
-PER,Peru,restructuring,1976,1978,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",-0.0718801,0.0,200.0,PER_1976-1980
+PER,Peru,default_spell,1976,1980,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",-0.0296642,0,,PER_1976-1980
+PER,Peru,restructuring,1976,1978,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",-0.0718801,0,200,PER_1976-1980
 PER,Peru,restructuring_preemptive_strict,1976-03-01,1978-12-01,Asonuma-Trebesch (2026 update),,,,
-PER,Peru,restructuring,1979,1980,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",-0.046,0.0,340.0,PER_1976-1980
+PER,Peru,restructuring,1979,1980,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",-0.046,0,340,PER_1976-1980
 PER,Peru,restructuring_preemptive_strict,1979-09-01,1980-01-01,Asonuma-Trebesch (2026 update),,,,
 PER,Peru,default_spell,1983,1997,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.6428751,0.3416981,,PER_1983-1997
-PER,Peru,restructuring,1983,1983,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.063,0.0,380.0,PER_1983-1997
+PER,Peru,restructuring,1983,1983,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.063,0,380,PER_1983-1997
 PER,Peru,restructuring_preemptive_weak,1983-03-01,1983-07-01,Asonuma-Trebesch (2026 update),,,,
-PER,Peru,restructuring,1984,1997,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.639,0.3416981,10600.0,PER_1983-1997
+PER,Peru,restructuring,1984,1997,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.639,0.3416981,10600,PER_1983-1997
 PER,Peru,restructuring_post_default,1984-06-01,1997-03-07,Asonuma-Trebesch (2026 update),,,,
 PHL,Philippines,default_spell,1983,1992,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.792787,0.3369672,,PHL_1983-1992
-PHL,Philippines,restructuring,1983,1986,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.426,0.0,3242.0,PHL_1983-1992
+PHL,Philippines,restructuring,1983,1986,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.426,0,3242,PHL_1983-1992
 PHL,Philippines,restructuring_post_default,1983-10-01,1986-04-01,Asonuma-Trebesch (2026 update),,,,
-PHL,Philippines,restructuring,1986,1987,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.154,0.0,9690.0,PHL_1983-1992
+PHL,Philippines,restructuring,1986,1987,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.154,0,9690,PHL_1983-1992
 PHL,Philippines,restructuring_preemptive_weak,1986-09-01,1987-12-01,Asonuma-Trebesch (2026 update),,,,
-PHL,Philippines,restructuring,1988,1990,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.428,0.2365724,2120.0,PHL_1983-1992
+PHL,Philippines,restructuring,1988,1990,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.428,0.2365724,2120,PHL_1983-1992
 PHL,Philippines,restructuring_preemptive_weak,1988-07-01,1990-02-01,Asonuma-Trebesch (2026 update),,,,
-PHL,Philippines,restructuring,1990,1992,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.254,0.1315054,4471.0,PHL_1983-1992
+PHL,Philippines,restructuring,1990,1992,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.254,0.1315054,4471,PHL_1983-1992
 PHL,Philippines,restructuring_preemptive_weak,1990-07-01,1992-12-01,Asonuma-Trebesch (2026 update),,,,
 POL,Poland,default_spell,1936,1967,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.919493,0.890522,,POL_1936-1967
-POL,Poland,restructuring,1936,1938,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.0,0.0,69.51219,POL_1936-1967
+POL,Poland,restructuring,1936,1938,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0,0,69.51219,POL_1936-1967
 POL,Poland,restructuring,1936,1967,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.919493,0.890522,49.28828,POL_1936-1967
 POL,Poland,default_spell,1981,1994,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.8894086,0.3190987,,POL_1981-1994
-POL,Poland,restructuring,1981,1982,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.406,0.0,1957.0,POL_1981-1994
-POL,Poland,restructuring,1981,1982,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.406,0.0,1957.0,POL_1981-1994
+POL,Poland,restructuring,1981,1982,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.406,0,1957,POL_1981-1994
+POL,Poland,restructuring,1981,1982,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.406,0,1957,POL_1981-1994
 POL,Poland,restructuring_post_default,1981-03-01,1982-04-06,Asonuma-Trebesch (2026 update),,,,
 POL,Poland,restructuring_post_default,1982-01-01,1982-11-04,Asonuma-Trebesch (2026 update),,,,
 POL,Poland,restructuring_post_default,1982-12-01,1983-11-04,Asonuma-Trebesch (2026 update),,,,
-POL,Poland,restructuring,1983,1984,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.269,0.0,1390.0,POL_1981-1994
+POL,Poland,restructuring,1983,1984,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.269,0,1390,POL_1981-1994
 POL,Poland,restructuring_post_default,1983-12-01,1984-07-13,Asonuma-Trebesch (2026 update),,,,
-POL,Poland,restructuring,1986,1988,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.244,0.0,8441.0,POL_1981-1994
+POL,Poland,restructuring,1986,1988,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.244,0,8441,POL_1981-1994
 POL,Poland,restructuring_post_default,1986-01-01,1986-09-01,Asonuma-Trebesch (2026 update),,,,
 POL,Poland,restructuring_post_default,1986-10-01,1988-07-20,Asonuma-Trebesch (2026 update),,,,
-POL,Poland,restructuring,1988,1989,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.12,0.0,206.0,POL_1981-1994
+POL,Poland,restructuring,1988,1989,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.12,0,206,POL_1981-1994
 POL,Poland,restructuring_post_default,1988-08-01,1989-07-01,Asonuma-Trebesch (2026 update),,,,
-POL,Poland,restructuring,1989,1994,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.49,0.3190987,13531.0,POL_1981-1994
+POL,Poland,restructuring,1989,1994,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.49,0.3190987,13531,POL_1981-1994
 POL,Poland,restructuring_post_default,1989-10-01,1994-10-27,Asonuma-Trebesch (2026 update),,,,
-PRT,Portugal,default_spell,1834,1834,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",1.0,1.0,,PRT_1834-1834
-PRT,Portugal,restructuring,1834,1834,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",1.0,1.0,28.49763,PRT_1834-1834
+PRT,Portugal,default_spell,1834,1834,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",1,1,,PRT_1834-1834
+PRT,Portugal,restructuring,1834,1834,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",1,1,28.49763,PRT_1834-1834
 PRT,Portugal,default_spell,1837,1840,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.1821987,0.102,,PRT_1837-1840
 PRT,Portugal,restructuring,1837,1840,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.1821987,0.102,10.49289,PRT_1837-1840
-PRT,Portugal,default_spell,1845,1845,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.5045958,0.0,,PRT_1845-1845
-PRT,Portugal,restructuring,1845,1845,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.5045958,0.0,49.125,PRT_1845-1845
+PRT,Portugal,default_spell,1845,1845,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.5045958,0,,PRT_1845-1845
+PRT,Portugal,restructuring,1845,1845,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.5045958,0,49.125,PRT_1845-1845
 PRT,Portugal,default_spell,1848,1856,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.2019646,0.13,,PRT_1848-1856
 PRT,Portugal,restructuring,1848,1856,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.2019646,0.13,11.94648,PRT_1848-1856
 PRT,Portugal,default_spell,1892,1902,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.4054924,0.2869738,,PRT_1892-1902
 PRT,Portugal,restructuring,1892,1902,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.7121493,0.504,65.44479,PRT_1892-1902
 PRY,Paraguay,default_spell,1874,1885,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.4172481,0.2488828,,PRY_1874-1885
 PRY,Paraguay,restructuring,1874,1885,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.4492977,0.268,12.89973,PRY_1874-1885
-PRY,Paraguay,default_spell,1892,1895,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.6443702,0.0,,PRY_1892-1895
-PRY,Paraguay,restructuring,1892,1895,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.6443702,0.0,4.336043,PRY_1892-1895
+PRY,Paraguay,default_spell,1892,1895,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.6443702,0,,PRY_1892-1895
+PRY,Paraguay,restructuring,1892,1895,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.6443702,0,4.336043,PRY_1892-1895
 PRY,Paraguay,default_spell,1921,1924,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.1135956,0.0829049,,PRY_1921-1924
 PRY,Paraguay,restructuring,1921,1924,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.5193023,0.379,4.699187,PRY_1921-1924
 PRY,Paraguay,default_spell,1933,1944,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.4731449,0.123,,PRY_1933-1944
 PRY,Paraguay,restructuring,1933,1944,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.4731449,0.123,2.609982,PRY_1933-1944
-PRY,Paraguay,default_spell,1986,1993,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.0949819,0.0,,PRY_1986-1993
-PRY,Paraguay,restructuring,1986,1993,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.292,0.0,20.0,PRY_1986-1993
+PRY,Paraguay,default_spell,1986,1993,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.0949819,0,,PRY_1986-1993
+PRY,Paraguay,restructuring,1986,1993,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.292,0,20,PRY_1986-1993
 PRY,Paraguay,restructuring_post_default,1986-01-01,1993-07-01,Asonuma-Trebesch (2026 update),,,,
 ROU,Romania,default_spell,1933,1959,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.9822896,0.972846,,ROU_1933-1959
 ROU,Romania,restructuring,1933,1959,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.9822896,0.972846,202.002,ROU_1933-1959
-ROU,Romania,default_spell,1981,1986,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.1507622,0.0,,ROU_1981-1986
-ROU,Romania,restructuring,1981,1982,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.329,0.0,1598.0,ROU_1981-1986
-ROU,Romania,restructuring,1981,1983,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.317,0.0,567.0,ROU_1981-1986
-ROU,Romania,restructuring,1981,1986,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.123,0.0,800.0,ROU_1981-1986
+ROU,Romania,default_spell,1981,1986,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.1507622,0,,ROU_1981-1986
+ROU,Romania,restructuring,1981,1982,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.329,0,1598,ROU_1981-1986
+ROU,Romania,restructuring,1981,1983,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.317,0,567,ROU_1981-1986
+ROU,Romania,restructuring,1981,1986,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.123,0,800,ROU_1981-1986
 ROU,Romania,restructuring_post_default,1981-09-01,1982-12-07,Asonuma-Trebesch (2026 update),,,,
 ROU,Romania,restructuring_preemptive_weak,1983-01-01,1983-06-20,Asonuma-Trebesch (2026 update),,,,
 ROU,Romania,restructuring_preemptive_weak,1986-06-01,1986-09-01,Asonuma-Trebesch (2026 update),,,,
-RUS,Russia,default_spell,1917,1917,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",1.0,1.0,,RUS_1917-1917
-RUS,Russia,restructuring,1917,1917,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",1.0,1.0,2104.309,RUS_1917-1917
+RUS,Russia,default_spell,1917,1917,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",1,1,,RUS_1917-1917
+RUS,Russia,restructuring,1917,1917,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",1,1,2104.309,RUS_1917-1917
 RUS,Russia,default_spell,1991,2000,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.0281632,0.0094454,,RUS_1991-2000
-RUS,Russia,restructuring,1991,1997,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.0,0.0,30500.0,RUS_1991-2000
+RUS,Russia,restructuring,1991,1997,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0,0,30500,RUS_1991-2000
 RUS,Russia,restructuring_post_default,1991-08-01,1997-12-01,Asonuma-Trebesch (2026 update),,,,
-RUS,Russia,restructuring,1998,2000,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.515,0.342994,1307.0,RUS_1991-2000
+RUS,Russia,restructuring,1998,2000,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.515,0.342994,1307,RUS_1991-2000
 RUS,Russia,restructuring_post_default,1998-08-17,1999-05-07,Asonuma-Trebesch (2026 update),,,,
 RUS,Russia,restructuring_post_default,1998-11-20,2000-08-25,Asonuma-Trebesch (2026 update),,,,
-RUS,Russia,restructuring,1999,2000,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.515,0.0,1307.0,RUS_1991-2000
+RUS,Russia,restructuring,1999,2000,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.515,0,1307,RUS_1991-2000
 RUS,Russia,restructuring_post_default,1999-04-20,2000-02-03,Asonuma-Trebesch (2026 update),,,,
-SDN,Sudan,default_spell,1975,1985,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.4897965,0.0,,SDN_1975-1985
-SDN,Sudan,restructuring,1975,1985,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.546,0.0,920.0,SDN_1975-1985
+SDN,Sudan,default_spell,1975,1985,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.4897965,0,,SDN_1975-1985
+SDN,Sudan,restructuring,1975,1985,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.546,0,920,SDN_1975-1985
 SDN,Sudan,restructuring_post_default,1975-06-01,1985-10-01,Asonuma-Trebesch (2026 update),,,,
-SEN,Senegal,default_spell,1981,1985,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.1158779,0.0,,SEN_1981-1985
-SEN,Senegal,restructuring,1981,1984,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.288,0.0,77.3,SEN_1981-1985
+SEN,Senegal,default_spell,1981,1985,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.1158779,0,,SEN_1981-1985
+SEN,Senegal,restructuring,1981,1984,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.288,0,77.3,SEN_1981-1985
 SEN,Senegal,restructuring_post_default,1981-05-01,1984-02-01,Asonuma-Trebesch (2026 update),,,,
-SEN,Senegal,restructuring,1985,1985,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.313,0.0,20.0,SEN_1981-1985
+SEN,Senegal,restructuring,1985,1985,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.313,0,20,SEN_1981-1985
 SEN,Senegal,restructuring_preemptive_weak,1985-06-01,1985-05-07,Asonuma-Trebesch (2026 update),,,,
 SEN,Senegal,default_spell,1990,1996,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.9286102,0.92,,SEN_1990-1996
-SEN,Senegal,restructuring,1990,1990,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.357,0.0,37.0,SEN_1990-1996
+SEN,Senegal,restructuring,1990,1990,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.357,0,37,SEN_1990-1996
 SEN,Senegal,restructuring_preemptive_weak,1990-06-01,1990-09-28,Asonuma-Trebesch (2026 update),,,,
-SEN,Senegal,restructuring,1992,1996,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.92,0.92,80.0,SEN_1990-1996
+SEN,Senegal,restructuring,1992,1996,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.92,0.92,80,SEN_1990-1996
 SEN,Senegal,restructuring_post_default,1992-06-01,1996-12-18,Asonuma-Trebesch (2026 update),,,,
 SLE,Sierra Leone,default_spell,1980,1995,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.886,0.8858287,,SLE_1980-1995
 SLE,Sierra Leone,restructuring,1980,1995,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.886,0.8858287,234.7,SLE_1980-1995
 SLE,Sierra Leone,restructuring_post_default,1980-06-01,1995-08-01,Asonuma-Trebesch (2026 update),,,,
 SLV,El Salvador,default_spell,1828,1860,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.6853147,0.65,,SLV_1828-1860
 SLV,El Salvador,restructuring,1828,1860,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.6853147,0.65,0.3493676,SLV_1828-1860
-SLV,El Salvador,default_spell,1899,1899,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.2589787,0.0,,SLV_1899-1899
-SLV,El Salvador,restructuring,1899,1899,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.2589787,0.0,3.568202,SLV_1899-1899
-SLV,El Salvador,default_spell,1921,1923,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.1122198,0.0,,SLV_1921-1923
-SLV,El Salvador,restructuring,1921,1923,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.120301,0.0,4.36224,SLV_1921-1923
-SLV,El Salvador,default_spell,1932,1932,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.2915358,0.0,,SLV_1932-1932
-SLV,El Salvador,restructuring,1932,1932,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.2915358,0.0,15.70732,SLV_1932-1932
+SLV,El Salvador,default_spell,1899,1899,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.2589787,0,,SLV_1899-1899
+SLV,El Salvador,restructuring,1899,1899,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.2589787,0,3.568202,SLV_1899-1899
+SLV,El Salvador,default_spell,1921,1923,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.1122198,0,,SLV_1921-1923
+SLV,El Salvador,restructuring,1921,1923,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.120301,0,4.36224,SLV_1921-1923
+SLV,El Salvador,default_spell,1932,1932,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.2915358,0,,SLV_1932-1932
+SLV,El Salvador,restructuring,1932,1932,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.2915358,0,15.70732,SLV_1932-1932
 SLV,El Salvador,default_spell,1935,1946,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.7706788,0.3554892,,SLV_1935-1946
 SLV,El Salvador,restructuring,1935,1936,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.6178829,0.25,18.06775,SLV_1935-1946
 SLV,El Salvador,restructuring,1938,1946,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.8358257,0.294,11.35366,SLV_1935-1946
-SRB,Serbia,default_spell,1895,1895,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.1731363,0.0,,SRB_1895-1895
-SRB,Serbia,restructuring,1895,1895,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.1731363,0.0,59.40379,SRB_1895-1895
-SRB,Serbia,default_spell,1932,1967,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.0,0.0078375,,SRB_1932-1967
-SRB,Serbia,restructuring,1932,1967,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.0,0.730723,182.9011,SRB_1932-1967
-SRB,Serbia,default_spell,1983,1988,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.3042743,0.0,,SRB_1983-1988
-SRB,Serbia,restructuring,1983,1984,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",-0.0133429,0.0,2235.501,SRB_1983-1988
-SRB,Serbia,restructuring,1983,1985,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.145,0.0,3602.045,SRB_1983-1988
-SRB,Serbia,restructuring,1983,1988,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.197,0.0,6902.326,SRB_1983-1988
+SRB,Serbia,default_spell,1895,1895,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.1731363,0,,SRB_1895-1895
+SRB,Serbia,restructuring,1895,1895,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.1731363,0,59.40379,SRB_1895-1895
+SRB,Serbia,default_spell,1932,1967,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0,0.0078375,,SRB_1932-1967
+SRB,Serbia,restructuring,1932,1967,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0,0.730723,182.9011,SRB_1932-1967
+SRB,Serbia,default_spell,1983,1988,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.3042743,0,,SRB_1983-1988
+SRB,Serbia,restructuring,1983,1984,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",-0.0133429,0,2235.501,SRB_1983-1988
+SRB,Serbia,restructuring,1983,1985,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.145,0,3602.045,SRB_1983-1988
+SRB,Serbia,restructuring,1983,1988,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.197,0,6902.326,SRB_1983-1988
 SRB,Serbia,default_spell,1992,2004,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.709,0.5925926,,SRB_1992-2004
-SRB,Serbia,restructuring,1992,2004,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.709,0.5925926,2700.0,SRB_1992-2004
+SRB,Serbia,restructuring,1992,2004,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.709,0.5925926,2700,SRB_1992-2004
 SRB,Serbia,restructuring_post_default,1992-06-01,2004-07-22,Asonuma-Trebesch (2026 update),,,,
 STP,Sao Tome and Principe,default_spell,1984,1994,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.9,0.9,,STP_1984-1994
 STP,Sao Tome and Principe,restructuring,1984,1994,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.9,0.9,10.1,STP_1984-1994
 STP,Sao Tome and Principe,restructuring_post_default,1984-06-01,1994-08-01,Asonuma-Trebesch (2026 update),,,,
 STP,Sao Tome and Principe,restructuring_post_default,2024-12-31,2025-12-17,Asonuma-Trebesch (2026 update),,,,
 SUR,Suriname,default_spell,2020,2023,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.2916564,0.265,,SUR_2020-2023
-SUR,Suriname,restructuring,2020,2020,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.0082,0.0,675.0,SUR_2020-2023
-SUR,Suriname,restructuring,2020,2023,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.2858,0.265,675.0,SUR_2020-2023
+SUR,Suriname,restructuring,2020,2020,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.0082,0,675,SUR_2020-2023
+SUR,Suriname,restructuring,2020,2023,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.2858,0.265,675,SUR_2020-2023
 SUR,Suriname,restructuring_post_default,2020-06-01,2023-12-01,Asonuma-Trebesch (2026 update),,,,
 SUR,Suriname,restructuring_post_default,2020-06-01,2025-06-01,Asonuma-Trebesch (2026 update),,,,
-SVN,Slovenia,default_spell,1992,1995,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.033,0.0,,SVN_1992-1995
-SVN,Slovenia,restructuring,1992,1995,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.033,0.0,813.9522,SVN_1992-1995
+SVN,Slovenia,default_spell,1992,1995,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.033,0,,SVN_1992-1995
+SVN,Slovenia,restructuring,1992,1995,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.033,0,813.9522,SVN_1992-1995
 SVN,Slovenia,restructuring_post_default,1992-06-01,1996-03-12,Asonuma-Trebesch (2026 update),,,,
 SYC,Seychelles,default_spell,2008,2010,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.4075984,0.362632,,SYC_2008-2010
-SYC,Seychelles,restructuring,2008,2010,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.562,0.5,320.0,SYC_2008-2010
+SYC,Seychelles,restructuring,2008,2010,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.562,0.5,320,SYC_2008-2010
 SYC,Seychelles,restructuring_post_default,2008-07-01,2010-02-11,Asonuma-Trebesch (2026 update),,,,
-TCD,Chad,default_spell,2014,2015,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.0974162,0.0,,TCD_2014-2015
-TCD,Chad,restructuring,2014,2015,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.108,0.0,1400.0,TCD_2014-2015
+TCD,Chad,default_spell,2014,2015,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.0974162,0,,TCD_2014-2015
+TCD,Chad,restructuring,2014,2015,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.108,0,1400,TCD_2014-2015
 TCD,Chad,restructuring_preemptive_strict,2014-09-01,2015-12-01,Asonuma-Trebesch (2026 update),,,,
-TCD,Chad,default_spell,2017,2018,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.273,0.0,,TCD_2017-2018
-TCD,Chad,restructuring,2017,2018,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.273,0.0,1667.0,TCD_2017-2018
+TCD,Chad,default_spell,2017,2018,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.273,0,,TCD_2017-2018
+TCD,Chad,restructuring,2017,2018,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.273,0,1667,TCD_2017-2018
 TCD,Chad,restructuring_preemptive_strict,2017-02-01,2018-06-28,Asonuma-Trebesch (2026 update),,,,
 TCD,Chad,restructuring_preemptive_strict,2021-04-01,2022-12-01,Asonuma-Trebesch (2026 update),,,,
-TGO,Togo,default_spell,1987,1988,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.3518074,0.0,,TGO_1987-1988
-TGO,Togo,restructuring,1987,1988,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.46,0.0,49.0,TGO_1987-1988
+TGO,Togo,default_spell,1987,1988,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.3518074,0,,TGO_1987-1988
+TGO,Togo,restructuring,1987,1988,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.46,0,49,TGO_1987-1988
 TGO,Togo,restructuring_post_default,1987-06-01,1988-05-01,Asonuma-Trebesch (2026 update),,,,
 TGO,Togo,default_spell,1991,1997,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.923,0.9231667,,TGO_1991-1997
-TGO,Togo,restructuring,1991,1997,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.923,0.9231667,75.0,TGO_1991-1997
+TGO,Togo,restructuring,1991,1997,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.923,0.9231667,75,TGO_1991-1997
 TGO,Togo,restructuring_post_default,1991-06-01,1997-12-01,Asonuma-Trebesch (2026 update),,,,
-THA,Thailand,default_spell,1941,1947,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.120395,0.0,,THA_1941-1947
-THA,Thailand,restructuring,1941,1947,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.120395,0.0,11.98205,THA_1941-1947
-TTO,Trinidad and Tobago,default_spell,1988,1989,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.0442861,0.0,,TTO_1988-1989
-TTO,Trinidad and Tobago,restructuring,1988,1989,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.155,0.0,446.0,TTO_1988-1989
+THA,Thailand,default_spell,1941,1947,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.120395,0,,THA_1941-1947
+THA,Thailand,restructuring,1941,1947,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.120395,0,11.98205,THA_1941-1947
+TTO,Trinidad and Tobago,default_spell,1988,1989,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.0442861,0,,TTO_1988-1989
+TTO,Trinidad and Tobago,restructuring,1988,1989,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.155,0,446,TTO_1988-1989
 TTO,Trinidad and Tobago,restructuring_preemptive_weak,1988-09-01,1989-12-20,Asonuma-Trebesch (2026 update),,,,
 TUR,Turkey,default_spell,1876,1881,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.9541936,0.583,,TUR_1876-1881
 TUR,Turkey,restructuring,1876,1881,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.9541936,0.583,1008.028,TUR_1876-1881
 TUR,Turkey,default_spell,1903,1903,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.1806525,0.3886179,,TUR_1903-1903
 TUR,Turkey,restructuring,1903,1903,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.2761262,0.594,338.0682,TUR_1903-1903
 TUR,Turkey,default_spell,1915,1933,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.9233746,0.648,,TUR_1915-1933
-TUR,Turkey,restructuring,1915,1928,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.6034464,0.0,317.252,TUR_1915-1933
+TUR,Turkey,restructuring,1915,1928,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.6034464,0,317.252,TUR_1915-1933
 TUR,Turkey,restructuring,1929,1933,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.8067717,0.648,465.5393,TUR_1915-1933
 TUR,Turkey,default_spell,1944,1944,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.9519305,0.965,,TUR_1944-1944
 TUR,Turkey,restructuring,1944,1944,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.9519305,0.965,932.8678,TUR_1944-1944
-TUR,Turkey,default_spell,1976,1982,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.3224092,0.0,,TUR_1976-1982
-TUR,Turkey,restructuring,1976,1979,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.222,0.0,429.0,TUR_1976-1982
+TUR,Turkey,default_spell,1976,1982,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.3224092,0,,TUR_1976-1982
+TUR,Turkey,restructuring,1976,1979,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.222,0,429,TUR_1976-1982
 TUR,Turkey,restructuring_post_default,1976-12-01,1979-06-01,Asonuma-Trebesch (2026 update),,,,
 TUR,Turkey,restructuring_post_default,1976-12-02,1979-08-22,Asonuma-Trebesch (2026 update),,,,
-TUR,Turkey,restructuring,1981,1982,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.17,0.0,2269.0,TUR_1976-1982
+TUR,Turkey,restructuring,1981,1982,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.17,0,2269,TUR_1976-1982
 TUR,Turkey,restructuring_preemptive_weak,1981-01-01,1981-08-01,Asonuma-Trebesch (2026 update),,,,
 TUR,Turkey,restructuring_preemptive_weak,1981-01-01,1982-03-13,Asonuma-Trebesch (2026 update),,,,
 TZA,Tanzania,default_spell,1981,2004,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.88,0.88,,TZA_1981-2004
 TZA,Tanzania,restructuring,1981,2004,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.88,0.88,155.8,TZA_1981-2004
 TZA,Tanzania,restructuring_post_default,1981-06-01,2004-01-01,Asonuma-Trebesch (2026 update),,,,
 UGA,Uganda,default_spell,1979,1993,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.540666,0.540666,,UGA_1979-1993
-UGA,Uganda,restructuring,1979,1993,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.88,0.88,153.0,UGA_1979-1993
+UGA,Uganda,restructuring,1979,1993,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.88,0.88,153,UGA_1979-1993
 UGA,Uganda,restructuring_post_default,1979-06-01,1993-02-26,Asonuma-Trebesch (2026 update),,,,
 UKR,Ukraine,default_spell,1998,2000,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.1249052,0.0072775,,UKR_1998-2000
-UKR,Ukraine,restructuring,1998,1998,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.118,0.0,420.0,UKR_1998-2000
+UKR,Ukraine,restructuring,1998,1998,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.118,0,420,UKR_1998-2000
 UKR,Ukraine,restructuring_preemptive_strict,1998-08-12,1998-09-21,Asonuma-Trebesch (2026 update),,,,
 UKR,Ukraine,restructuring_preemptive_strict,1998-08-12,1998-10-20,Asonuma-Trebesch (2026 update),,,,
-UKR,Ukraine,restructuring,1999,1999,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",-0.083,0.057,163.0,UKR_1998-2000
+UKR,Ukraine,restructuring,1999,1999,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",-0.083,0.057,163,UKR_1998-2000
 UKR,Ukraine,restructuring_preemptive_weak,1999-05-18,1999-08-20,Asonuma-Trebesch (2026 update),,,,
 UKR,Ukraine,restructuring,2000,2000,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.18,0.008717,1598.259,UKR_1998-2000
 UKR,Ukraine,restructuring_preemptive_weak,2000-01-10,2000-04-07,Asonuma-Trebesch (2026 update),,,,
 UKR,Ukraine,default_spell,2015,2016,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.195961,0.1920384,,UKR_2015-2016
-UKR,Ukraine,restructuring,2015,2016,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.192,0.2,511.0,UKR_2015-2016
-UKR,Ukraine,restructuring,2015,2016,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.232,0.227,14926.0,UKR_2015-2016
+UKR,Ukraine,restructuring,2015,2016,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.192,0.2,511,UKR_2015-2016
+UKR,Ukraine,restructuring,2015,2016,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.232,0.227,14926,UKR_2015-2016
 UKR,Ukraine,restructuring_preemptive_strict,2015-01-21,2015-11-12,Asonuma-Trebesch (2026 update),,,,
 UKR,Ukraine,restructuring_preemptive_strict,2015-01-21,2016-04-01,Asonuma-Trebesch (2026 update),,,,
 UKR,Ukraine,restructuring_preemptive_strict,2022-07-01,2024-09-01,Asonuma-Trebesch (2026 update),,,,
 UKR,Ukraine,restructuring_preemptive_weak,2022-07-01,2025-12-19,Asonuma-Trebesch (2026 update),,,,
-URY,Uruguay,default_spell,1876,1878,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.1641865,0.0,,URY_1876-1878
-URY,Uruguay,restructuring,1876,1878,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.1641865,0.0,16.33333,URY_1876-1878
+URY,Uruguay,default_spell,1876,1878,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.1641865,0,,URY_1876-1878
+URY,Uruguay,restructuring,1876,1878,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.1641865,0,16.33333,URY_1876-1878
 URY,Uruguay,default_spell,1891,1891,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.1997682,-0.045,,URY_1891-1891
 URY,Uruguay,restructuring,1891,1891,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.1997682,-0.045,79.65582,URY_1891-1891
 URY,Uruguay,default_spell,1932,1939,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.2542865,0.0581492,,URY_1932-1939
 URY,Uruguay,restructuring,1932,1939,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.2542866,0.0581492,117.2957,URY_1932-1939
 URY,Uruguay,default_spell,1983,1991,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.449517,0.118773,,URY_1983-1991
-URY,Uruguay,restructuring,1983,1983,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.007,0.0,575.0,URY_1983-1991
+URY,Uruguay,restructuring,1983,1983,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.007,0,575,URY_1983-1991
 URY,Uruguay,restructuring_preemptive_weak,1983-01-01,1983-07-29,Asonuma-Trebesch (2026 update),,,,
-URY,Uruguay,restructuring,1985,1986,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.243,0.0,1958.0,URY_1983-1991
+URY,Uruguay,restructuring,1985,1986,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.243,0,1958,URY_1983-1991
 URY,Uruguay,restructuring_preemptive_weak,1985-04-01,1986-07-10,Asonuma-Trebesch (2026 update),,,,
-URY,Uruguay,restructuring,1987,1988,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.203,0.0,1770.0,URY_1983-1991
+URY,Uruguay,restructuring,1987,1988,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.203,0,1770,URY_1983-1991
 URY,Uruguay,restructuring_preemptive_strict,1987-05-01,1988-03-04,Asonuma-Trebesch (2026 update),,,,
-URY,Uruguay,restructuring,1989,1991,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.263,0.1639317,1610.0,URY_1983-1991
+URY,Uruguay,restructuring,1989,1991,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.263,0.1639317,1610,URY_1983-1991
 URY,Uruguay,restructuring_preemptive_strict,1989-07-01,1991-01-31,Asonuma-Trebesch (2026 update),,,,
-URY,Uruguay,default_spell,2003,2003,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.0774448,0.0,,URY_2003-2003
-URY,Uruguay,restructuring,2003,2003,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.098,0.0,3126.7,URY_2003-2003
+URY,Uruguay,default_spell,2003,2003,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.0774448,0,,URY_2003-2003
+URY,Uruguay,restructuring,2003,2003,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.098,0,3126.7,URY_2003-2003
 URY,Uruguay,restructuring_preemptive_strict,2003-03-11,2003-05-29,Asonuma-Trebesch (2026 update),,,,
-VEN,Venezuela,default_spell,1826,1840,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.8085295,0.0,,VEN_1826-1840
-VEN,Venezuela,restructuring,1826,1840,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.8085295,0.0,16.3689,VEN_1826-1840
+VEN,Venezuela,default_spell,1826,1840,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.8085295,0,,VEN_1826-1840
+VEN,Venezuela,restructuring,1826,1840,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.8085295,0,16.3689,VEN_1826-1840
 VEN,Venezuela,default_spell,1847,1881,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.8946937,0.4425022,,VEN_1847-1881
 VEN,Venezuela,restructuring,1847,1859,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.5229865,0.016,19.71545,VEN_1847-1881
-VEN,Venezuela,restructuring,1860,1862,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.3404613,0.0,23.09982,VEN_1847-1881
+VEN,Venezuela,restructuring,1860,1862,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.3404613,0,23.09982,VEN_1847-1881
 VEN,Venezuela,restructuring,1864,1881,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.924004,0.602,30.58943,VEN_1847-1881
-VEN,Venezuela,default_spell,1892,1893,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.0060391,0.0,,VEN_1892-1893
-VEN,Venezuela,restructuring,1892,1893,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.0250335,0.0,12.55962,VEN_1892-1893
+VEN,Venezuela,default_spell,1892,1893,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.0060391,0,,VEN_1892-1893
+VEN,Venezuela,restructuring,1892,1893,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.0250335,0,12.55962,VEN_1892-1893
 VEN,Venezuela,default_spell,1898,1905,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.1427285,0.0468764,,VEN_1898-1905
 VEN,Venezuela,restructuring,1898,1905,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.3927773,0.129,25.78083,VEN_1898-1905
 VEN,Venezuela,default_spell,1983,1990,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.3773311,0.0526512,,VEN_1983-1990
-VEN,Venezuela,restructuring,1983,1986,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.099,0.0,20307.0,VEN_1983-1990
-VEN,Venezuela,restructuring,1983,1988,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.043,0.0,20359.19,VEN_1983-1990
+VEN,Venezuela,restructuring,1983,1986,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.099,0,20307,VEN_1983-1990
+VEN,Venezuela,restructuring,1983,1988,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.043,0,20359.19,VEN_1983-1990
 VEN,Venezuela,restructuring_post_default,1983-03-01,1986-02-27,Asonuma-Trebesch (2026 update),,,,
 VEN,Venezuela,restructuring_preemptive_weak,1986-04-24,1987-09-18,Asonuma-Trebesch (2026 update),,,,
-VEN,Venezuela,restructuring,1989,1990,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.367,0.0679653,19585.0,VEN_1983-1990
+VEN,Venezuela,restructuring,1989,1990,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.367,0.0679653,19585,VEN_1983-1990
 VEN,Venezuela,restructuring_post_default,1989-01-12,1990-12-05,Asonuma-Trebesch (2026 update),,,,
 VNM,Vietnam,default_spell,1982,1997,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.52,0.2608771,,VNM_1982-1997
 VNM,Vietnam,restructuring,1982,1997,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.52,0.2608771,782.1,VNM_1982-1997
 VNM,Vietnam,restructuring_post_default,1982-01-01,1997-12-05,Asonuma-Trebesch (2026 update),,,,
 YEM,Yemen,default_spell,1983,2001,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.97,0.97,,YEM_1983-2001
-YEM,Yemen,restructuring,1983,2001,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.97,0.97,607.0,YEM_1983-2001
+YEM,Yemen,restructuring,1983,2001,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.97,0.97,607,YEM_1983-2001
 YEM,Yemen,restructuring_post_default,1983-06-01,2001-02-01,Asonuma-Trebesch (2026 update),,,,
 YUG,Yugoslavia,restructuring_preemptive_weak,1983-01-01,1983-09-09,Asonuma-Trebesch (2026 update),,,,
 YUG,Yugoslavia,restructuring_preemptive_strict,1983-09-01,1984-05-16,Asonuma-Trebesch (2026 update),,,,
 YUG,Yugoslavia,restructuring_preemptive_weak,1984-06-01,1985-12-18,Asonuma-Trebesch (2026 update),,,,
 YUG,Yugoslavia,restructuring_preemptive_weak,1987-07-01,1988-09-21,Asonuma-Trebesch (2026 update),,,,
-ZAF,South Africa,default_spell,1985,1989,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.201205,0.0,,ZAF_1985-1989
-ZAF,South Africa,restructuring,1985,1987,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.085,0.0,10900.0,ZAF_1985-1989
+ZAF,South Africa,default_spell,1985,1989,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.201205,0,,ZAF_1985-1989
+ZAF,South Africa,restructuring,1985,1987,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.085,0,10900,ZAF_1985-1989
 ZAF,South Africa,restructuring_post_default,1985-09-01,1986-03-01,Asonuma-Trebesch (2026 update),,,,
 ZAF,South Africa,restructuring_preemptive_weak,1985-09-01,1987-03-24,Asonuma-Trebesch (2026 update),,,,
-ZAF,South Africa,restructuring,1989,1989,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.127,0.0,7500.0,ZAF_1985-1989
+ZAF,South Africa,restructuring,1989,1989,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.127,0,7500,ZAF_1985-1989
 ZAF,South Africa,restructuring_preemptive_strict,1989-06-01,1989-10-18,Asonuma-Trebesch (2026 update),,,,
-ZAF,South Africa,default_spell,1992,1993,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.22,0.0,,ZAF_1992-1993
-ZAF,South Africa,restructuring,1992,1993,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.22,0.0,5000.0,ZAF_1992-1993
+ZAF,South Africa,default_spell,1992,1993,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.22,0,,ZAF_1992-1993
+ZAF,South Africa,restructuring,1992,1993,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.22,0,5000,ZAF_1992-1993
 ZAF,South Africa,restructuring_preemptive_strict,1992-01-01,1993-09-27,Asonuma-Trebesch (2026 update),,,,
 ZMB,Zambia,default_spell,1983,1994,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.89,0.89,,ZMB_1983-1994
-ZMB,Zambia,restructuring,1983,1994,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.89,0.89,570.0,ZMB_1983-1994
+ZMB,Zambia,restructuring,1983,1994,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.89,0.89,570,ZMB_1983-1994
 ZMB,Zambia,restructuring_post_default,1983-01-07,1994-09-14,Asonuma-Trebesch (2026 update),,,,
 ZMB,Zambia,default_spell,2020,2024,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.636,0.204,,ZMB_2020-2024
-ZMB,Zambia,restructuring,2020,2024,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.636,0.204,3890.0,ZMB_2020-2024
+ZMB,Zambia,restructuring,2020,2024,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.636,0.204,3890,ZMB_2020-2024
 ZMB,Zambia,restructuring_post_default,2020-05-01,2024-06-01,Asonuma-Trebesch (2026 update),,,,
-ZWE,Zimbabwe,default_spell,1965,1980,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.0,0.1100901,,ZWE_1965-1980
-ZWE,Zimbabwe,restructuring,1965,1980,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0.0,0.188,311.7139,ZWE_1965-1980
+ZWE,Zimbabwe,default_spell,1965,1980,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0,0.1100901,,ZWE_1965-1980
+ZWE,Zimbabwe,restructuring,1965,1980,"Graf von Luckner, Meyer, Reinhart & Trebesch (2024)",0,0.188,311.7139,ZWE_1965-1980

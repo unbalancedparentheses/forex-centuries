@@ -196,13 +196,24 @@ def chain_link_measuringworth(values=None, units=None):
     return linked, breaks
 
 
+# 12 significant digits: far beyond the precision of any source series, and
+# it removes last-bit differences between platforms' math libraries (macOS
+# arm64 vs Linux x86_64), so local and CI builds write identical files.
+CSV_FLOAT_FORMAT = "%.12g"
+
+
+def _write_csv(df, path, **kwargs):
+    """Write a CSV with platform-independent float formatting."""
+    df.to_csv(path, float_format=CSV_FLOAT_FORMAT, **kwargs)
+
+
 def _round_and_write(df, path, precision_4=(), precision_6=()):
     """Round specified columns and write CSV."""
     for c in precision_4:
         df[c] = df[c].round(4)
     for c in precision_6:
         df[c] = df[c].round(6)
-    df.to_csv(path, index=False)
+    df.pipe(_write_csv, path, index=False)
 
 
 def build_fred_daily():
@@ -233,12 +244,12 @@ def build_fred_daily():
     long = long.sort_values(["date", "currency"]).reset_index(drop=True)
     long.columns = ["date", "currency", "rate_per_usd"]
 
-    long.to_csv(NORM / "fred_daily_normalized.csv", index=False)
+    long.pipe(_write_csv, NORM / "fred_daily_normalized.csv", index=False)
     print(f"    fred_daily_normalized.csv: {len(long):,} rows, "
           f"{long['currency'].nunique()} currencies")
 
     wide = long.pivot(index="date", columns="currency", values="rate_per_usd")
-    wide.to_csv(NORM / "fred_daily_normalized_wide.csv")
+    wide.pipe(_write_csv, NORM / "fred_daily_normalized_wide.csv")
     print(f"    fred_daily_normalized_wide.csv: {wide.shape[0]:,} dates x "
           f"{wide.shape[1]} currencies")
 
@@ -460,7 +471,7 @@ def build_yearly_panel():
     all_data = add_quality_flags(all_data, candidates, mw_unit_breaks())
 
     all_data[["year", "iso3", "country", "rate_per_usd", "source", "unit",
-              "flags", "comparable_with_previous"]].to_csv(
+              "flags", "comparable_with_previous"]].pipe(_write_csv, 
         NORM / "yearly_unified_panel.csv", index=False)
     print(f"    Not comparable with previous year: "
           f"{(~all_data['comparable_with_previous']).sum():,} rows")
@@ -471,7 +482,7 @@ def build_yearly_panel():
     print(f"    Sources: {' | '.join(f'{s}={n:,}' for s, n in src_counts.items())}")
 
     wide = all_data.pivot(index="year", columns="country", values="rate_per_usd")
-    wide.to_csv(NORM / "yearly_unified_wide.csv")
+    wide.pipe(_write_csv, NORM / "yearly_unified_wide.csv")
     print(f"    yearly_unified_wide.csv: {wide.shape[0]:,} years x "
           f"{wide.shape[1]} countries")
 
@@ -489,7 +500,7 @@ def build_log_returns(daily_long):
                  .dropna(subset=["log_return"])[["date", "currency", "log_return"]]
                  .sort_values(["date", "currency"])
                  .reset_index(drop=True))
-    daily_ret.to_csv(ANALYSIS / "daily_log_returns.csv", index=False)
+    daily_ret.pipe(_write_csv, ANALYSIS / "daily_log_returns.csv", index=False)
     print(f"    daily_log_returns.csv: {len(daily_ret):,} rows")
 
     # Yearly log returns use MeasuringWorth only (not the full unified panel):
@@ -511,7 +522,7 @@ def build_log_returns(daily_long):
             yearly_ret.loc[year, country] = np.nan
     print(f"    MW currency changes: {len(MW_REDENOMINATIONS) - len(breaks)} "
           f"chain-linked, {len(breaks)} left as breaks")
-    yearly_ret.to_csv(ANALYSIS / "yearly_log_returns.csv")
+    yearly_ret.pipe(_write_csv, ANALYSIS / "yearly_log_returns.csv")
     n_values = yearly_ret.count().sum()
     print(f"    yearly_log_returns.csv: {len(yearly_ret)} years, "
           f"{len(yearly_ret.columns)} countries, {n_values:,} values")
@@ -551,7 +562,7 @@ def build_volatility_stats(daily_ret, yearly_ret):
     daily_df = (pd.DataFrame(daily_stats)
                 .sort_values("excess_kurtosis", ascending=False)
                 .reset_index(drop=True))
-    daily_df.to_csv(ANALYSIS / "daily_volatility_stats.csv", index=False)
+    daily_df.pipe(_write_csv, ANALYSIS / "daily_volatility_stats.csv", index=False)
     print(f"    daily_volatility_stats.csv: {len(daily_df)} currencies")
 
     print("  Computing yearly volatility stats...")
@@ -578,7 +589,7 @@ def build_volatility_stats(daily_ret, yearly_ret):
     yearly_df = (pd.DataFrame(yearly_stats)
                  .sort_values("excess_kurtosis", ascending=False)
                  .reset_index(drop=True))
-    yearly_df.to_csv(ANALYSIS / "yearly_volatility_stats.csv", index=False)
+    yearly_df.pipe(_write_csv, ANALYSIS / "yearly_volatility_stats.csv", index=False)
     print(f"    yearly_volatility_stats.csv: {len(yearly_df)} countries")
 
 
@@ -587,12 +598,12 @@ def build_correlations(daily_ret, yearly_ret):
     print("  Computing daily correlation matrix...")
     daily_wide = daily_ret.pivot(index="date", columns="currency", values="log_return")
     daily_corr = daily_wide.corr()
-    daily_corr.to_csv(ANALYSIS / "daily_correlation_matrix.csv")
+    daily_corr.pipe(_write_csv, ANALYSIS / "daily_correlation_matrix.csv")
     print(f"    daily_correlation_matrix.csv: {daily_corr.shape[0]}x{daily_corr.shape[1]}")
 
     print("  Computing yearly correlation matrix...")
     yearly_corr = yearly_ret.corr(min_periods=MIN_OVERLAP_YEARS)
-    yearly_corr.to_csv(ANALYSIS / "yearly_correlation_matrix.csv")
+    yearly_corr.pipe(_write_csv, ANALYSIS / "yearly_correlation_matrix.csv")
     n_valid = yearly_corr.notna().sum().sum() - len(yearly_corr)
     print(f"    yearly_correlation_matrix.csv: {yearly_corr.shape[0]}x{yearly_corr.shape[1]} "
           f"({n_valid} valid pairs)")
@@ -639,7 +650,7 @@ def build_rolling_volatility(daily_long):
     long = long.sort_values(["date", "currency"]).reset_index(drop=True)
     long["rolling_volatility_252d"] = long["rolling_volatility_252d"].round(6)
 
-    long.to_csv(ANALYSIS / "daily_rolling_volatility.csv", index=False)
+    long.pipe(_write_csv, ANALYSIS / "daily_rolling_volatility.csv", index=False)
     print(f"    daily_rolling_volatility.csv: {len(long):,} rows")
 
 
@@ -723,7 +734,7 @@ def build_regime_analysis(yearly_ret=None):
     yearly_regime["coarse_regime"] = yearly_regime["coarse_regime"].astype(int)
     yearly_regime["regime_label"] = yearly_regime["coarse_regime"].map(COARSE_LABELS)
 
-    yearly_regime.to_csv(ANALYSIS / "yearly_regime_classification.csv", index=False)
+    yearly_regime.pipe(_write_csv, ANALYSIS / "yearly_regime_classification.csv", index=False)
     print(f"    yearly_regime_classification.csv: {len(yearly_regime):,} rows, "
           f"{yearly_regime['country'].nunique()} countries")
 
@@ -760,7 +771,7 @@ def build_regime_analysis(yearly_ret=None):
         })
 
     stats_df = pd.DataFrame(stats).sort_values("volatility", ascending=False)
-    stats_df.to_csv(ANALYSIS / "regime_conditional_stats.csv", index=False)
+    stats_df.pipe(_write_csv, ANALYSIS / "regime_conditional_stats.csv", index=False)
     print(f"    regime_conditional_stats.csv: {len(stats_df)} regimes")
 
     return yearly_regime
@@ -959,7 +970,7 @@ def build_momentum_analysis(daily_long):
 
     mom_df = pd.DataFrame(records)
     mom_df = mom_df.sort_values(["date", "currency", "lookback"]).reset_index(drop=True)
-    mom_df.to_csv(ANALYSIS / "daily_momentum_signals.csv", index=False)
+    mom_df.pipe(_write_csv, ANALYSIS / "daily_momentum_signals.csv", index=False)
     print(f"    daily_momentum_signals.csv: {len(mom_df):,} rows, "
           f"{mom_df['currency'].nunique()} currencies")
 
@@ -985,7 +996,7 @@ def build_momentum_analysis(daily_long):
 
     rev_df = pd.DataFrame(reversal_records)
     rev_df = rev_df.sort_values(["date", "currency"]).reset_index(drop=True)
-    rev_df.to_csv(ANALYSIS / "daily_momentum_reversals.csv", index=False)
+    rev_df.pipe(_write_csv, ANALYSIS / "daily_momentum_reversals.csv", index=False)
     print(f"    daily_momentum_reversals.csv: {len(rev_df):,} rows")
 
 
@@ -1026,7 +1037,7 @@ def build_sigma_events(daily_ret):
     sigma_df = sigma_df.sort_values(
         ["sigma_level", "ratio_vs_gaussian"], ascending=[True, False]
     ).reset_index(drop=True)
-    sigma_df.to_csv(ANALYSIS / "sigma_event_frequency.csv", index=False)
+    sigma_df.pipe(_write_csv, ANALYSIS / "sigma_event_frequency.csv", index=False)
     print(f"    sigma_event_frequency.csv: {len(sigma_df)} rows "
           f"({len(sigma_levels)} sigma levels x {sigma_df['currency'].nunique()} currencies)")
 
@@ -1120,7 +1131,7 @@ def build_jst_returns():
 
     returns_df = pd.DataFrame(records)
     returns_df = returns_df.sort_values(["asset_class", "country"]).reset_index(drop=True)
-    returns_df.to_csv(ANALYSIS / "jst_asset_returns.csv", index=False)
+    returns_df.pipe(_write_csv, ANALYSIS / "jst_asset_returns.csv", index=False)
     print(f"    jst_asset_returns.csv: {len(returns_df)} rows "
           f"({returns_df['asset_class'].nunique()} asset classes, "
           f"{returns_df['country'].nunique()} countries)")
@@ -1218,7 +1229,7 @@ def build_sovereign_defaults():
     events["end"] = events["end"].replace({"<NA>": "", "NaT": ""}).fillna("")
     events.insert(1, "country", _iso_name(events["iso3"]))
     events = events.sort_values(["iso3", "start", "event"]).reset_index(drop=True)
-    events.to_csv(ANALYSIS / "sovereign_default_events.csv", index=False)
+    events.pipe(_write_csv, ANALYSIS / "sovereign_default_events.csv", index=False)
     print(f"    sovereign_default_events.csv: {len(events):,} events, "
           f"{events['iso3'].nunique()} countries, "
           f"{events['start'].str[:4].min()}-{events['start'].str[:4].max()}")
@@ -1253,7 +1264,7 @@ def build_debt_in_default():
                                       *rename.values()]])
     out = out[["year", "iso3", "country", "country_group", *rename.values()]]
     out = out.sort_values(["year", "iso3"]).reset_index(drop=True)
-    out.to_csv(ANALYSIS / "sovereign_debt_in_default.csv", index=False)
+    out.pipe(_write_csv, ANALYSIS / "sovereign_debt_in_default.csv", index=False)
     print(f"    sovereign_debt_in_default.csv: {len(out):,} rows, "
           f"{out['iso3'].nunique()} countries, {out['year'].min()}-{out['year'].max()}")
     return out
@@ -1269,7 +1280,7 @@ def build_ecb_daily():
                 .rename(columns={"Date": "date"})
                 .sort_values(["date", "currency"])
                 .reset_index(drop=True))
-    long.to_csv(NORM / "ecb_daily.csv", index=False)
+    long.pipe(_write_csv, NORM / "ecb_daily.csv", index=False)
     print(f"    ecb_daily.csv: {len(long):,} rows, {long['currency'].nunique()} currencies, "
           f"{long['date'].min()} to {long['date'].max()}")
     return long
@@ -1295,7 +1306,7 @@ def build_wb_inflation():
     annual["year"] = annual.pop("period").astype(int)
     annual.insert(1, "country", _iso_name(annual["iso3"]))
     annual = annual[["year", "iso3", "country", "inflation_pct"]].sort_values(["year", "iso3"])
-    annual.to_csv(ANALYSIS / "cpi_inflation_yearly.csv", index=False)
+    annual.pipe(_write_csv, ANALYSIS / "cpi_inflation_yearly.csv", index=False)
 
     monthly = long("hcpi_m", "cpi_index")
     p = monthly.pop("period").astype(int)  # YYYYMM
@@ -1303,7 +1314,7 @@ def build_wb_inflation():
     monthly.insert(1, "country", _iso_name(monthly["iso3"]))
     monthly = monthly[["year_month", "iso3", "country", "cpi_index"]].sort_values(
         ["year_month", "iso3"])
-    monthly.to_csv(NORM / "cpi_monthly.csv", index=False)
+    monthly.pipe(_write_csv, NORM / "cpi_monthly.csv", index=False)
     print(f"    cpi_inflation_yearly.csv: {len(annual):,} rows, {annual['iso3'].nunique()} countries; "
           f"cpi_monthly.csv: {len(monthly):,} rows")
     return annual, monthly
@@ -1348,7 +1359,7 @@ def build_stock_bond_correlation():
 
     corr_df = pd.DataFrame(records).dropna()
     corr_df = corr_df.sort_values(["year", "country"]).reset_index(drop=True)
-    corr_df.to_csv(ANALYSIS / "stock_bond_correlation.csv", index=False)
+    corr_df.pipe(_write_csv, ANALYSIS / "stock_bond_correlation.csv", index=False)
     print(f"    stock_bond_correlation.csv: {len(corr_df):,} rows, "
           f"{corr_df['country'].nunique()} countries")
 
