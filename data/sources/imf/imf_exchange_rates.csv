@@ -160612,6 +160612,7 @@ Date,Rate,Currency,Frequency,Source,Country code,Country
 2026-09-30,62.485,PHP,M,IMF,PH,Philippines
 2026-09-30,277.04465,PKR,M,IMF,PK,Pakistan
 2026-09-30,3.8449,PLN,M,IMF,PL,"Poland, Republic of"
+2026-09-30,5822.014999999999,PYG,M,IMF,PY,Paraguay
 2026-09-30,3.64,QAR,M,IMF,QA,Qatar
 2026-09-30,4.6474,RON,M,IMF,RO,Romania
 2026-09-30,103.6668,RSD,M,IMF,RS,"Serbia, Republic of"
@@ -160661,13 +160662,17 @@ Date,Rate,Currency,Frequency,Source,Country code,Country
 2026-10-31,1,BMD,M,IMF,BM,Bermuda
 2026-10-31,1,BSD,M,IMF,BS,"Bahamas, The"
 2026-10-31,2,BZD,M,IMF,BZ,Belize
+2026-10-31,452.87,CRC,M,IMF,CR,Costa Rica
 2026-10-31,177.721,DJF,M,IMF,DJ,Djibouti
+2026-10-31,6.6895,DKK,M,IMF,DK,Denmark
 2026-10-31,15.075,ERN,M,IMF,ER,"Eritrea, The State of"
+2026-10-31,18128,IDR,M,IMF,ID,Indonesia
 2026-10-31,0.71,JOD,M,IMF,JO,Jordan
 2026-10-31,0.83333,KYD,M,IMF,KY,Cayman Islands
 2026-10-31,0.3845,OMR,M,IMF,OM,Oman
 2026-10-31,3.64,QAR,M,IMF,QA,Qatar
 2026-10-31,3.75,SAR,M,IMF,SA,Saudi Arabia
+2026-10-31,9.8264,SEK,M,IMF,SE,Sweden
 2026-10-31,1,USD,M,IMF,EC,Ecuador
 2026-10-31,1,USD,M,IMF,FM,"Micronesia, Federated States of"
 2026-10-31,1,USD,M,IMF,PA,Panama
