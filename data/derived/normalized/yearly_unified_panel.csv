@@ -20750,7 +20750,7 @@ year,iso3,country,rate_per_usd,source,unit,flags,comparable_with_previous
 2010,EST,Estonia,11.80685,CI,,,True
 2010,SWZ,Eswatini,7.321222,CI,,,True
 2010,ETH,Ethiopia,14.40959,CI,,,True
-2010,EMU,Euro Area,0.7178,MW,Euro,,True
+2010,EMU,Euro Area,0.7541,MW,Euro,,True
 2010,FLK,Falkland Islands,0.6471654,GMD,,,True
 2010,FRO,Faroe Islands,5.6133,GMD,,,True
 2010,FJI,Fiji,1.918308,CI,,,True
@@ -22158,7 +22158,7 @@ year,iso3,country,rate_per_usd,source,unit,flags,comparable_with_previous
 2016,MKD,Macedonia,55.66761,GMD,,,True
 2016,MDG,Madagascar,3176.539,GMD,,,True
 2016,MWI,Malawi,718.005,GMD,,,True
-2016,MYS,Malaysia,3.2729,MW,Ringgit,,True
+2016,MYS,Malaysia,4.1372,MW,Ringgit,,True
 2016,MDV,Maldives,15.36841,GMD,,,True
 2016,MLI,Mali,593.014,GMD,,,True
 2016,MLT,Malta,0.90389,GMD,,,True
@@ -22856,7 +22856,7 @@ year,iso3,country,rate_per_usd,source,unit,flags,comparable_with_previous
 2019,NLD,Netherlands,0.893409,GMD,,,True
 2019,ANT,Netherlands Antilles,1.79,GMD,,,True
 2019,NCL,New Caledonia,106.2237,GMD,,,True
-2019,NZL,New Zealand,1.5269,MW,New Zealand Dollar,,True
+2019,NZL,New Zealand,1.5172,MW,New Zealand Dollar,,True
 2019,NIC,Nicaragua,33.12175,GMD,,,True
 2019,NER,Niger,585.9586,GMD,,,True
 2019,NGA,Nigeria,306.921,GMD,,,True
@@ -23225,7 +23225,7 @@ year,iso3,country,rate_per_usd,source,unit,flags,comparable_with_previous
 2021,EST,Estonia,0.845982,GMD,,,True
 2021,SWZ,Eswatini,14.77868,GMD,,,True
 2021,ETH,Ethiopia,43.73378,GMD,,,True
-2021,EMU,Euro Area,0.88,MW,Euro,,True
+2021,EMU,Euro Area,0.8453,MW,Euro,,True
 2021,FLK,Falkland Islands,0.726797,GMD,,,True
 2021,FRO,Faroe Islands,6.5612,GMD,,,True
 2021,FJI,Fiji,2.070633,GMD,,,True
@@ -23438,7 +23438,7 @@ year,iso3,country,rate_per_usd,source,unit,flags,comparable_with_previous
 2022,CYP,Cyprus,0.951774,GMD,,,True
 2022,CZE,Czech Republic,23.38079,GMD,,,True
 2022,COD,Democratic Republic of the Congo,2006.708,GMD,,,True
-2022,DNK,Denmark,7.1448,MW,Krone,,True
+2022,DNK,Denmark,7.0786,MW,Krone,,True
 2022,DJI,Djibouti,177.721,GMD,,,True
 2022,DMA,Dominica,2.7,GMD,,,True
 2022,DOM,Dominican Republic,55.14099,GMD,,,True
