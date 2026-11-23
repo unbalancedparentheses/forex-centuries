@@ -159912,6 +159912,7 @@ Date,Rate,Currency,Frequency,Source,Country code,Country
 2026-05-31,2991.21,BIF,M,IMF,BI,Burundi
 2026-05-31,1,BMD,M,IMF,BM,Bermuda
 2026-05-31,1.2772,BND,M,IMF,BN,Brunei Darussalam
+2026-05-31,6.91,BOB,M,IMF,BO,Bolivia
 2026-05-31,5.0563,BRL,M,IMF,BR,Brazil
 2026-05-31,1,BSD,M,IMF,BS,"Bahamas, The"
 2026-05-31,95.3845,BTN,M,IMF,BT,Bhutan
@@ -160080,6 +160081,7 @@ Date,Rate,Currency,Frequency,Source,Country code,Country
 2026-06-30,2995.58,BIF,M,IMF,BI,Burundi
 2026-06-30,1,BMD,M,IMF,BM,Bermuda
 2026-06-30,1.2943,BND,M,IMF,BN,Brunei Darussalam
+2026-06-30,9.76,BOB,M,IMF,BO,Bolivia
 2026-06-30,5.176,BRL,M,IMF,BR,Brazil
 2026-06-30,1,BSD,M,IMF,BS,"Bahamas, The"
 2026-06-30,94.5975,BTN,M,IMF,BT,Bhutan
@@ -160245,6 +160247,7 @@ Date,Rate,Currency,Frequency,Source,Country code,Country
 2026-07-31,3000.16,BIF,M,IMF,BI,Burundi
 2026-07-31,1,BMD,M,IMF,BM,Bermuda
 2026-07-31,1.2838,BND,M,IMF,BN,Brunei Darussalam
+2026-07-31,12.15,BOB,M,IMF,BO,Bolivia
 2026-07-31,5.0767,BRL,M,IMF,BR,Brazil
 2026-07-31,1,BSD,M,IMF,BS,"Bahamas, The"
 2026-07-31,95.3706,BTN,M,IMF,BT,Bhutan
@@ -160387,6 +160390,7 @@ Date,Rate,Currency,Frequency,Source,Country code,Country
 2026-07-31,16.4841,ZAR,M,IMF,NA,Namibia
 2026-07-31,16.5695415373552,ZAR,M,IMF,ZA,South Africa
 2026-07-31,18.7932142857143,ZMW,M,IMF,ZM,Zambia
+2026-07-31,26.6845,ZWG,M,IMF,ZW,Zimbabwe
 2026-08-31,3.6725,AED,M,IMF,AE,United Arab Emirates
 2026-08-31,79.64,ALL,M,IMF,AL,Albania
 2026-08-31,364.47,AMD,M,IMF,AM,"Armenia, Republic of"
@@ -160405,6 +160409,7 @@ Date,Rate,Currency,Frequency,Source,Country code,Country
 2026-08-31,0.376,BHD,M,IMF,BH,"Bahrain, Kingdom of"
 2026-08-31,1,BMD,M,IMF,BM,Bermuda
 2026-08-31,1.2729,BND,M,IMF,BN,Brunei Darussalam
+2026-08-31,11.92,BOB,M,IMF,BO,Bolivia
 2026-08-31,5.181,BRL,M,IMF,BR,Brazil
 2026-08-31,1,BSD,M,IMF,BS,"Bahamas, The"
 2026-08-31,95.4509,BTN,M,IMF,BT,Bhutan
@@ -160539,6 +160544,7 @@ Date,Rate,Currency,Frequency,Source,Country code,Country
 2026-08-31,16.1576,ZAR,M,IMF,NA,Namibia
 2026-08-31,16.1117511056689,ZAR,M,IMF,ZA,South Africa
 2026-08-31,19.03,ZMW,M,IMF,ZM,Zambia
+2026-08-31,26.6663,ZWG,M,IMF,ZW,Zimbabwe
 2026-09-30,3.6725,AED,M,IMF,AE,United Arab Emirates
 2026-09-30,81.09,ALL,M,IMF,AL,Albania
 2026-09-30,362.83,AMD,M,IMF,AM,"Armenia, Republic of"
@@ -160557,6 +160563,7 @@ Date,Rate,Currency,Frequency,Source,Country code,Country
 2026-09-30,0.376,BHD,M,IMF,BH,"Bahrain, Kingdom of"
 2026-09-30,1,BMD,M,IMF,BM,Bermuda
 2026-09-30,1.278,BND,M,IMF,BN,Brunei Darussalam
+2026-09-30,12.02,BOB,M,IMF,BO,Bolivia
 2026-09-30,5.1803,BRL,M,IMF,BR,Brazil
 2026-09-30,1,BSD,M,IMF,BS,"Bahamas, The"
 2026-09-30,95.9832,BTN,M,IMF,BT,Bhutan
@@ -160612,6 +160619,7 @@ Date,Rate,Currency,Frequency,Source,Country code,Country
 2026-09-30,15.42,MVR,M,IMF,MV,Maldives
 2026-09-30,17.8413,MXN,M,IMF,MX,Mexico
 2026-09-30,4.0795,MYR,M,IMF,MY,Malaysia
+2026-09-30,1329.15996979892,NGN,M,IMF,NG,Nigeria
 2026-09-30,36.6243,NIO,M,IMF,NI,Nicaragua
 2026-09-30,9.6,NOK,M,IMF,NO,Norway
 2026-09-30,1.7727,NZD,M,IMF,NZ,New Zealand
@@ -160683,18 +160691,22 @@ Date,Rate,Currency,Frequency,Source,Country code,Country
 2026-09-30,16.3754,ZAR,M,IMF,NA,Namibia
 2026-09-30,16.3933888741348,ZAR,M,IMF,ZA,South Africa
 2026-09-30,19.5964285714286,ZMW,M,IMF,ZM,Zambia
+2026-09-30,26.7965,ZWG,M,IMF,ZW,Zimbabwe
 2026-10-31,3.6725,AED,M,IMF,AE,United Arab Emirates
 2026-10-31,360.14,AMD,M,IMF,AM,"Armenia, Republic of"
 2026-10-31,1.79,ANG,M,IMF,1C_355,Curaçao and Sint Maarten
+2026-10-31,1529.5,ARS,M,IMF,AR,Argentina
 2026-10-31,1.42045454545455,AUD,M,IMF,AU,Australia
 2026-10-31,1.42045454545455,AUD,M,IMF,KI,Kiribati
 2026-10-31,1.42045454545455,AUD,M,IMF,NR,"Naoero, Republic of"
 2026-10-31,1.42045454545455,AUD,M,IMF,TV,Tuvalu
 2026-10-31,1.79,AWG,M,IMF,AW,"Aruba, Kingdom of the Netherlands"
 2026-10-31,2,BBD,M,IMF,BB,Barbados
+2026-10-31,123.945,BDT,M,IMF,BD,Bangladesh
 2026-10-31,0.376,BHD,M,IMF,BH,"Bahrain, Kingdom of"
 2026-10-31,1,BMD,M,IMF,BM,Bermuda
 2026-10-31,1.2779,BND,M,IMF,BN,Brunei Darussalam
+2026-10-31,12.11,BOB,M,IMF,BO,Bolivia
 2026-10-31,5.4206,BRL,M,IMF,BR,Brazil
 2026-10-31,1,BSD,M,IMF,BS,"Bahamas, The"
 2026-10-31,95.2492,BTN,M,IMF,BT,Bhutan
@@ -160728,8 +160740,10 @@ Date,Rate,Currency,Frequency,Source,Country code,Country
 2026-10-31,95.2492,INR,M,IMF,IN,India
 2026-10-31,121.73,ISK,M,IMF,IS,Iceland
 2026-10-31,0.895094880057286,ITL,M,IMF,SM,"San Marino, Republic of"
+2026-10-31,158.67295,JMD,M,IMF,JM,Jamaica
 2026-10-31,0.71,JOD,M,IMF,JO,Jordan
 2026-10-31,157.5,JPY,M,IMF,JP,Japan
+2026-10-31,129.95,KES,M,IMF,KE,Kenya
 2026-10-31,4083.5,KHR,M,IMF,KH,Cambodia
 2026-10-31,440.3578141783029,KMF,M,IMF,KM,"Comoros, Union of the"
 2026-10-31,1335.3,KRW,M,IMF,KR,"Korea, Republic of"
@@ -160740,10 +160754,12 @@ Date,Rate,Currency,Frequency,Source,Country code,Country
 2026-10-31,55.0421,MKD,M,IMF,MK,"North Macedonia, Republic of"
 2026-10-31,3599.28,MNT,M,IMF,MN,Mongolia
 2026-10-31,47.5675,MUR,M,IMF,MU,Mauritius
+2026-10-31,15.42,MVR,M,IMF,MV,Maldives
 2026-10-31,18.6673,MXN,M,IMF,MX,Mexico
 2026-10-31,4.0495,MYR,M,IMF,MY,Malaysia
+2026-10-31,1346.2565,NGN,M,IMF,NG,Nigeria
 2026-10-31,9.23,NOK,M,IMF,NO,Norway
-2026-10-31,1.776672292795594,NZD,M,IMF,NZ,New Zealand
+2026-10-31,1.7765,NZD,M,IMF,NZ,New Zealand
 2026-10-31,0.3845,OMR,M,IMF,OM,Oman
 2026-10-31,3.455,PEN,M,IMF,PE,Peru
 2026-10-31,63.852,PHP,M,IMF,PH,Philippines
